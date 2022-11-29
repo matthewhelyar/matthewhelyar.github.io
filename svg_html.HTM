@@ -12,6 +12,8 @@
             generateBarcode(expiry_input.value, 'expiry_barcode_svg', 'codabar');
             generateBarcode(cmv_input.value, 'cmv_barcode_svg', 'codabar');
             generateBarcode(bag_mfg_input.value, 'bag_mfg_barcode_svg', 'code128');
+			
+			generateBarcode(product_input.value, 'product_barcode_svg_2', 'codabar');
         }
 
         function generateBarcode(value, element, format) {
@@ -114,6 +116,124 @@
 </head>
 
 <body style="background-color:lightblue;">
+
+
+<!-- SVG 1.1 doesn't support text wrapping in any way and I'm having problems with line widths changing depending on OS, browser and zoom level. -->
+<!-- Trying to fix that using HTML for text -->
+<!-- Units are not consistent between px and mm. should use mm to keep scale with rest of svg on different resolution displays -->
+
+<!-- Have to scale down 94% to get text to compress a bit more than condensed does. Probably won't be the same on other platforms though. -->
+<!-- Also scaling is inconsistent on original label, so some things are unscaled by 106% -->
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="400" height="200" id="product_label_html_based">
+
+	<g  transform="scale(0.94,0.94)">
+   <rect style="display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1" id="outline" width="55.401638mm" height="52.08931mm"  transform="scale(1.06,1.06)"/>
+	<switch>
+		<g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+		<foreignObject x="0" y="0" width="230px" height="60px">
+			<p style="font-family:sans-serif;
+				font-size:10pt;
+				font-weight:bold;
+				font-stretch:condensed;
+				text-align:left;
+				margin:0;
+				padding-left :5; padding-right :5;">RED CELLS IN ADDITIVE SOLUTION, LD FOR NEONATAL USE</p>
+				<p style="font-family:sans-serif;
+				font-size:8pt;
+				font-weight:bold;
+				font-stretch:condensed;
+				text-align:left;
+				margin:0;
+				padding-left :5; padding-right :5;">STORE AT 4°C ± 2°C</p>
+		</foreignObject>
+		<foreignObject x="0" y="60"  width="230px" height="30px">
+			<p style="font-family:sans-serif;
+				font-size:6pt;
+				font-weight:bold;
+				font-stretch:condensed;
+				text-align:left;
+				margin:0;
+				padding-left :5; padding-right :5;">Always check patient/component compatibility/identity<br/>
+				Inspect pack for signs of deterioration or damage<br/>
+				Risk of adverse reaction/infection, Including vCJD</p>
+		</foreignObject>
+		<foreignObject x="100" y="90"  width="100px" height="30px">
+			<p style="font-family:sans-serif;
+				font-size:10pt;
+				font-weight:bold;
+				font-stretch:condensed;
+				text-align:right;
+				margin:0;
+				padding-left :5; padding-right :5;">Volume<br/>50 mL</p>
+		</foreignObject>
+		<foreignObject x="0" y="125"  width="230px" height="30px" transform="scale(1.06,1)">
+			<p style="font-family:sans-serif;
+				font-size:6pt;
+				font-weight:bold;
+				font-stretch:condensed;
+				text-align:left;
+				margin:0;
+				padding-left :5; padding-right :5;">This component was collected in CPD anticoagulant and is<br/>
+				suspended in 105 millilitres of additive solution of the<br/>
+				following composition.</p>
+		</foreignObject>
+		<foreignObject x="0" y="160"  width="230px" height="60px" transform="scale(1.06,1)">
+			<p style="font-family:sans-serif;
+				font-size:6pt;
+				font-weight:bold;
+				font-stretch:condensed;
+				text-align:left;
+				margin:0;
+				padding-left :5; padding-right :5;">Sodium Chloride<br/>
+				Adenine<br/>
+				Anhydrous Glucose<br/>
+				Mannitol</p>
+		</foreignObject>
+		<foreignObject x="100" y="151"  width="230px" height="60px" transform="scale(1.06,1)">
+			<p style="font-family:sans-serif;
+				font-size:6pt;
+				font-weight:bold;
+				font-stretch:condensed;
+				text-align:left;
+				margin:0;
+				padding-left :5; padding-right :5;">mmols/l<br/>150.0<br/>1.25<br/>45.4<br/>28.8</p>
+		</foreignObject>
+		<foreignObject x="170" y="180"  width="230px" height="60px">
+			<p style="font-family:sans-serif;
+				font-size:8pt;
+				font-weight:bold;
+				font-stretch:condensed;
+				text-align:left;
+				margin:0;
+				padding-left :5; padding-right :5;">DO NOT<br/>VENT</p>
+		</foreignObject>
+		</g>
+		<text x="10" y="10">Your SVG viewer cannot display html.</text>
+	</switch>
+
+	   <path
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.264583mm;stroke-opacity:1"
+       d="M 0,123 H 222"
+       id="path10834"
+       inkscape:label="product horizontal line" transform="scale(1.00,1.00)"/>
+		<svg id="product_barcode_svg_2" width="24.019293mm" height="7.9508266mm" x="5" y="90">
+			<rect style="opacity:1;fill:green;stroke:#000000;stroke-width:0.264583mm" id="product_barcode_placeholder" width="100%" height="100%" />
+		</svg>
+	</g>
+</svg>
+
+
+
+
+
+
+
+
+
+
+
+
     <div id="mm-scale" style="width:100mm;padding:0px;visibility:hidden;"></div>
     <div id="form">
         <div>
