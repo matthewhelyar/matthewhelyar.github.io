@@ -37,7 +37,7 @@
             generateExpiry()
             generateDin();
             generateGroup(document.querySelector('#group_select').value);
-            generateProduct(document.querySelector('#product_select').value);
+            productTypeChanged(); // indirectly calls generateProduct();
 
             // old form stuff - being replaced
             generateBarcode(cmv_input.value, 'cmv_barcode_svg', 'codabar');
@@ -287,21 +287,15 @@
             const productType = document.getElementById('product_type_select').value;
             const irradIn = document.getElementById('irradiated_in');
             const specialIn = document.getElementById('special_in')
-            const gradient1 = document.getElementById('linearGradientFluidUrl1');
-            const gradient2 = document.getElementById('linearGradientFluidUrl2');
 
             switch (productType) {
                 case "R":
                     irradIn.disabled = false;
                     specialIn.disabled = false;
-                    gradient1.setAttribute("xlink:href", "#linearGradientFluidRed");
-                    gradient2.setAttribute("xlink:href", "#linearGradientFluidRed");
                     break;
                 case "P":
                     irradIn.disabled = false;
                     specialIn.disabled = false;
-                    gradient1.setAttribute("xlink:href", "#linearGradientFluidYellow");
-                    gradient2.setAttribute("xlink:href", "#linearGradientFluidYellow");
                     break;
                 case "F":
                 case "C":
@@ -309,15 +303,11 @@
                     specialIn.checked = false;
                     irradIn.disabled = true;
                     specialIn.disabled = true;
-                    gradient1.setAttribute("xlink:href", "#linearGradientFluidYellow");
-                    gradient2.setAttribute("xlink:href", "#linearGradientFluidYellow");
                     break;
                 case "G":
                     irradIn.checked = true;
                     irradIn.disabled = true;
                     specialIn.disabled = false;
-                    gradient1.setAttribute("xlink:href", "#linearGradientFluidRed");
-                    gradient2.setAttribute("xlink:href", "#linearGradientFluidRed");
                     break;
             }
 
@@ -336,19 +326,13 @@
 
         function updateProductsForm() {
             if (products.length == 0) {
-                // SPN223/10 (2019) Appendx 3.
-                // Out of date but NHSBT have not yet published more up to date one with UK sourced non - MB neonatal plasma components yet.
+                // SPN223/11.1 (2022)
                 products.push(new Product('R', 0, false, false, '04333', 'RED CELLS IN ADDITIVE SOLUTION LD'));
-                products.push(new Product('R', 1, false, false, '04216', 'RED CELLS IN ADDITIVE SOLUTION LD PACK 1'));
-                products.push(new Product('R', 2, false, false, '04217', 'RED CELLS IN ADDITIVE SOLUTION LD PACK 2'));
-                products.push(new Product('R', 0, true, false, '44333', 'RED CELLS IN ADDITIVE SOLUTION LD IRRADIATED'));
-                products.push(new Product('R', 1, true, false, '04316', 'RED CELLS IN ADDITIVE SOLUTION PK1 LD IRRADIATED'));
-                products.push(new Product('R', 2, true, false, '04417', 'RED CELLS IN ADDITIVE SOLUTION PK2 LD IRRADIATED'));
+                products.push(new Product('R', 0, true, false, '44333', 'RED CELLS IN ADDITIVE SOLUTION LD, IRRADIATED'));
                 products.push(new Product('R', 0, false, true, '06460', 'RED CELLS THAWED AND WASHED'));
                 products.push(new Product('R', 0, false, true, '54263', 'RED CELLS THAWED AND WASHED LD CLOSED SYSTEM PREPARATION'));
                 products.push(new Product('R', 0, false, true, '46531', 'RED CELLS WASHED, LD. MANUAL WASH IN SAGM'));
                 products.push(new Product('R', 0, true, true, '46532', 'RED CELLS WASHED, LD, IRRADIATED. MANUAL WASH IN SAGM'));
-
                 products.push(new Product('P', 0, false, false, '54288', 'PLATELETS, APHERESIS, LD'));
                 products.push(new Product('P', 1, false, false, '54289', 'PLATELETS, APHERESIS, LD'));
                 products.push(new Product('P', 2, false, false, '54290', 'PLATELETS, APHERESIS, LD'));
@@ -357,26 +341,21 @@
                 products.push(new Product('P', 1, true, false, '54293', 'PLATELETS, APHERESIS, LD, IRRADIATED'));
                 products.push(new Product('P', 2, true, false, '54294', 'PLATELETS, APHERESIS, LD, IRRADIATED'));
                 products.push(new Product('P', 3, true, false, '54295', 'PLATELETS, APHERESIS, LD, IRRADIATED'));
-                products.push(new Product('P', 1, false, true, '54243', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION PACK 1 LD'));
-                products.push(new Product('P', 2, false, true, '54244', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION PACK 2 LD'));
-                products.push(new Product('P', 3, false, true, '54245', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION PACK 3 LD'));
-                products.push(new Product('P', 1, true, true, '54233', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, PACK 1 LD'));
-                products.push(new Product('P', 2, true, true, '54234', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, PACK 2 LD'));
-                products.push(new Product('P', 3, true, true, '54235', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, PACK 3 LD'));
-                products.push(new Product('P', 0, true, true, '54236', 'PLATELETS APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, LD'));
-                products.push(new Product('P', 0, false, true, '54477', 'PLATELETS POOLED IN ADDITIVE SOLUTION AND PLASMA, LD'));
-                products.push(new Product('P', 0, true, true, '54478', 'PLATELETS POOLED IN ADDITIVE SOLUTION AND PLASMA, IRRADIATED, LD'));
-
-                products.push(new Product('F', 1, false, false, '18281', 'FRESH FROZEN PLASMA, LD'));
-                products.push(new Product('F', 2, false, false, '18282', 'FRESH FROZEN PLASMA, LD'));
+                products.push(new Product('P', 1, false, false, '54243', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION PACK 1 LD'));
+                products.push(new Product('P', 2, false, false, '54244', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION PACK 2 LD'));
+                products.push(new Product('P', 3, false, false, '54245', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION PACK 3 LD'));
+                products.push(new Product('P', 0, false, false, '54246', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION LD'));
+                products.push(new Product('P', 1, true, false, '54233', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, PACK 1 LD'));
+                products.push(new Product('P', 2, true, false, '54234', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, PACK 2 LD'));
+                products.push(new Product('P', 3, true, false, '54235', 'PLATELETS, APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, PACK 3 LD'));
+                products.push(new Product('P', 0, true, false, '54236', 'PLATELETS APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, LD'));
+                products.push(new Product('P', 0, false, false, '54477', 'PLATELETS POOLED IN ADDITIVE SOLUTION AND PLASMA, LD'));
+                products.push(new Product('P', 0, true, false, '54478', 'PLATELETS POOLED IN ADDITIVE SOLUTION AND PLASMA, IRRADIATED, LD'));
                 products.push(new Product('F', 0, false, false, '18300', 'FRESH FROZEN PLASMA, LD'));
                 products.push(new Product('F', 0, false, false, '18320', 'FRESH FROZEN PLASMA, LD'));
                 products.push(new Product('F', 1, false, false, '18321', 'FRESH FROZEN PLASMA, LD'));
                 products.push(new Product('F', 2, false, false, '18322', 'FRESH FROZEN PLASMA, LD'));
-
-                products.push(new Product('C', 0, false, false, '10170', 'CRYOPRECIPITATE, LD'));
                 products.push(new Product('C', 0, false, false, '10190', 'CRYOPRECIPITATE, POOLED, LD'));
-
                 products.push(new Product('R', 0, true, true, '40018', 'RED CELLS, CPD, LD, IRRADIATED, FOR INTRAUTERINE TRANSFUSION'));
                 products.push(new Product('R', 1, false, false, '56830', 'RED CELLS IN ADDITIVE SOLUTION LD FOR NEONATAL USE'));
                 products.push(new Product('R', 2, false, false, '56831', 'RED CELLS IN ADDITIVE SOLUTION LD FOR NEONATAL USE'));
@@ -393,59 +372,39 @@
                 products.push(new Product('R', 0, true, true, '40350', 'RED CELLS (CPD), LD, IRRADIATED FOR EXCHANGE TRANSFUSION'));
                 products.push(new Product('R', 0, false, false, '54481', 'RED CELLS IN ADDITIVE SOLUTION, LD'));
                 products.push(new Product('R', 0, true, false, '54482', 'RED CELLS IN ADDITIVE SOLUTION, LD, IRRADIATED'));
-
-                products.push(new Product('F', 0, false, false, '54271', 'FRESH FROZEN PLASMA PAED USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 1, false, false, '54272', 'FRESH FROZEN PLASMA PAED USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 2, false, false, '54273', 'FRESH FROZEN PLASMA PAED USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 3, false, false, '54274', 'FRESH FROZEN PLASMA PAED USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 1, false, false, '54275', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 2, false, false, '54276', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 3, false, false, '54277', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 4, false, false, '54278', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 5, false, false, '54279', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 6, false, false, '54280', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 7, false, false, '54281', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 8, false, false, '54282', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 9, false, false, '54283', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 10, false, false, '54284', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 11, false, false, '54285', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-                products.push(new Product('F', 12, false, false, '54286', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
-
-                products.push(new Product('C', 0, false, false, '54260', 'CRYOPRECIPITATE, METHYLENE BLUE TREATED AND REMOVED, LD'));
-                products.push(new Product('C', 1, false, false, '54487', 'CRYOPRECIPITATE, METHYLENE BLUE TREATED AND REMOVED, LD'));
-                products.push(new Product('C', 2, false, false, '54488', 'CRYOPRECIPITATE, METHYLENE BLUE TREATED AND REMOVED, LD'));
-                products.push(new Product('C', 3, false, false, '54489', 'CRYOPRECIPITATE, METHYLENE BLUE TREATED AND REMOVED, LD'));
-
                 products.push(new Product('P', 0, true, true, '42964', 'PLATELETS, HYPERCONCENTRATED, IRRADIATED, FOR NEONATAL USE'));
-                products.push(new Product('P', 1, false, false, '54397', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 2, false, false, '54398', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 3, false, false, '54399', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 4, false, false, '54000', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 5, false, false, '54001', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 6, false, false, '54002', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 7, false, false, '54003', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 8, false, false, '54004', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 9, false, false, '54005', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 10, false, false, '54006', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 11, false, false, '54007', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 12, false, false, '54008', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
-                products.push(new Product('P', 1, true, false, '54409', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 2, true, false, '54410', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 3, true, false, '54411', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 4, true, false, '54412', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 5, true, false, '54413', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 6, true, false, '54414', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 7, true, false, '54415', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 8, true, false, '54416', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 9, true, false, '54417', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 10, true, false, '54418', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 11, true, false, '54419', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
-                products.push(new Product('P', 12, true, false, '54420', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                products.push(new Product('P', 1, false, false, '30031', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE'));
+                products.push(new Product('P', 2, false, false, '30032', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE'));
+                products.push(new Product('P', 3, false, false, '30033', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE'));
+                products.push(new Product('P', 4, false, false, '30034', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE'));
+                products.push(new Product('P', 5, false, false, '30035', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE'));
+                products.push(new Product('P', 6, false, false, '30036', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE'));
+                products.push(new Product('P', 7, false, false, '30037', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE'));
+                products.push(new Product('P', 8, false, false, '30038', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE'));
+                products.push(new Product('P', 1, true, false, '30051', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE'));
+                products.push(new Product('P', 2, true, false, '30052', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE'));
+                products.push(new Product('P', 3, true, false, '30053', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE'));
+                products.push(new Product('P', 4, true, false, '30054', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE'));
+                products.push(new Product('P', 5, true, false, '30055', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE'));
+                products.push(new Product('P', 6, true, false, '30056', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE'));
+                products.push(new Product('P', 7, true, false, '30057', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE'));
+                products.push(new Product('P', 8, true, false, '30058', 'PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE'));
+                products.push(new Product('F', 1, false, false, '69601', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 2, false, false, '69602', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 3, false, false, '69603', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 4, false, false, '69604', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 5, false, false, '59711', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 6, false, false, '59712', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 7, false, false, '59713', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 8, false, false, '59714', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 9, false, false, '59715', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 10, false, false, '59716', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 11, false, false, '59717', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('F', 12, false, false, '59718', 'FRESH FROZEN PLASMA, LD FOR NEONATAL USE'));
+                products.push(new Product('C', 0, false, false, '29981', 'CRYOPRECIPITATE, LD FOR NEONATAL USE'));
                 products.push(new Product('G', 0, true, false, '54395', 'GRANULOCYTES, POOLED, IN ADDITIVE SOLUTION / PLASMA MIX, IRRADIATED'));
 
-                // non-routine products (APPENDIX 5?):
-                products.push(new Product('R', 0, false, true, '04454', 'RED CELLS (CPD) LD'));
-                products.push(new Product('R', 0, true, true, '44454', 'RED CELLS (CPD) LD, IRRADIATED'));
+                // non-routine products:
                 products.push(new Product('P', 0, false, false, '12030', 'PLATELETS APHERESIS LD'));
                 products.push(new Product('P', 1, false, false, '58340', 'PLATELETS APHERESIS LD'));
                 products.push(new Product('P', 2, false, false, '58341', 'PLATELETS APHERESIS LD'));
@@ -454,11 +413,13 @@
                 products.push(new Product('P', 1, true, false, '48340', 'PLATELETS APHERESIS LD, IRRADIATED'));
                 products.push(new Product('P', 2, true, false, '48341', 'PLATELETS APHERESIS LD, IRRADIATED'));
                 products.push(new Product('P', 3, true, false, '48342', 'PLATELETS APHERESIS LD, IRRADIATED'));
+                products.push(new Product('P', 0, false, false, '54232', 'PLATELETS POOLED IN PLASMA/ADDITIVE MIXTURE'));
+                products.push(new Product('P', 0, true, false, '54232', 'PLATELETS POOLED IN PLASMA/ADDITIVE MIX, IRRADIATED'));
                 products.push(new Product('P', 0, false, false, '12769', 'PLATELETS POOLED, LD'));
                 products.push(new Product('P', 0, false, false, '12789', 'PLATELETS POOLED, LD'));
-                products.push(new Product('P', 0, true, false, '54246', 'PLATELETS POOLED, LD, IRRADIATED'));
-                products.push(new Product('P', 0, false, true, '54247', 'PLATELETS POOLED IN ADDITIVE SOLUTION'));
-                products.push(new Product('P', 0, true, true, '54237', 'PLATELETS POOLED IN ADDITIVE SOLUTION, IRRADIATED'));
+                products.push(new Product('P', 0, true, false, '54296', 'PLATELETS POOLED, LD, IRRADIATED'));
+                products.push(new Product('P', 0, false, false, '54247', 'PLATELETS POOLED IN ADDITIVE SOLUTION'));
+                products.push(new Product('P', 0, true, false, '54237', 'PLATELETS POOLED IN ADDITIVE SOLUTION, IRRADIATED'));
                 products.push(new Product('P', 0, true, false, '42769', 'PLATELETS POOLED, LD, IRRADIATED'));
                 products.push(new Product('P', 1, false, false, '58231', 'PLATELETS, APHERESIS, PACK 01 LD FOR NEONATAL USE'));
                 products.push(new Product('P', 2, false, false, '58232', 'PLATELETS, APHERESIS, PACK 02 LD FOR NEONATAL USE'));
@@ -486,21 +447,78 @@
                 products.push(new Product('P', 12, true, false, '40781', 'PLATELETS, APHERESIS, PACK 12 LD, IRRADIATED FOR NEONATAL USE'));
                 products.push(new Product('G', 0, true, true, '46460', 'LEUCOCYTES, BUFFY COAT, IRRADIATED'));
                 products.push(new Product('R', 0, false, true, '30002', 'WHOLE BLOOD (CPDA1) AUTOLOGOUS'));
-                products.push(new Product('P', 1, false, true, '29921', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, PACK 1, IN ADDITIVE SOLUTION AND PLASMA'));
-                products.push(new Product('P', 2, false, true, '29922', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, PACK 2, IN ADDITIVE SOLUTION AND PLASMA'));
-                products.push(new Product('P', 3, false, true, '29923', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, PACK 3, IN ADDITIVE SOLUTION AND PLASMA'));
-                products.push(new Product('P', 0, false, true, '29920', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IN ADDITIVE SOLUTION AND PLASMA'));
-                products.push(new Product('P', 1, true, true, '29931', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, PACK 1, IN ADDITIVE SOLUTION AND PLASMA'));
-                products.push(new Product('P', 2, true, true, '29932', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, PACK 2, IN ADDITIVE SOLUTION AND PLASMA'));
-                products.push(new Product('P', 3, true, true, '29933', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, PACK 3, IN ADDITIVE SOLUTION AND PLASMA'));
-                products.push(new Product('P', 0, true, true, '29930', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, IN ADDITIVE SOLUTION AND PLASMA'));
-                products.push(new Product('P', 0, false, true, '29924', 'PLATELETS POOLED, EXTENDED LIFE, PATHOGEN INACTIVATED, IN ADDITIVE SOLUTION AND PLASMA'));
-                products.push(new Product('P', 0, true, true, '29934', 'PLATELETS POOLED, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, IN ADDITIVE SOLUTION AND PLASMA'));
 
                 // need to add:
                 // buffy coats
                 // apheresis granulocytes
                 // non-MB neonatal and paed plasma
+
+
+                // SPN223/10 (2019) removed items:
+                //products.push(new Product('R', 1, false, false, '04216', 'RED CELLS IN ADDITIVE SOLUTION LD PACK 1'));
+                //products.push(new Product('R', 2, false, false, '04217', 'RED CELLS IN ADDITIVE SOLUTION LD PACK 2'));
+                //products.push(new Product('R', 1, true, false, '04316', 'RED CELLS IN ADDITIVE SOLUTION PK1 LD IRRADIATED'));
+                //products.push(new Product('R', 2, true, false, '04417', 'RED CELLS IN ADDITIVE SOLUTION PK2 LD IRRADIATED'));
+                //products.push(new Product('F', 1, false, false, '18281', 'FRESH FROZEN PLASMA, LD'));
+                //products.push(new Product('F', 2, false, false, '18282', 'FRESH FROZEN PLASMA, LD'));
+                //products.push(new Product('C', 0, false, false, '10170', 'CRYOPRECIPITATE, LD'));
+                //products.push(new Product('F', 0, false, false, '54271', 'FRESH FROZEN PLASMA PAED USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 1, false, false, '54272', 'FRESH FROZEN PLASMA PAED USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 2, false, false, '54273', 'FRESH FROZEN PLASMA PAED USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 3, false, false, '54274', 'FRESH FROZEN PLASMA PAED USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 1, false, false, '54275', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 2, false, false, '54276', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 3, false, false, '54277', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 4, false, false, '54278', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 5, false, false, '54279', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 6, false, false, '54280', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 7, false, false, '54281', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 8, false, false, '54282', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 9, false, false, '54283', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 10, false, false, '54284', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 11, false, false, '54285', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('F', 12, false, false, '54286', 'FRESH FROZEN PLASMA NEONATAL USE MB TREATED AND REMOVED'));
+                //products.push(new Product('C', 0, false, false, '54260', 'CRYOPRECIPITATE, METHYLENE BLUE TREATED AND REMOVED, LD'));
+                //products.push(new Product('C', 1, false, false, '54487', 'CRYOPRECIPITATE, METHYLENE BLUE TREATED AND REMOVED, LD'));
+                //products.push(new Product('C', 2, false, false, '54488', 'CRYOPRECIPITATE, METHYLENE BLUE TREATED AND REMOVED, LD'));
+                //products.push(new Product('C', 3, false, false, '54489', 'CRYOPRECIPITATE, METHYLENE BLUE TREATED AND REMOVED, LD'));
+                //products.push(new Product('P', 1, false, false, '54397', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 2, false, false, '54398', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 3, false, false, '54399', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 4, false, false, '54000', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 5, false, false, '54001', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 6, false, false, '54002', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 7, false, false, '54003', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 8, false, false, '54004', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 9, false, false, '54005', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 10, false, false, '54006', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 11, false, false, '54007', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 12, false, false, '54008', 'PLATELETS, APHERESIS, LD FOR NEONATAL USE'));
+                //products.push(new Product('P', 1, true, false, '54409', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 2, true, false, '54410', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 3, true, false, '54411', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 4, true, false, '54412', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 5, true, false, '54413', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 6, true, false, '54414', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 7, true, false, '54415', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 8, true, false, '54416', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 9, true, false, '54417', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 10, true, false, '54418', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 11, true, false, '54419', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('P', 12, true, false, '54420', 'PLATELETS, APHERESIS, LD IRRADIATED FOR NEONATAL USE'));
+                //products.push(new Product('R', 0, false, true, '04454', 'RED CELLS (CPD) LD'));
+                //products.push(new Product('R', 0, true, true, '44454', 'RED CELLS (CPD) LD, IRRADIATED'));
+                //products.push(new Product('P', 1, false, true, '29921', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, PACK 1, IN ADDITIVE SOLUTION AND PLASMA'));
+                //products.push(new Product('P', 2, false, true, '29922', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, PACK 2, IN ADDITIVE SOLUTION AND PLASMA'));
+                //products.push(new Product('P', 3, false, true, '29923', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, PACK 3, IN ADDITIVE SOLUTION AND PLASMA'));
+                //products.push(new Product('P', 0, false, true, '29920', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IN ADDITIVE SOLUTION AND PLASMA'));
+                //products.push(new Product('P', 1, true, true, '29931', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, PACK 1, IN ADDITIVE SOLUTION AND PLASMA'));
+                //products.push(new Product('P', 2, true, true, '29932', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, PACK 2, IN ADDITIVE SOLUTION AND PLASMA'));
+                //products.push(new Product('P', 3, true, true, '29933', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, PACK 3, IN ADDITIVE SOLUTION AND PLASMA'));
+                //products.push(new Product('P', 0, true, true, '29930', 'PLATELETS APHERESIS, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, IN ADDITIVE SOLUTION AND PLASMA'));
+                //products.push(new Product('P', 0, false, true, '29924', 'PLATELETS POOLED, EXTENDED LIFE, PATHOGEN INACTIVATED, IN ADDITIVE SOLUTION AND PLASMA'));
+                //products.push(new Product('P', 0, true, true, '29934', 'PLATELETS POOLED, EXTENDED LIFE, PATHOGEN INACTIVATED, IRRADIATED, IN ADDITIVE SOLUTION AND PLASMA'));
+
 
             }
 
@@ -565,32 +583,39 @@
                 document.getElementById('pack_background_fo').style.fill = "none";                      // new method
             }
             else {
-                document.getElementById('pack_no_tspan').textContent = "PACK 0" + selectedProduct.pack; // to remove later
+                document.getElementById('pack_no_tspan').textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0'); // to remove later
                 document.getElementById('pack_no_background').style.fill = "#000000";                   // to remove later
-                document.getElementById('pack_text_fo').textContent = "PACK 0" + selectedProduct.pack;  // new method
+                document.getElementById('pack_text_fo').textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0');  // new method
                 document.getElementById('pack_background_fo').style.fill = "#000000";                   // new method
             }
 
-            let storageText;
+            let storageText, gradient;
             switch (selectedProduct.component) {
                 case 'R':
                     storageText = "STORE AT 4°C ± 2°C";
+                    gradient = "#linearGradientFluidRed";
                     break;
                 case 'P':
                     storageText = "STORE AT 22°C ± 2°C EXTENDED LIFE<br/>AGITATE GENTLY THROUGHOUT STORAGE";
+                    gradient = "#linearGradientFluidYellow";
                     break;
                 case 'F':
                     storageText = "STORE FROZEN AT -25°C OR BELOW<br/>TIME THAWED _______ DATE _______";
+                    gradient = "#linearGradientFluidYellow";
                     break;
                 case 'C':
                     storageText = "STORE FROZEN AT -25°C OR BELOW<br/>USE WITHIN 4 HOURS OF THAWING<br/>TIME THAWED _______ DATE _______";
+                    gradient = "#linearGradientFluidYellow";
                     break;
                 case 'G':
-                    storageText = "DO NOT AGITATE<br/>STORE AT 22°C ± 2°C";
+                    storageText = "DO NOT AGITATE<br/>STORE AT 22°C ± 2°C"
+                    gradient = "#linearGradientFluidRed";
                     break;
             }
             document.getElementById('storage_tspan').textContent = storageText; // to remove later
             document.getElementById('storage_text_fo').innerHTML = storageText;  // new method
+            document.getElementById('linearGradientFluidUrl1').setAttribute("xlink:href", gradient);
+            document.getElementById('linearGradientFluidUrl2').setAttribute("xlink:href", gradient);
         }
 
         function getDayNumber(date) {
