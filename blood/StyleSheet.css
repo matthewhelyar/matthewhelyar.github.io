@@ -1,0 +1,92 @@
+﻿@page {
+    size: auto; /* auto is the initial value */
+    margin: 0mm; /* this affects the margin in the printer settings */
+}
+
+
+@media print {
+    div.centerOnPrintedPage {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100vh;
+    }
+}
+body {
+    background-color: lightblue;
+    font-family: sans-serif;
+}
+
+.svg-path1 {
+    opacity: 0.5;
+    fill: none;
+    fill-opacity: 1;
+    fill-rule: nonzero;
+    stroke: #000;
+    stroke-width: 0.5;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    stroke-opacity: 1
+}
+
+.svg-path2 {
+    opacity: 1;
+    fill: none;
+    fill-opacity: 1;
+    fill-rule: nonzero;
+    stroke: #000;
+    stroke-width: 0.5;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    stroke-opacity: 1
+}
+
+.svg-path3 {
+    opacity: 1;
+    fill: #fff;
+    fill-opacity: 0.75;
+    fill-rule: nonzero;
+    stroke: #000;
+    stroke-width: 0.5;
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    stroke-opacity: 1
+}
+
+.svg-path4 {
+    opacity: 1;
+    fill: none;
+    stroke: #000;
+    stroke-width: 0.5;
+    stroke-opacity: 1
+}
+
+.svg-path5 {
+    opacity: 1;
+    fill: none;
+    fill-opacity: 1;
+    stroke: #000;
+    stroke-width: 0.5;
+    stroke-dasharray: none;
+    stroke-opacity: 1
+}
+
+.svg-path6 {
+    opacity: 0.5;
+    fill: none;
+    fill-opacity: 1;
+    stroke: #000;
+    stroke-width: 0.5;
+    stroke-dasharray: none;
+    stroke-opacity: 1
+}
+
+.svg-path7 {
+    opacity: 1;
+    fill: none;
+    fill-opacity: 0.75;
+    stroke: #000;
+    stroke-width: 0.5;
+    stroke-dasharray: none;
+    stroke-opacity: 1
