@@ -55,11 +55,12 @@
         function generateBarcode(value, element, format) {
             // store existing size attribtues
             let pxPerMm = document.getElementById('mm-scale').offsetWidth / 100;
-            let s = document.getElementById(element);
-            let x = s.getAttribute('x');
-            let y = s.getAttribute('y');
-            let h = s.getAttribute('height');
-            let w = s.getAttribute('width');
+            const s = document.getElementById(element);
+            if (s == null) return;
+            const x = s.getAttribute('x');
+            const y = s.getAttribute('y');
+            const h = s.getAttribute('height');
+            const w = s.getAttribute('width');
 
             // generate new SVG
             JsBarcode('#' + element, value, {
@@ -502,11 +503,14 @@
             barcode = "=%" + group.code + rhdCode + reservedCode;
             generateBarcode(barcode, 'group_barcode_svg', 'code128');
 
-            let aboTspan = document.getElementById('abo_tspan');
-            let rhdTspan = document.getElementById('rhd_tspan');
-            let aboText = document.getElementById('abo_text');
-            let rhdText = document.getElementById('rhd_text');
-            let rhdBackground = document.getElementById('rhd_background');
+            const aboTspan = document.getElementById('abo_tspan');
+            const rhdTspan = document.getElementById('rhd_tspan');
+            const aboText = document.getElementById('abo_text');
+            const rhdText = document.getElementById('rhd_text');
+            const rhdBackground = document.getElementById('rhd_background');
+            const smallDPhen = document.getElementById('D_type_tspan');
+
+            if (!aboTspan || !rhdTspan || !aboText || !rhdText || !rhdBackground || !smallDPhen) return;
 
             aboTspan.textContent = group.abo;
             switch (group.rhd) {
@@ -517,6 +521,7 @@
                     rhdTspan.style.fill = '#000000';
                     aboText.style.fill = '#000000';
                     aboText.style.stroke = 'none';
+                    smallDPhen.textContent = '+';
                     break;
                 case '-':
                     rhdTspan.textContent = "Rh D NEGATIVE";
@@ -525,6 +530,7 @@
                     rhdTspan.style.fill = '#FFFFFF';
                     aboText.style.fill = 'none';
                     aboText.style.stroke = '#000000';
+                    smallDPhen.textContent = '–'; // hyphen, not minus.
                     break;
             }
         }
@@ -591,53 +597,63 @@
             generateBarcode(barcode, 'product_barcode_svg', 'codabar');
             generateBarcode(barcode, 'product_barcode_svg_3', 'codabar');
 
+            const productTextFo = document.getElementById('product_text_fo');
+            const packTextFo = document.getElementById('pack_text_fo');
+            const packBackgroundFo = document.getElementById('pack_background_fo');
+
             // will change this to the foreignObject method, but for now like this.
-            document.getElementById('product_tspan').textContent = selectedProduct.text;                // to remove later
-            document.getElementById('product_tspan_line2').textContent = "";                            // to remove later
-            document.getElementById('product_text_fo').textContent = selectedProduct.text;              // new method
+            //document.getElementById('product_tspan').textContent = selectedProduct.text;                // to remove later
+            //document.getElementById('product_tspan_line2').textContent = "";                            // to remove later
+            if (productTextFo) productTextFo.textContent = selectedProduct.text;                          // new method
 
             if (selectedProduct.pack < 1) {
-                document.getElementById('pack_no_tspan').textContent = "";                              // to remove later
-                document.getElementById('pack_no_background').style.fill = "none";                      // to remove later
-                document.getElementById('pack_text_fo').textContent = "";                               // new method
-                document.getElementById('pack_background_fo').style.fill = "none";                      // new method
+                //document.getElementById('pack_no_tspan').textContent = "";                              // to remove later
+                //document.getElementById('pack_no_background').style.fill = "none";                      // to remove later
+                if (packTextFo) packTextFo.textContent = "";                                              // new method
+                if (packBackgroundFo) packBackgroundFo.style.fill = "none";                               // new method
             }
             else {
-                document.getElementById('pack_no_tspan').textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0'); // to remove later
-                document.getElementById('pack_no_background').style.fill = "#000000";                   // to remove later
-                document.getElementById('pack_text_fo').textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0');  // new method
-                document.getElementById('pack_background_fo').style.fill = "#000000";                   // new method
+                //document.getElementById('pack_no_tspan').textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0'); // to remove later
+                //document.getElementById('pack_no_background').style.fill = "#000000";                   // to remove later
+                if (packTextFo) packTextFo.textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0');  // new method
+                if (packBackgroundFo) packBackgroundFo.style.fill = "#000000";                            // new method
             }
 
-            let storageText, gradient;
+            let storageText, gradient, anticoagulantVisibility;
             switch (selectedProduct.component) {
                 case 'R':
                     storageText = "STORE AT 4°C ± 2°C";
                     gradient = "#linearGradientFluidRed";
+                    anticoagulantVisibility = "visible";
                     break;
                 case 'P':
                     storageText = "STORE AT 22°C ± 2°C EXTENDED LIFE<br/>AGITATE GENTLY THROUGHOUT STORAGE";
                     gradient = "#linearGradientFluidYellow";
+                    anticoagulantVisibility = "hidden";
                     break;
                 case 'F':
                     storageText = "STORE FROZEN AT -25°C OR BELOW<br/>TIME THAWED _______ DATE _______";
                     gradient = "#linearGradientFluidYellow";
+                    anticoagulantVisibility = "hidden";
                     break;
                 case 'C':
                     storageText = "STORE FROZEN AT -25°C OR BELOW<br/>USE WITHIN 4 HOURS OF THAWING<br/>TIME THAWED _______ DATE _______";
                     gradient = "#linearGradientFluidYellow";
+                    anticoagulantVisibility = "hidden";
                     break;
                 case 'G':
                     storageText = "DO NOT AGITATE<br/>STORE AT 22°C ± 2°C"
                     gradient = "#linearGradientFluidRed";
+                    anticoagulantVisibility = "hidden";
                     break;
             }
-            document.getElementById('storage_tspan').textContent = storageText; // to remove later
+            //document.getElementById('storage_tspan').textContent = storageText; // to remove later
             document.getElementById('storage_text_fo').innerHTML = storageText; // new method
             document.getElementById('linearGradientFluidUrl1').setAttribute("xlink:href", gradient);
             document.getElementById('linearGradientFluidUrl2').setAttribute("xlink:href", gradient);
-            document.getElementById('volume_tspan').textContent = selectedProduct.volume + " mL"; // to remove later
+            //document.getElementById('volume_tspan').textContent = selectedProduct.volume + " mL"; // to remove later
             document.getElementById('volume_text_fo').innerHTML = "Volume<br/>" + selectedProduct.volume + " mL"; // new method
+            document.getElementById('anticoagulant_info').style.visibility = anticoagulantVisibility;
         }
 
         function getDayNumber(date) {
@@ -662,8 +678,12 @@
             const dayNumberString = String(getDayNumber(expiryDate)).padStart(3, '0');
             const barcode = "a" + expiryDate.year() + dayNumberString + "a";
             generateBarcode(barcode, 'expiry_barcode_svg', 'codabar');
-            document.getElementById('expiry_tspan').textContent = expiryDate.format("DD MMM YYYY");
-            document.getElementById('date_bled_tspan').textContent = "Date Bled: " + bledDate.format("DD MMM YYYY");
+
+            const expiryTspan = document.getElementById('expiry_tspan');
+            const dateBledTspan = document.getElementById('date_bled_tspan');
+            if (!expiryTspan || !dateBledTspan) return;
+            expiryTspan.textContent = expiryDate.format("DD MMM YYYY");
+            dateBledTspan.textContent = bledDate.format("DD MMM YYYY");
         }
 
         function setExpiryDate() {
@@ -695,7 +715,6 @@
             <td>
                 <table style="border-collapse: collapse;text-align:center" width="100%">
                     <tr>
-                        <!--<th style="border: 1px solid black; padding:2px 5px 2px 5px;">DIN code</th>-->
                         <th style="border: 1px solid black; padding:2px 5px 2px 5px">Facility ID</th>
                         <th style="border: 1px solid black; padding:2px 5px 2px 5px">Year</th>
                         <th style="border: 1px solid black; padding:2px 5px 2px 5px">Sequence Number</th>
@@ -703,7 +722,6 @@
                         <th style="border: 1px solid black; padding:2px 5px 2px 5px" rowspan="2"><input id="din_go" type="submit" value="Set DIN" onclick="generateDin()" style="height:40px" /></th>
                     </tr>
                     <tr>
-                        <!--<td style="border: 1px solid black; padding:2px 5px 2px 5px" />-->
                         <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_fin_in" type="text" value="G0956" size="5" style="text-align:center" /></td>
                         <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_year_in" type="text" value="22" size="2" style="text-align:center" /></td>
                         <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_seq_in" type="text" value="529452" size="6" style="text-align:center" /></td>
@@ -876,7 +894,8 @@
                     <path d="M98.657 190.878v-14.86" style="opacity:1;fill:#000;fill-opacity:1;stroke:#000;stroke-width:0.265;stroke-dasharray:0.794997,.794997;stroke-dashoffset:0;stroke-opacity:1" />
                     </g>
                     <g style="display:inline" transform="translate(-28.222 -11.421)">
-                    <path id="product_label" d="M44.365 123.967h55.402v52.089H44.365z" style="display:inline;opacity:1;fill:#fff;fill-opacity:1;stroke:silver;stroke-width:0.265;stroke-opacity:1" />
+
+                    <!--<path id="product_label" d="M44.365 123.967h55.402v52.089H44.365z" style="display:inline;opacity:1;fill:#fff;fill-opacity:1;stroke:silver;stroke-width:0.265;stroke-opacity:1" />
                     <path d="M44.369 157.07h55.267" style="opacity:1;fill:none;fill-opacity:1;stroke:#000;stroke-width:0.265;stroke-opacity:1" />
                     <text xml:space="preserve" x="45.759" y="127.102" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:3.175px;font-family:Arial;-inkscape-font-specification:&quot;Arial, Bold Condensed&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265"><tspan id="product_tspan" x="45.759" y="127.102">RED CELLS IN ADDITIVE SOLUTION, LD</tspan><tspan id="product_tspan_line2" x="45.759" y="131.071">FOR NEONATAL USE</tspan></text>
                     <text xml:space="preserve" x="43.913" y="149.637" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:2.22959px;font-family:Bahnschrift;-inkscape-font-specification:&quot;Bahnschrift, @wdth=75.0&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;font-variation-settings:&quot;wdth&quot;75;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.278698" transform="scale(1.05335 .94935)"><tspan x="43.913" y="149.637" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:condensed;font-family:Bahnschrift;-inkscape-font-specification:&quot;Bahnschrift Condensed&quot;">Always check patient/component compatibility/identity</tspan><tspan x="43.913" y="152.424" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:condensed;font-family:Bahnschrift;-inkscape-font-specification:&quot;Bahnschrift Condensed&quot;">Inspect pack for signs of deterioration or damage</tspan><tspan x="43.913" y="155.211" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:condensed;font-family:Bahnschrift;-inkscape-font-specification:&quot;Bahnschrift Condensed&quot;">Risk of adverse reaction/infection, Including vCJD</tspan></text>
@@ -889,7 +908,49 @@
                     <text xml:space="preserve" x="64.199" y="186.718" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:1.85839px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;text-anchor:start;opacity:1;fill:#000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.232663;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" transform="scale(1.13898 .87798)"><tspan x="64.199" y="186.718" style="stroke-width:0.232664">mmols/l</tspan><tspan" x="64.199" y="189.041" style="stroke-width:0.232664">150.0</tspan><tspan x="64.199" y="191.364" style="stroke-width:0.232664">1.25</tspan><tspan x="64.199" y="193.687" style="stroke-width:0.232664">45.4</tspan><tspan x="64.199" y="196.01" style="stroke-width:0.232664">28.8</tspan></tspan"></text>
                     <text xml:space="preserve" x="87.039" y="173.961" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:2.63038px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;text-anchor:start;opacity:1;fill:#000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.246986;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" transform="scale(1.01286 .9873)"><tspan x="87.039" y="173.961" style="font-size:2.63038px;stroke-width:0.246986">DO NOT</tspan><tspan x="87.039" y="177.249" style="font-size:2.63038px;stroke-width:0.246986">VENT</tspan></text>
                     <path id="pack_no_background" d="M76.006 148.119h18.237v4.392H76.006z" style="display:inline;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265" />
-                    <text xml:space="preserve" x="76.155" y="151.938" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:3.39376px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;text-anchor:start;display:inline;opacity:1;fill:#000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.254932;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" transform="scale(1.00487 .99515)"><tspan id="pack_no_tspan" x="76.155" y="151.938" style="font-size:3.39376px;fill:#fff;fill-opacity:1;stroke-width:0.254933">PACK 05</tspan></text>
+                    <text xml:space="preserve" x="76.155" y="151.938" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:3.39376px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;text-anchor:start;display:inline;opacity:1;fill:#000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.254932;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" transform="scale(1.00487 .99515)"><tspan id="pack_no_tspan" x="76.155" y="151.938" style="font-size:3.39376px;fill:#fff;fill-opacity:1;stroke-width:0.254933">PACK 05</tspan></text>-->  
+                        
+                    <!--<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="55.401638mm" height="52.08931mm" id="product_label_html_based_no_scaling" style="vertical-align:top;">-->
+                    <g transform="scale(0.265 0.265) translate(167 468)">
+                    <rect style="display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke:silver;stroke-width:0.265mm" id="outline" width="55.401638mm" height="52.08931mm" />
+                    <path style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.265mm;stroke-opacity:1" d="M 0,123 H 210" id="path10834" inkscape:label="product horizontal line" />
+                    <switch>
+                    <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <foreignObject x="0" y="15.8mm" width="55.401638mm" height="7.94mm">
+                    <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">Always check patient/component compatibility/identity<br /> Inspect pack for signs of deterioration or damage<br /> Risk of adverse reaction/infection, Including vCJD</p>
+                    </foreignObject>
+                    <foreignObject x="0" y="0" width="55.401638mm" height="15.8mm">
+                    <p style="font-family:sans-serif; font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm; padding-top:0.6mm;" id="product_text_fo">RED CELLS IN ADDITIVE SOLUTION, LD FOR NEONATAL USE</p>
+                    <p style="font-family:sans-serif; font-size:2.82222mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left:1.2mm; padding-right: 1.2mm;" id="storage_text_fo">STORE AT 4°C ± 2°C</p>
+                    </foreignObject>
+                    <foreignObject x="0" y="23.8mm" width="55.4mm" height="7.94mm">
+                    <p style="font-family:sans-serif; font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:right; margin:0; padding-left :1.2mm; padding-right :5mm;" id="volume_text_fo">Volume<br />50 mL</p>
+                    </foreignObject>
+                    <g id="anticoagulant_info" style="visibility:visible;">
+                        <foreignObject x="0" y="33mm" width="55.401638mm" height="7.94mm">
+                            <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">This component was collected in CPD anticoagulant and is<br />suspended in 105 millilitres of additive solution of the<br />following composition.</p>
+                        </foreignObject>
+                        <foreignObject x="0" y="41.23mm" width="27.7mm" height="15.8mm">
+                            <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">Sodium Chloride<br />Adenine<br />Anhydrous Glucose<br />Mannitol</p>
+                        </foreignObject>
+                        <foreignObject x="26.5mm" y="38.9mm" width="27.7mm" height="15.8mm">
+                            <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">mmols/l<br />150.0<br />1.25<br />45.4<br />28.8</p>
+                        </foreignObject>
+                        <foreignObject x="41.55mm" y="44mm" width="13.85mm" height="15.8mm">
+                            <p style="font-family:sans-serif; font-size:2.82222mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">DO NOT<br />VENT</p>
+                        </foreignObject>
+                    </g>
+                    <rect style="display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;" id="pack_background_fo" width="17mm" height="4mm" x="35mm" y="23.8mm" />
+                    <foreignObject x="35mm" y="23.8mm" width="17mm" height="4mm">
+                    <p style="font-family:sans-serif; font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:left; color:#FFFFFF; margin:0; padding-left :1.2mm; padding-right :1.2mm;" id="pack_text_fo">PACK 05</p>
+                    </foreignObject>
+                    </g>
+                    <text>Your SVG viewer cannot display html</text>
+                    </switch>
+                    <svg id="product_barcode_svg_3" width="24.019293mm" height="7.9508266mm" x="1.2mm" y="23.8mm" />
+                    </g>
+                    <!--</svg>-->
+
                     </g>
                     <g style="display:inline" transform="translate(-28.222 -11.421)">
                     <rect id="group_label" width="43.688" height="100.976" x="100.976" y="102.166" rx="2" style="display:inline;opacity:1;fill:#fff;fill-opacity:1;stroke:silver;stroke-width:0.265;stroke-opacity:1" />
@@ -901,153 +962,100 @@
                     <path d="M100.972 197.448h43.769" style="display:inline;fill:none;fill-opacity:1;stroke:#000;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1" />
                     <svg id="expiry_barcode_svg" width="26.543" height="5.959" x="111.589" y="162.942" />
                     <g>
-                    <text xml:space="preserve" id="rhd_text" x="122.572" y="156.95" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:normal;font-size:5.29167px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold&quot;;text-align:start;text-anchor:start;display:inline;opacity:1;fill:#fff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-dasharray:none;stroke-opacity:1"><tspan id="rhd_tspan" x="122.572" y="156.95" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:normal;font-size:5.29167px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold&quot;;text-align:center;text-anchor:middle;fill:#fff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-opacity:1">Rh D NEGATIVE</tspan></text>
-                    <text xml:space="preserve" id="abo_text" x="122.192" y="149.937" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:26.8111px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;text-align:center;text-anchor:middle;display:inline;opacity:1;fill:none;fill-opacity:1;stroke:#000;stroke-width:1.165;stroke-dasharray:none;stroke-opacity:1"><tspan id="abo_tspan" x="122.192" y="149.937" style="font-size:26.8111px;text-align:center;text-anchor:middle;stroke-width:1.165;stroke-dasharray:none">O</tspan></text>
-                    <text xml:space="preserve" x="122.911" y="172.746" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold&quot;;text-align:center;text-anchor:middle;display:inline;opacity:1;fill:none;fill-opacity:1;stroke:#000;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1"><tspan x="122.911" y="172.746" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:condensed;font-size:3.175px;font-family:Arial;-inkscape-font-specification:&quot;Arial Condensed&quot;;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265">Additional Information</tspan></text>
-                    <text xml:space="preserve" x="122.748" y="176.592" style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:condensed;font-size:3.175px;font-family:Arial;-inkscape-font-specification:&quot;Arial Condensed&quot;;text-align:center;text-anchor:middle;display:inline;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1"><tspan x="122.748" y="176.592" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;stroke-width:0.265">D         C         E         c         e</tspan></text>
-                    <text xml:space="preserve" x="122.976" y="180.166" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:normal;font-size:3.175px;font-family:Arial;-inkscape-font-specification:&quot;Arial, Bold&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;display:inline;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1"><tspan x="122.976" y="180.166">–       –       –        +       +</tspan></text>
-                    <text xml:space="preserve" x="104.034" y="182.548" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:normal;font-size:2.78989px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold&quot;;text-align:start;text-anchor:start;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1" transform="scale(.98854 1.01159)"><tspan x="104.034" y="182.548" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:2.78989px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;text-align:start;text-anchor:start;stroke-width:0.261964">HbS Neg, CMV Neg.</tspan></text>
-                    <text xml:space="preserve" x="101.805" y="193.373" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:normal;font-size:2.85363px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold&quot;;text-align:start;text-anchor:start;display:inline;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1" transform="scale(1.01113 .989)"><tspan x="101.805" y="193.373" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:2.85363px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;text-align:start;text-anchor:start;stroke-width:0.26795">NEG: HEV,K,Fya,S,M,Cw</tspan></text>
-                    <text xml:space="preserve" x="105.289" y="192.406" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:3.46143px;font-family:Arial;-inkscape-font-specification:&quot;Arial, Bold Condensed&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;text-anchor:start;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1" transform="scale(.9812 1.01917)"><tspan x="105.289" y="192.406" style="stroke-width:0.260015">NHSBT – Manchester</tspan></text>
-                    <text xml:space="preserve" x="117.603" y="210.037" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:normal;font-size:2.95275px;font-family:Arial;-inkscape-font-specification:&quot;Arial, Bold&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.277255;stroke-dasharray:none;stroke-opacity:1" transform="scale(1.04625 .9558)"><tspan id="date_bled_tspan" x="117.603" y="210.037" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:2.95275px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;text-align:center;text-anchor:middle;stroke-width:0.277256">Date Bled: 14 Nov 2022</tspan></text>
-                    <text xml:space="preserve" x="102.542" y="162.183" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:normal;font-size:2.82222px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265;stroke-dasharray:none;stroke-opacity:1"><tspan x="102.542" y="162.183" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:2.82222px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;text-align:start;text-anchor:start;stroke-width:0.265">Expiry Date:</tspan></text>
-                    <text xml:space="preserve" x="115.202" y="165.263" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:4.31514px;font-family:Arial;-inkscape-font-specification:&quot;Arial Bold Condensed&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;text-anchor:start;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.27012;stroke-dasharray:none;stroke-opacity:1" transform="scale(1.01933 .98104)"><tspan id="expiry_tspan" x="115.202" y="165.263" style="font-size:4.31514px;stroke-width:0.270121">19 Dec 2022</tspan></text>
-                    </g>
+                    <text xml:space="preserve" id="abo_text" x="122.192" y="149.937" style="font-weight:bold;font-stretch:condensed;font-size:26.8111px;font-family:sans-serif; text-align:center;text-anchor:middle;fill:none;stroke:#000;stroke-width:1.165;     "><tspan id="abo_tspan">O</tspan></text>
+                    <text xml:space="preserve" id="rhd_text" x="122.572" y="156.950" style="font-weight:bold;font-stretch:normal;   font-size:5.29167px;font-family:sans-serif; text-align:start; text-anchor:middle;fill:#fff;stroke:none;                        "><tspan id="rhd_tspan">Rh D NEGATIVE</tspan></text>
+                    <text xml:space="preserve" x="122.911" y="172.746" style="font-weight:bold;font-stretch:condensed;font-size:3.175px;  font-family:sans-serif; text-align:center;text-anchor:middle;fill:#000;stroke:none;                        "><tspan>Additional Information</tspan></text>
+                    <g id="rh_phen_group">
+                    <text xml:space="preserve" x="107" y="176.592" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan>D</tspan></text>
+                    <text xml:space="preserve" x="115" y="176.592" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan>C</tspan></text>
+                    <text xml:space="preserve" x="123" y="176.592" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan>E</tspan></text>
+                    <text xml:space="preserve" x="131" y="176.592" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan>c</tspan></text>
+                    <text xml:space="preserve" x="139" y="176.592" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan>e</tspan></text>
+                    <text xml:space="preserve" x="107" y="180.166" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan id="D_type_tspan">–</tspan></text>
+                    <text xml:space="preserve" x="115" y="180.166" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan id="C_type_tspan">–</tspan></text>
+                    <text xml:space="preserve" x="123" y="180.166" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan id="E_type_tspan">–</tspan></text>
+                    <text xml:space="preserve" x="131" y="180.166" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan id="c_type_tspan">+</tspan></text>
+                    <text xml:space="preserve" x="139" y="180.166" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan id="e_type_tspan">+</tspan></text>
+                            </g>
+                    <text xml:space="preserve" x="102.850" y="184.650" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none; letter-spacing:-0.1px; "><tspan>HbS Neg, CMV Neg</tspan></text>
+                    <text xml:space="preserve" x="102.850" y="191.250" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none; letter-spacing:-0.1px; "><tspan>NEG: HEV,K,Fya,S,M,Cw</tspan></text>
+                    <text xml:space="preserve" x="103.300" y="196.050" style="font-weight:bold;font-stretch:condensed;font-size:3.52778px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none;                        "><tspan>NHSBT – Manchester</tspan></text>
+                    <text xml:space="preserve" x="115" y="200.800" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:right;text-anchor:middle;fill:#000;stroke:none;                         "><tspan>Date Bled:</tspan></text>
+                    <text xml:space="preserve" x="129" y="200.800" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:start;text-anchor:middle;fill:#000;stroke:none;                         "><tspan id="date_bled_tspan">14 Nov 2022</tspan></text>
+                    <text xml:space="preserve" x="102.542" y="162.183" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:center;text-anchor:start; fill:#000;stroke:none;                        "><tspan>Expiry Date:</tspan></text>
+                    <text xml:space="preserve" x="117.450" y="162.183" style="font-weight:bold;font-stretch:condensed;font-size:4.23333px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none;                        "><tspan id="expiry_tspan">08 Jan 2023</tspan></text>
+                        </g>
                     <svg id="cmv_barcode_svg" width="16.738" height="6.175" x="126.432" y="181.468" />
-                    </g>
-                </svg>
+                    </svg>
                 </div>
             </td>
 
 
-            <td  style="vertical-align:top;">
-            <!-- SVG 1.1 doesn't support text wrapping in any way and I'm having problems with line widths changing depending on OS, browser and zoom level. -->
-            <!-- Trying to fix that using HTML for text -->
-            <!-- Units are not consistent between px and mm. should use mm to keep scale with rest of svg on different resolution displays -->
-            <!-- Have to scale down 94% to get text to compress a bit more than condensed does. Probably won't be the same on other platforms though. -->
-            <!-- Also scaling is inconsistent on original label, so some things are unscaled by 106% -->
+            <td style="vertical-align:top;">
+                <!-- SVG 1.1 doesn't support text wrapping in any way and I'm having problems with line widths changing depending on OS, browser and zoom level. -->
+                <!-- Trying to fix that using HTML for text -->
+                <!-- Units are not consistent between px and mm. should use mm to keep scale with rest of svg on different resolution displays -->
+                <!-- Have to scale down 94% to get text to compress a bit more than condensed does. Probably won't be the same on other platforms though. -->
+                <!-- Also scaling is inconsistent on original label, so some things are unscaled by 106% -->
+                <!--<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="55.401638mm" height="52.08931mm" id="product_label_html_based_no_scaling" style="vertical-align:top;">
+                    <g>
+                        <rect style="display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.265mm" id="outline" width="55.401638mm" height="52.08931mm" />
+                        <path style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.265mm;stroke-opacity:1" d="M 0,123 H 210" id="path10834" inkscape:label="product horizontal line" />
+                        <switch>
+                            <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                                <foreignObject x="0" y="15.8mm" width="55.401638mm" height="7.94mm">
+                                    <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">
+                                        Always check patient/component compatibility/identity<br /> Inspect pack for signs of deterioration or damage<br /> Risk of adverse reaction/infection, Including vCJD
+                                    </p>
+                                </foreignObject>
+                                <foreignObject x="0" y="0" width="55.401638mm" height="15.8mm">
+                                    <p style="font-family:sans-serif; font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm; padding-top:0.6mm;" id="product_text_fo">
+                                        RED CELLS IN ADDITIVE SOLUTION, LD FOR NEONATAL USE
+                                    </p>
+                                    <p style="font-family:sans-serif; font-size:2.82222mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left:1.2mm; padding-right: 1.2mm;" id="storage_text_fo">
+                                        STORE AT 4°C ± 2°C
+                                    </p>
+                                </foreignObject>
+                                <foreignObject x="0" y="23.8mm" width="55.4mm" height="7.94mm">
+                                    <p style="font-family:sans-serif; font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:right; margin:0; padding-left :1.2mm; padding-right :5mm;" id="volume_text_fo">
+                                        Volume<br />50 mL
+                                    </p>
+                                </foreignObject>
+                                <foreignObject x="0" y="33mm" width="55.401638mm" height="7.94mm">
+                                    <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">
+                                        This component was collected in CPD anticoagulant and is<br />suspended in 105 millilitres of additive solution of the<br />following composition.
+                                    </p>
+                                </foreignObject>
+                                <foreignObject x="0" y="41.23mm" width="27.7mm" height="15.8mm">
+                                    <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">
+                                        Sodium Chloride<br />Adenine<br />Anhydrous Glucose<br />Mannitol
+                                    </p>
+                                </foreignObject>
+                                <foreignObject x="26.5mm" y="38.9mm" width="27.7mm" height="15.8mm">
+                                    <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">
+                                        mmols/l<br />150.0<br />1.25<br />45.4<br />28.8
+                                    </p>
+                                </foreignObject>
+                                <foreignObject x="41.55mm" y="44mm" width="13.85mm" height="15.8mm">
+                                    <p style="font-family:sans-serif; font-size:2.82222mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">
+                                        DO NOT<br />VENT
+                                    </p>
+                                </foreignObject>
+                                <rect style="display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;" id="pack_background_fo" width="17mm" height="4mm" x="35mm" y="23.8mm" />
+                                <foreignObject x="35mm" y="23.8mm" width="17mm" height="4mm">
+                                    <p style="font-family:sans-serif; font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:left; color:#FFFFFF; margin:0; padding-left :1.2mm; padding-right :1.2mm;" id="pack_text_fo">
+                                        PACK 05
+                                    </p>
+                                </foreignObject>
+                            </g>
+                            <text>Your SVG viewer cannot display html</text>
+                        </switch>
+                        <svg id="product_barcode_svg_3" width="24.019293mm" height="7.9508266mm" x="1.2mm" y="23.8mm" />
+                    </g>
+                </svg>-->
 
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="55.401638mm" height="52.08931mm" id="product_label_html_based_no_scaling" style="vertical-align:top;">
-                <g>
-                    <rect style="display:inline;opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.265mm" id="outline" width="55.401638mm" height="52.08931mm" />
-                    <path style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.265mm;stroke-opacity:1" d="M 0,123 H 210" id="path10834" inkscape:label="product horizontal line" />
-                    <switch>
-                        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                            <foreignObject x="0" y="15.8mm" width="55.401638mm" height="7.94mm">
-                                <p style="font-family:sans-serif;
-				font-size:1.85839mm;
-				font-weight:bold;
-				font-stretch:condensed;
-				text-align:left;
-				margin:0;
-				padding-left :1.2mm; padding-right :1.2mm;">
-                                    Always check patient/component compatibility/identity<br />
-                                    Inspect pack for signs of deterioration or damage<br />
-                                    Risk of adverse reaction/infection, Including vCJD
-                                </p>
-                            </foreignObject>
-                            <foreignObject x="0" y="0" width="55.401638mm" height="15.8mm">
-                                <p style="font-family:sans-serif;
-				font-size:3.175mm;
-				font-weight:bold;
-				font-stretch:condensed;
-				text-align:left;
-				margin:0;
-				padding-left :1.2mm; padding-right :1.2mm; padding-top:0.6mm;" id="product_text_fo">
-                                    RED CELLS IN ADDITIVE SOLUTION, LD FOR NEONATAL USE
-                                </p>
-                                <p style="font-family:sans-serif;
-				font-size:2.82222mm;
-				font-weight:bold;
-				font-stretch:condensed;
-				text-align:left;
-				margin:0;
-				padding-left:1.2mm; padding-right: 1.2mm;" id="storage_text_fo">
-                                    STORE AT 4°C ± 2°C
-                                </p>
-                            </foreignObject>
-                            <foreignObject x="0" y="23.8mm" width="55.4mm" height="7.94mm">
-                                <p style="font-family:sans-serif;
-				font-size:3.175mm;
-				font-weight:bold;
-				font-stretch:condensed;
-				text-align:right;
-				margin:0;
-				padding-left :1.2mm; padding-right :5mm;" id="volume_text_fo">
-                                    Volume<br />50 mL
-                                </p>
-                            </foreignObject>
-                            <foreignObject x="0" y="33mm" width="55.401638mm" height="7.94mm">
-                                <p style="font-family:sans-serif;
-				font-size:1.85839mm;
-				font-weight:bold;
-				font-stretch:condensed;
-				text-align:left;
-				margin:0;
-				padding-left :1.2mm; padding-right :1.2mm;">
-                                    This component was collected in CPD anticoagulant and is<br />
-                                    suspended in 105 millilitres of additive solution of the<br />
-                                    following composition.
-                                </p>
-                            </foreignObject>
-                            <foreignObject x="0" y="41.23mm" width="27.7mm" height="15.8mm">
-                                <p style="font-family:sans-serif;
-				font-size:1.85839mm;
-				font-weight:bold;
-				font-stretch:condensed;
-				text-align:left;
-				margin:0;
-				padding-left :1.2mm; padding-right :1.2mm;">
-                                    Sodium Chloride<br />
-                                    Adenine<br />
-                                    Anhydrous Glucose<br />
-                                    Mannitol
-                                </p>
-                            </foreignObject>
-                            <foreignObject x="26.5mm" y="38.9mm" width="27.7mm" height="15.8mm">
-                                <p style="font-family:sans-serif;
-				font-size:1.85839mm;
-				font-weight:bold;
-				font-stretch:condensed;
-				text-align:left;
-				margin:0;
-				padding-left :1.2mm; padding-right :1.2mm;">
-                                    mmols/l<br />150.0<br />1.25<br />45.4<br />28.8
-                                </p>
-                            </foreignObject>
-                            <foreignObject x="41.55mm" y="44mm" width="13.85mm" height="15.8mm">
-                                <p style="font-family:sans-serif;
-				font-size:2.82222mm;
-				font-weight:bold;
-				font-stretch:condensed;
-				text-align:left;
-				margin:0;
-				padding-left :1.2mm; padding-right :1.2mm;">
-                                    DO NOT<br />VENT
-                                </p>
-                            </foreignObject>
-                            <rect style="display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;" id="pack_background_fo" width="17mm" height="4mm" x="35mm" y="23.8mm" />
-                            <foreignObject x="35mm" y="23.8mm" width="17mm" height="4mm">
-                                <p style="font-family:sans-serif;
-				font-size:3.175mm;
-				font-weight:bold;
-				font-stretch:condensed;
-				text-align:left;
-				color:#FFFFFF;
-				margin:0;
-				padding-left :1.2mm; padding-right :1.2mm;" id="pack_text_fo">
-                                    PACK 05
-                                </p>
-                            </foreignObject>
-                        </g>
-                        <text>Your SVG viewer cannot display html.</text>
-                    </switch>
-                    <svg id="product_barcode_svg_3" width="24.019293mm" height="7.9508266mm" x="1.2mm" y="23.8mm" />
-                </g>
-            </svg>
 
-            
-           </td>
+            </td>
         </tr>
     </table>
 
