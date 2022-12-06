@@ -9,8 +9,8 @@
     Add HbS- checkbox
     Add CMV- checkbox
     Maybe do something with meanufacturing site text
-    Hide Rh phen except for red cells
     hide CMV and HbS except for red cells and granulocytes.
+    refactor javascript for dependency injection, maybe more object orientation, maybe map out functions that call each other and reorder to avoid loops etc.
     -->
 <html>
 <head>
@@ -215,6 +215,8 @@
                     </g>
         <g style="display:inline" transform="translate(-28.222 -11.421)">
 
+                    <!-- old SVG product label - not quite ready to delete yet. May go back to in and only make the wrapping text into foreignObjects instead of everything. -->
+
                     <!--<path id="product_label" d="M44.365 123.967h55.402v52.089H44.365z" style="display:inline;opacity:1;fill:#fff;fill-opacity:1;stroke:silver;stroke-width:0.265;stroke-opacity:1" />
                     <path d="M44.369 157.07h55.267" style="opacity:1;fill:none;fill-opacity:1;stroke:#000;stroke-width:0.265;stroke-opacity:1" />
                     <text xml:space="preserve" x="45.759" y="127.102" style="font-style:normal;font-variant:normal;font-weight:700;font-stretch:condensed;font-size:3.175px;font-family:Arial;-inkscape-font-specification:&quot;Arial, Bold Condensed&quot;;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;opacity:1;fill:#000;fill-opacity:1;stroke:none;stroke-width:0.265"><tspan id="product_tspan" x="45.759" y="127.102">RED CELLS IN ADDITIVE SOLUTION, LD</tspan><tspan id="product_tspan_line2" x="45.759" y="131.071">FOR NEONATAL USE</tspan></text>
@@ -310,8 +312,8 @@
     </div>
     <!--</td>
 
-
-    <td style="vertical-align:top;">-->
+        <!-- HTML product label - not quite ready to delete yet -->
+    <!--<td style="vertical-align:top;">-->
     <!-- SVG 1.1 doesn't support text wrapping in any way and I'm having problems with line widths changing depending on OS, browser and zoom level. -->
     <!-- Trying to fix that using HTML for text -->
     <!-- Units are not consistent between px and mm. should use mm to keep scale with rest of svg on different resolution displays -->

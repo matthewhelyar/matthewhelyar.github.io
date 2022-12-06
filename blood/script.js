@@ -311,32 +311,37 @@ function generateProduct(productCode) {
         if (packBackgroundFo) packBackgroundFo.style.fill = "#000000";                            // new method
     }
 
-    let storageText, gradient, anticoagulantVisibility;
+    let storageText, gradient, anticoagulantVisibility, rhPhenVisibility;
     switch (selectedProduct.component) {
         case 'R':
             storageText = "STORE AT 4\u00B0C \u00B1 2\u00B0C";
             gradient = "#linearGradientFluidRed";
             anticoagulantVisibility = "visible";
+            rhPhenVisibility = "visible";
             break;
         case 'P':
             storageText = "STORE AT 22\u00B0C \u00B1 2\u00B0C EXTENDED LIFE<br />AGITATE GENTLY THROUGHOUT STORAGE";
             gradient = "#linearGradientFluidYellow";
             anticoagulantVisibility = "hidden";
+            rhPhenVisibility = "hidden;"
             break;
         case 'F':
             storageText = "STORE FROZEN AT -25\u00B0C OR BELOW<br />TIME THAWED _______ DATE _______";
             gradient = "#linearGradientFluidYellow";
             anticoagulantVisibility = "hidden";
+            rhPhenVisibility = "hidden;"
             break;
         case 'C':
             storageText = "STORE FROZEN AT -25\u00B0C OR BELOW<br />USE WITHIN 4 HOURS OF THAWING<br />TIME THAWED _______ DATE _______";
             gradient = "#linearGradientFluidYellow";
             anticoagulantVisibility = "hidden";
+            rhPhenVisibility = "hidden;"
             break;
         case 'G':
             storageText = "DO NOT AGITATE<br />STORE AT 22\u00B0C \u00B1 2\u00B0C"
             gradient = "#linearGradientFluidRed";
             anticoagulantVisibility = "hidden";
+            rhPhenVisibility = "hidden;"
             break;
     }
     //document.getElementById('storage_tspan').textContent = storageText; // to remove later
@@ -346,6 +351,7 @@ function generateProduct(productCode) {
     //document.getElementById('volume_tspan').textContent = selectedProduct.volume + " mL"; // to remove later
     document.getElementById('volume_text_fo').innerHTML = "Volume<br />" + selectedProduct.volume + " mL"; // new method
     document.getElementById('anticoagulant_info').style.visibility = anticoagulantVisibility;
+    document.getElementById('rh_phen_group').style.visibility = anticoagulantVisibility;
 }
 
 function getDayNumber(date) {
