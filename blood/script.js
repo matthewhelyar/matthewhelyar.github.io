@@ -296,7 +296,14 @@ function generateProduct(productCode) {
     // will change this to the foreignObject method, but for now like this.
     //document.getElementById('product_tspan').textContent = selectedProduct.text;                // to remove later
     //document.getElementById('product_tspan_line2').textContent = "";                            // to remove later
-    if (productTextFo) productTextFo.textContent = selectedProduct.text;                          // new method
+    if (productTextFo) {
+        productTextFo.textContent = selectedProduct.text;                          // new method
+
+        productTextFo.style.fontSize = "9pt"; // default
+        productTextFo.style.letterSpacing = "0px"; // default
+        shrinkLetterSpacingToFitParent(productTextFo, document.getElementById('product_text_fo_parent'));
+    }
+
 
     if (selectedProduct.pack < 1) {
         //document.getElementById('pack_no_tspan').textContent = "";                              // to remove later
@@ -323,25 +330,25 @@ function generateProduct(productCode) {
             storageText = "STORE AT 22\u00B0C \u00B1 2\u00B0C EXTENDED LIFE<br />AGITATE GENTLY THROUGHOUT STORAGE";
             gradient = "#linearGradientFluidYellow";
             anticoagulantVisibility = "hidden";
-            rhPhenVisibility = "hidden;"
+            rhPhenVisibility = "hidden";
             break;
         case 'F':
             storageText = "STORE FROZEN AT -25\u00B0C OR BELOW<br />TIME THAWED _______ DATE _______";
             gradient = "#linearGradientFluidYellow";
             anticoagulantVisibility = "hidden";
-            rhPhenVisibility = "hidden;"
+            rhPhenVisibility = "hidden";
             break;
         case 'C':
             storageText = "STORE FROZEN AT -25\u00B0C OR BELOW<br />USE WITHIN 4 HOURS OF THAWING<br />TIME THAWED _______ DATE _______";
             gradient = "#linearGradientFluidYellow";
             anticoagulantVisibility = "hidden";
-            rhPhenVisibility = "hidden;"
+            rhPhenVisibility = "hidden";
             break;
         case 'G':
             storageText = "DO NOT AGITATE<br />STORE AT 22\u00B0C \u00B1 2\u00B0C"
             gradient = "#linearGradientFluidRed";
             anticoagulantVisibility = "hidden";
-            rhPhenVisibility = "hidden;"
+            rhPhenVisibility = "hidden";
             break;
     }
     //document.getElementById('storage_tspan').textContent = storageText; // to remove later
@@ -351,7 +358,18 @@ function generateProduct(productCode) {
     //document.getElementById('volume_tspan').textContent = selectedProduct.volume + " mL"; // to remove later
     document.getElementById('volume_text_fo').innerHTML = "Volume<br />" + selectedProduct.volume + " mL"; // new method
     document.getElementById('anticoagulant_info').style.visibility = anticoagulantVisibility;
-    document.getElementById('rh_phen_group').style.visibility = anticoagulantVisibility;
+    document.getElementById('rh_phen_group').style.visibility = rhPhenVisibility;
+}
+
+function shrinkLetterSpacingToFitParent(textElement, parent) {
+    if (!textElement || !parent) return;
+
+    const minimumSpacing = -1;
+    for (let i = 0; i > minimumSpacing; i -= 0.1) {
+        if (parent.scrollHeight <= parent.clientHeight + 2) break;
+        textElement.style.letterSpacing = i + "px";
+    }
+    //console.log("final letter spacing: " + textElement.style.letterSpacing);
 }
 
 function getDayNumber(date) {

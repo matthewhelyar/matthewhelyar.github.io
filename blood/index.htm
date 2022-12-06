@@ -3,7 +3,6 @@
 <!--
     To do:
     Add irradiated sticker
-    Fix formatting problem when product descrption goes over 2 lines - long text shrinks font on real bags so do that.
     Add RhCE selector
     Add Ag- text input
     Add HbS- checkbox
@@ -11,6 +10,8 @@
     Maybe do something with meanufacturing site text
     hide CMV and HbS except for red cells and granulocytes.
     refactor javascript for dependency injection, maybe more object orientation, maybe map out functions that call each other and reorder to avoid loops etc.
+    allow editing things by double clicking right on the SVG
+    DIN form - validate on typing - red outline and error message underneath if wrong, set on change instead of with button.
     -->
 <html>
 <head>
@@ -240,33 +241,36 @@
         <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
         <foreignObject x="0" y="15.8mm" width="55.401638mm" height="7.94mm">
         <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">Always check patient/component compatibility/identity<br /> Inspect pack for signs of deterioration or damage<br /> Risk of adverse reaction/infection, Including vCJD</p>
-                    </foreignObject>
-        <foreignObject x="0" y="0" width="55.401638mm" height="15.8mm">
-        <p style="font-family:sans-serif; font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm; padding-top:0.6mm;" id="product_text_fo">RED CELLS IN ADDITIVE SOLUTION, LD FOR NEONATAL USE</p>
+                </foreignObject>
+        <foreignObject x="0" y="0" width="55.401638mm" height="7.9mm">
+        <div style="display:block; width: 55.401638mm;height: 7.9mm;" id="product_text_fo_parent">
+        <p style="display: block; font-family:sans-serif; font-size: 3.175mm; letter-spacing:0px; font-weight: bold; font-stretch: condensed; text-align: left; margin: 0; padding-left: 1.2mm; padding-right: 1.2mm; padding-top: 0.6mm;" id="product_text_fo">RED CELLS IN ADDITIVE SOLUTION, LD FOR NEONATAL USE</p>
+            </div></foreignObject>
+        <foreignObject x="0" y="7.9mm" width="55.401638mm" height="7.9mm" id="storage_text_fo_parent">
         <p style="font-family:sans-serif; font-size:2.82222mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left:1.2mm; padding-right: 1.2mm;" id="storage_text_fo">STORE AT 4°C ± 2°C</p>
-                    </foreignObject>
+                </foreignObject>
         <foreignObject x="0" y="23.8mm" width="55.4mm" height="7.94mm">
         <p style="font-family:sans-serif; font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:right; margin:0; padding-left :1.2mm; padding-right :5mm;" id="volume_text_fo">Volume<br />50 mL</p>
-                    </foreignObject>
+                </foreignObject>
         <g id="anticoagulant_info" style="visibility:visible;">
         <foreignObject x="0" y="33mm" width="55.401638mm" height="7.94mm">
         <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">This component was collected in CPD anticoagulant and is<br />suspended in 105 millilitres of additive solution of the<br />following composition.</p>
-                        </foreignObject>
+                    </foreignObject>
         <foreignObject x="0" y="41.23mm" width="27.7mm" height="15.8mm">
         <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">Sodium Chloride<br />Adenine<br />Anhydrous Glucose<br />Mannitol</p>
-                        </foreignObject>
+                    </foreignObject>
         <foreignObject x="26.5mm" y="38.9mm" width="27.7mm" height="15.8mm">
         <p style="font-family:sans-serif; font-size:1.85839mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">mmols/l<br />150.0<br />1.25<br />45.4<br />28.8</p>
-                        </foreignObject>
+                    </foreignObject>
         <foreignObject x="41.55mm" y="44mm" width="13.85mm" height="15.8mm">
         <p style="font-family:sans-serif; font-size:2.82222mm; font-weight:bold; font-stretch:condensed; text-align:left; margin:0; padding-left :1.2mm; padding-right :1.2mm;">DO NOT<br />VENT</p>
-                        </foreignObject>
-                    </g>
+                    </foreignObject>
+                </g>
         <rect style="display:inline;opacity:1;fill:#000000;fill-opacity:1;stroke:none;" id="pack_background_fo" width="17mm" height="4mm" x="35mm" y="23.8mm" />
         <foreignObject x="35mm" y="23.8mm" width="17mm" height="4mm">
         <p style="font-family:sans-serif; font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:left; color:#FFFFFF; margin:0; padding-left :1.2mm; padding-right :1.2mm;" id="pack_text_fo">PACK 05</p>
-                    </foreignObject>
-                    </g>
+                </foreignObject>
+            </g>
         <text>Your SVG viewer cannot display html</text>
                     </switch>
         <svg id="product_barcode_svg_3" width="24.019293mm" height="7.9508266mm" x="1.2mm" y="23.8mm" />
