@@ -13,7 +13,7 @@
         height: 100vh;
     }
 
-    header, footer, nav, aside, form {
+    header, footer, nav, aside, form, .form {
         display: none;
     }
 }

@@ -7,7 +7,8 @@
 window.onload = startup;
 
 function startup() {
-    //generateProductsArray();
+    generateBarcode("a8738a", 'cmv_barcode_svg', 'codabar');
+    generateBarcode("=)0MAVXX603B", 'bag_mfg_barcode_svg', 'code128');
 
     document.getElementById('bled_date_in').value = dayjs().format('YYYY-MM-DD'); // default bled date is today.
     document.getElementById('din_year_in').value = dayjs().format('YY');
@@ -17,14 +18,12 @@ function startup() {
 
     generateDin();
     generateGroup(document.querySelector('#group_select').value);
+    rhceChanged(document.getElementById('rhc_select').value, document.getElementById('rhe_select').value);
+    antigensChanged(document.getElementById('antigens_in'), 'antigens_tspan')
     productTypeChanged(); // indirectly calls generateProduct();
 
     setExpiryDate();
     generateExpiry();
-
-    // old form stuff - being replaced
-    generateBarcode("a8738a", 'cmv_barcode_svg', 'codabar');
-    generateBarcode("=)0MAVXX603B", 'bag_mfg_barcode_svg', 'code128');
 }
 
 function generateBarcode(value, element, format) {
@@ -186,6 +185,8 @@ function generateGroupsForm() {
         const newOption = new Option(groups[i].text, i);
         group_select.add(newOption, undefined);
     }
+
+    group_select.value = "1"; // default O Neg
 }
 
 function generateGroup(groupIndex) {
@@ -228,18 +229,27 @@ function generateGroup(groupIndex) {
 }
 
 function productTypeChanged() {
-    const productType = document.getElementById('product_type_select').value;
+    const productTypeSelect = document.getElementById('product_type_select');
     const irradIn = document.getElementById('irradiated_in');
     const specialIn = document.getElementById('special_in')
+    const cmvIn = document.getElementById('cmv_in');
+    const hbsIn = document.getElementById('hbs_in');
+    if (!productTypeSelect || !irradIn || !specialIn || !cmvIn || !hbsIn) return;
 
-    switch (productType) {
+    switch (productTypeSelect.value) {
         case "R":
             irradIn.disabled = false;
             specialIn.disabled = false;
+            cmvIn.disabled = false;
+            hbsIn.disabled = false;
             break;
         case "P":
             irradIn.disabled = false;
             specialIn.disabled = false;
+
+            cmvIn.disabled = false;
+            hbsIn.checked = false;
+            hbsIn.disabled = true;
             break;
         case "F":
         case "C":
@@ -247,16 +257,27 @@ function productTypeChanged() {
             specialIn.checked = false;
             irradIn.disabled = true;
             specialIn.disabled = true;
+
+            cmvIn.checked = false;
+            cmvIn.disabled = true;
+            hbsIn.checked = false;
+            hbsIn.disabled = true;
             break;
         case "G":
             irradIn.checked = true;
             irradIn.disabled = true;
             specialIn.disabled = false;
+
+            cmvIn.disabled = false;
+            hbsIn.disabled = false;
             break;
+        default:
+            return;
     }
 
     updateProductsForm();
     bledDateChanged();
+    cmvHbsChanged(cmvIn.checked, hbsIn.checked);
 }
 
 function irradiatedChanged() {
@@ -277,6 +298,45 @@ function specialChanged() {
 function selectedProductChanged(productCode) {
     bledDateChanged();
     generateProduct(productCode);
+}
+
+function rhceChanged(rhcValue, rheValue) {
+    let C = document.getElementById('C_type_tspan');
+    let c = document.getElementById('c_type_tspan');
+    let E = document.getElementById('E_type_tspan');
+    let e = document.getElementById('e_type_tspan');
+    if (!C || !c || !E || !e) return;
+    // en dash (–), not -.
+    C.textContent = (rhcValue == 0) ? "\u2013" : "+";
+    c.textContent = (rhcValue == 2) ? "\u2013" : "+";
+    E.textContent = (rheValue == 0) ? "\u2013" : "+";
+    e.textContent = (rheValue == 2) ? "\u2013" : "+";
+}
+
+function cmvHbsChanged(cmvChecked, hbsChecked) {
+    const hbs_cmv_tspan = document.getElementById('hbs_cmv_tspan');
+    const cmv_barcode_svg = document.getElementById('cmv_barcode_svg');
+    if (!hbs_cmv_tspan || !cmv_barcode_svg) return;
+
+    let newText = "";
+    if (hbsChecked && cmvChecked)
+        newText = "HbS Neg, CMV Neg";
+    else if (hbsChecked)
+        newText = "HbS Neg";
+    else if (cmvChecked)
+        newText = "CMV Neg";
+
+    hbs_cmv_tspan.textContent = newText;
+    cmv_barcode_svg.style.visibility = (cmvChecked) ? "visible" : "hidden";
+}
+
+function antigensChanged(antigens_in, antigens_out_id) {
+    const antigens_out = document.getElementById(antigens_out_id);
+    if (!antigens_in || !antigens_out) return;
+
+    const newText = antigens_in.value.replace(/[^A-Za-z0-9,]/g, '');
+    antigens_in.value = newText;
+    antigens_out.textContent = "NEG: " + newText;
 }
 
 function generateProduct(productCode) {

@@ -3,15 +3,12 @@
 <!--
     To do:
     Add irradiated sticker
-    Add RhCE selector
-    Add Ag- text input
-    Add HbS- checkbox
-    Add CMV- checkbox
-    Maybe do something with meanufacturing site text
-    hide CMV and HbS except for red cells and granulocytes.
+    disable rhce form selects when product type doesn't support it
+	bled date linked to DIN year
     refactor javascript for dependency injection, maybe more object orientation, maybe map out functions that call each other and reorder to avoid loops etc.
     allow editing things by double clicking right on the SVG
     DIN form - validate on typing - red outline and error message underneath if wrong, set on change instead of with button.
+    change product type switches to polymorphic product type object properties
     -->
 <html>
 <head>
@@ -21,90 +18,114 @@
     <script src="./groups.js"></script>
     <script src="./products.js"></script>
     <script src="./script.js"></script>
-
 </head>
 
 <body>
+    <table class="form">
+        <tr>
+            <td>
+                <table style="border-collapse: collapse;text-align:center" width="100%">
+                    <tr>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px">Facility ID</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px">Year</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px">Sequence Number</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px">Checkdigit</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px" rowspan="2"><input id="din_go" type="submit" value="Set DIN" onclick="generateDin()" style="height:40px" /></th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_fin_in" type="text" value="S0000" size="5" style="text-align:center" /></td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_year_in" type="text" value="23" size="2" style="text-align:center" /></td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_seq_in" type="text" value="000000" size="6" style="text-align:center" /></td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_cd_in" type="text" value="" size="1" disabled=disabled style="text-align:center" /></td>
 
-    <div id="mm-scale" style="width:100mm;padding:0px;visibility:hidden;"></div>
-    <form>
-        <table>
-            <tr>
-                <td>
-                    <table style="border-collapse: collapse;text-align:center" width="100%">
-                        <tr>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px">Facility ID</th>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px">Year</th>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px">Sequence Number</th>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px">Checkdigit</th>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px" rowspan="2"><input id="din_go" type="submit" value="Set DIN" onclick="generateDin()" style="height:40px" /></th>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_fin_in" type="text" value="G0956" size="5" style="text-align:center" /></td>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_year_in" type="text" value="22" size="2" style="text-align:center" /></td>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_seq_in" type="text" value="529452" size="6" style="text-align:center" /></td>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="din_cd_in" type="text" value="" size="1" disabled=disabled style="text-align:center" /></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table style="border-collapse: collapse;text-align:center" width="100%">
+                    <tr>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Product Type</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Irradiated</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Special</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Only include currently<br />available products</th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px">
+                            <select id="product_type_select" onchange="productTypeChanged()">
+                                <option value="R">Red Cells</option>
+                                <option value="P">Platelets</option>
+                                <option value="F">Fresh Frozen Plasma</option>
+                                <option value="C">Cryoprecipitate</option>
+                                <option value="G">Granulocytes</option>
+                            </select>
+                        </td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="irradiated_in" type="checkbox" onchange="irradiatedChanged()" /></td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="special_in" type="checkbox" onchange="specialChanged()" /></td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="available_in" type="checkbox" onchange="availabilityChanged()" checked /></td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px" colspan="4"><select id="product_select" onchange="selectedProductChanged(this.value)" style="width:100%" /></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table style="border-collapse: collapse;text-align:center" width="100%">
+                    <tr>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Group</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">RhC</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">RhE</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">CMV-</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">HbS-</th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><select id="group_select" onchange="generateGroup(this.value)" /></td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px">
+                            <select id="rhc_select" onchange="rhceChanged(rhc_select.value, rhe_select.value)">
+                                <option value="0">cc</option>
+                                <option value="1">Cc</option>
+                                <option value="2">CC</option>
+                            </select>
+                        </td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px">
+                            <select id="rhe_select" onchange="rhceChanged(rhc_select.value, rhe_select.value)">
+                                <option value="0">ee</option>
+                                <option value="1">Ee</option>
+                                <option value="2">EE</option>
+                            </select>
+                        </td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="cmv_in" type="checkbox" onchange="cmvHbsChanged(cmv_in.checked, hbs_in.checked)" /></td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="hbs_in" type="checkbox" onchange="cmvHbsChanged(cmv_in.checked, hbs_in.checked)" /></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table style="border-collapse: collapse;text-align:center" width="100%">
+                    <tr>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Negative Antigens</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Bled Date</th>
+                        <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Expiry Date</th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"> <input id="antigens_in" type="text" value="HEV,K" style="text-align:start" onchange="antigensChanged(this, 'antigens_tspan')" /></td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"> <input type="date" id="bled_date_in" onchange="bledDateChanged()" required=required /></td>
+                        <td style="border: 1px solid black; padding:2px 5px 2px 5px"> <input type="date" id="expiry_in" onchange="expiryChanged()" required=required /></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input name="print" type="button" value="Print" onclick="window.print();" style="width:100%" />
+            </td>
+        </tr>
+    </table>
 
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table style="border-collapse: collapse;text-align:center" width="100%">
-                        <tr>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Product Type</th>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Irradiated</th>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Special</th>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Only include currently<br />available products</th>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px">
-                                <select id="product_type_select" onchange="productTypeChanged()">
-                                    <option value="R">Red Cells</option>
-                                    <option value="P">Platelets</option>
-                                    <option value="F">Fresh Frozen Plasma</option>
-                                    <option value="C">Cryoprecipitate</option>
-                                    <option value="G">Granulocytes</option>
-                                </select>
-                            </td>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="irradiated_in" type="checkbox" onchange="irradiatedChanged()" /></td>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="special_in" type="checkbox" onchange="specialChanged()" /></td>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"><input id="available_in" type="checkbox" onchange="availabilityChanged()" checked /></td>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px" colspan="4"><select id="product_select" onchange="selectedProductChanged(product_select.value)" style="width:100%" /></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table style="border-collapse: collapse;text-align:center" width="100%">
-                        <tr>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Group</th>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Bled Date</th>
-                            <th style="border: 1px solid black; padding:2px 5px 2px 5px;">Expiry Date</th>
-                        </tr>
-                        <tr>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"><select id="group_select" onchange="generateGroup(group_select.value)" /></td>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"> <input type="date" id="bled_date_in" onchange="bledDateChanged()" required=required /></td>
-                            <td style="border: 1px solid black; padding:2px 5px 2px 5px"> <input type="date" id="expiry_in" onchange="expiryChanged()" required=required /></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <!--<input name="print" type="button" value="Print" onclick="printSvg(printable.id)" style="width:100%" />-->
-                    <input name="print" type="button" value="Print" onclick="window.print();" style="width:100%" />
-                </td>
-            </tr>
-        </table>
-    </form>
-
-    <!--<tr>
-        <td>-->
     <div id="printable" class="centerOnPrintedPage">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" id="blood_unit" width="523.948" height="931.308" version="1.1" viewBox="0 0 138.628 246.409">
         <defs>
@@ -303,9 +324,9 @@
         <text xml:space="preserve" x="131" y="180.166" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan id="c_type_tspan">+</tspan></text>
         <text xml:space="preserve" x="139" y="180.166" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; font-family:sans-serif; text-align:center; text-anchor:middle; fill:#000; stroke:none; "><tspan id="e_type_tspan">+</tspan></text>
                             </g>
-        <text xml:space="preserve" x="102.850" y="184.650" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none; letter-spacing:-0.1px; "><tspan>HbS Neg, CMV Neg</tspan></text>
-        <text xml:space="preserve" x="102.850" y="191.250" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none; letter-spacing:-0.1px; "><tspan>NEG: HEV,K,Fya,S,M,Cw</tspan></text>
-        <text xml:space="preserve" x="103.300" y="196.050" style="font-weight:bold;font-stretch:condensed;font-size:3.52778px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none;                        "><tspan>NHSBT – Manchester</tspan></text>
+        <text xml:space="preserve" x="102.850" y="184.650" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none; letter-spacing:-0.1px; "><tspan id="hbs_cmv_tspan"></tspan></text>
+        <text xml:space="preserve" x="102.850" y="191.250" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none; letter-spacing:-0.1px; "><tspan id="antigens_tspan">NEG: HEV,K</tspan></text>
+        <text xml:space="preserve" x="103.300" y="196.050" style="font-weight:bold;font-stretch:condensed;font-size:3.52778px;font-family:sans-serif; text-align:start; text-anchor:start; fill:#000;stroke:none;                        "><tspan>SIMULATED COMPONENT</tspan></text>
         <text xml:space="preserve" x="115" y="200.800" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:right;text-anchor:middle;fill:#000;stroke:none;                         "><tspan>Date Bled:</tspan></text>
         <text xml:space="preserve" x="129" y="200.800" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:start;text-anchor:middle;fill:#000;stroke:none;                         "><tspan id="date_bled_tspan">14 Nov 2022</tspan></text>
         <text xml:space="preserve" x="102.542" y="162.183" style="font-weight:bold;font-stretch:condensed;font-size:2.82222px;font-family:sans-serif; text-align:center;text-anchor:start; fill:#000;stroke:none;                        "><tspan>Expiry Date:</tspan></text>
@@ -314,9 +335,9 @@
         <svg id="cmv_barcode_svg" width="16.738" height="6.175" x="126.432" y="181.468" />
                     </svg>
     </div>
-    <!--</td>
 
-        <!-- HTML product label - not quite ready to delete yet -->
+
+    <!-- HTML product label - not quite ready to delete yet -->
     <!--<td style="vertical-align:top;">-->
     <!-- SVG 1.1 doesn't support text wrapping in any way and I'm having problems with line widths changing depending on OS, browser and zoom level. -->
     <!-- Trying to fix that using HTML for text -->
@@ -379,8 +400,6 @@
             <svg id="product_barcode_svg_3" width="24.019293mm" height="7.9508266mm" x="1.2mm" y="23.8mm" />
         </g>
     </svg>-->
-    <!--</td>
-    </tr>-->
 
 </body>
 </html>
