@@ -1,5 +1,5 @@
 ﻿@page {
-    size: auto; /* auto is the initial value */
+    size: A4 portrait; /* auto is the initial value */
     margin: 0mm; /* this affects the margin in the printer settings */
 }
 
@@ -10,7 +10,7 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        height: 100vh;
+        height: 90vh;
     }
 
     header, footer, nav, aside, form, .form {

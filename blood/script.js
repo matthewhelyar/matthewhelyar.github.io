@@ -419,6 +419,9 @@ function generateProduct(productCode) {
     document.getElementById('volume_text_fo').innerHTML = "Volume<br />" + selectedProduct.volume + " mL"; // new method
     document.getElementById('anticoagulant_info').style.visibility = anticoagulantVisibility;
     document.getElementById('rh_phen_group').style.visibility = rhPhenVisibility;
+    document.getElementById('rhc_select').disabled = (rhPhenVisibility == "hidden");
+    document.getElementById('rhe_select').disabled = (rhPhenVisibility == "hidden");
+    document.getElementById('irradiated_sticker').style.visibility = selectedProduct.irr ? "visible" : "hidden";
 }
 
 function shrinkLetterSpacingToFitParent(textElement, parent) {
