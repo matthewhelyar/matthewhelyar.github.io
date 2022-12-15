@@ -88,43 +88,68 @@ function updateProductsSelectForm() {
         selectedProductChanged(productSelect.value);
 }
 
-// need to update form validation to style input boxes instead of alerts
-// also need to update barcode on the fly while typing as long as valid.
+function setError(errorMessage, isError, textInputElement) {
+    if (isError)
+        errorText.innerHTML += "<li>" + errorMessage + "</li>";
+    else
+        errorText.innerHTML = "";
+
+    errorText.style.display = isError ? "block" : "none";
+
+    if (textInputElement) {
+        if (isError)
+            textInputElement.classList.add("errorTextInput");
+        else 
+            textInputElement.classList.remove("errorTextInput");
+    }
+}
+
 function generateDin() {
     // get form data in upper case without spaces.
     const regexSpace = /\s/g;
-    const fin_str = document.getElementById('din_fin_in').value.replace(regexSpace, '').toUpperCase();
-    const year_str = document.getElementById('din_year_in').value.replace(regexSpace, '').toUpperCase();
-    const seq_str = document.getElementById('din_seq_in').value.replace(regexSpace, '').toUpperCase();
+    const finIn = document.getElementById('din_fin_in');
+    const yearIn = document.getElementById('din_year_in');
+    const seqIn = document.getElementById('din_seq_in');
+    if (!finIn || !yearIn || !seqIn) return;
 
+    const fin_str = finIn.value.replace(regexSpace, '').toUpperCase();
+    const year_str = yearIn.value.replace(regexSpace, '').toUpperCase();
+    const seq_str = seqIn.value.replace(regexSpace, '').toUpperCase();
+
+    setError("", false, finIn);
+    setError("", false, yearIn);
+    setError("", false, seqIn);
     // check input validity
+    let errorSet = false;
     if (fin_str.length != 5) {
-        alert("FIN string wrong length. Must be 5 characters.\n" + fin_str);
-        return;
+        setError("FIN string wrong length. Must be 5 characters.", true, finIn);
+        errorSet = true;
     };
     if (/[^A-NP-Z0-9]/g.test(fin_str.slice(0, 3))) {
-        alert("The first 3 digits of FIN can only contain A-N, P-Z or 0-9\n" + fin_str);
-        return;
+        setError("The first 3 digits of FIN can only contain A-N, P-Z or 0-9.", true, finIn);
+        errorSet = true;
     };
     if (isNaN(fin_str.slice(3))) {
-        alert("The last 2 digits of FIN can only contain numbers\n" + fin_str);
-        return;
+        setError("The last 2 digits of FIN can only contain numbers.", true, finIn);
+        errorSet = true;
     };
     if (year_str.length != 2 || isNaN(year_str) || year_str < 0 || year_str > 99) {
-        alert("Year string wrong. Must be a 2 digit number between 00 and 99.");
-        return;
+        setError("Year string wrong. Must be a 2 digit number between 00 and 99.", true, yearIn);
+        errorSet = true;
     };
     if (seq_str.length != 6 || isNaN(seq_str) || year_str < 0 || year_str > 999999) {
-        alert("Sequence number string wrong. Must be a 6 digit number between 000000 and 999999.");
-        return;
+        setError("Sequence number string wrong. Must be a 6 digit number between 000000 and 999999.", true, seqIn);
+        errorSet = true;
     };
 
     // concatenate string
     const din_str = fin_str + year_str + seq_str;
     if (din_str.length != 13) {
-        alert("DIN string wrong length");
-        return;
+        setError("DIN string wrong length", true, null);
+        errorSet = true;
     };
+
+    if (errorSet) return;
 
     // feed back corrected strings into form.
     document.getElementById('din_fin_in').value = fin_str;
@@ -141,7 +166,7 @@ function generateDin() {
         // look up character in array to find equivalent int value (which is array index)
         const value = charArray.findIndex((x) => x == din_arr[i]);
         if (value < 0) {
-            alert("Error: Non-alphanumeric character in checksum calculation. Unable to continue.");
+            setError("Error: Non-alphanumeric character in checksum calculation. Unable to continue.", true);
             return;
         }
         const weight = Math.pow(2, 13 - i);
@@ -299,10 +324,12 @@ function updateRhceLabel(rhcValue, rheValue) {
 }
 
 function updateCmvHbsLabel(cmvChecked, hbsChecked) {
+    // get DOM elements
     const hbs_cmv_tspan = document.getElementById('hbs_cmv_tspan');
     const cmv_barcode_svg = document.getElementById('cmv_barcode_svg');
     if (!hbs_cmv_tspan || !cmv_barcode_svg) return;
 
+    // generate text
     let newText = "";
     if (hbsChecked && cmvChecked)
         newText = "HbS Neg, CMV Neg";
@@ -311,6 +338,7 @@ function updateCmvHbsLabel(cmvChecked, hbsChecked) {
     else if (cmvChecked)
         newText = "CMV Neg";
 
+    // apply to SVG
     hbs_cmv_tspan.textContent = newText;
     cmv_barcode_svg.style.visibility = (cmvChecked) ? "visible" : "hidden";
 }
