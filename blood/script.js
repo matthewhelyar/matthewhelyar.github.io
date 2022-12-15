@@ -13,23 +13,22 @@ function startup() {
     document.getElementById('bled_date_in').value = dayjs().format('YYYY-MM-DD'); // default bled date is today.
     document.getElementById('din_year_in').value = dayjs().format('YY');
 
-    generateGroupsForm();
-    updateProductsForm();
+    generateGroupsForm(document.getElementById('group_select'));
+    updateProductsSelectForm();
 
     generateDin();
-    generateGroup(document.querySelector('#group_select').value);
-    rhceChanged(document.getElementById('rhc_select').value, document.getElementById('rhe_select').value);
-    antigensChanged(document.getElementById('antigens_in'), 'antigens_tspan')
-    productTypeChanged(); // indirectly calls generateProduct();
+    generateGroupLabel(document.getElementById('group_select').value);
+    updateRhceLabel(document.getElementById('rhc_select').value, document.getElementById('rhe_select').value);
+    antigensChanged();
+    productFiltersChanged();
 
     setExpiryDate();
-    generateExpiry();
+    generateExpiryLabel();
 }
 
-function generateBarcode(value, element, format) {
+function generateBarcode(value, svgId, format) {
     // store existing size attribtues
-    //let pxPerMm = document.getElementById('mm-scale').offsetWidth / 100;
-    const s = document.getElementById(element);
+    const s = document.getElementById(svgId);
     if (s == null) return;
     const x = s.getAttribute('x');
     const y = s.getAttribute('y');
@@ -37,7 +36,7 @@ function generateBarcode(value, element, format) {
     const w = s.getAttribute('width');
 
     // generate new SVG
-    JsBarcode('#' + element, value, {
+    JsBarcode('#' + svgId, value, {
         format: format,
         displayValue: false,
         margin: 0,
@@ -51,45 +50,46 @@ function generateBarcode(value, element, format) {
     s.setAttribute('height', h);
 }
 
-function updateProductsForm() {
-    const product_select = document.querySelector('#product_select');
-    const productType = document.getElementById('product_type_select').value;
-    const showIrradiated = document.getElementById('irradiated_in').checked;
-    const showSpecial = document.getElementById('special_in').checked;
-    const showAvailable = document.getElementById('available_in').checked;
+function updateProductsSelectForm() {
+    // get DOM elements
+    const productSelect = document.getElementById('product_select');
+    const productType = document.getElementById('product_type_select');
+    const showIrradiated = document.getElementById('irradiated_in');
+    const showSpecial = document.getElementById('special_in');
+    const showAvailable = document.getElementById('available_in');
+    if (!productSelect || !productType || !showIrradiated || !showSpecial || !showAvailable) return;
 
-    // clear options list
-    product_select.length = 0;
+    // store currently selected product code:
+    const currentlySelectedProduct = productSelect.value;
 
-    // update list with only filtered products.
+    // clear options from productSelect
+    productSelect.length = 0;
+
+    // filter products as per form
     const filteredProducts = products.filter(x => {
-        return x.component === productType &&
-            x.irr === showIrradiated &&
-            x.special === showSpecial &&
-            x.availability >= showAvailable
+        return x.component === productType.value &&
+            x.irr === showIrradiated.checked &&
+            x.special === showSpecial.checked &&
+            x.availability >= showAvailable.checked;
     });
 
-    for (let p of filteredProducts) {
-        //// check option not already there - unnecessary if I'm clearing the select each time, but I might not want to do that because it changes the selected item.
-        //let alreadyExists = false
-        //for (let o of product_select.options) {
-        //    if (filteredProducts[i].code == o.value) {
-        //        alreadyExists = true;
-        //        break;
-        //    }
-        //}
-        //if (alreadyExists) continue;
-
-        // add option
-        let text = p.pack > 0 ? p.text + " (" + p.pack + ")" : p.text;
+    // add options to productSelect
+    for (const p of filteredProducts) {
+        let text = (p.pack > 0) ? p.text + " (" + p.pack + ")" : p.text;
         if (!p.availability) text += " [unavailable]";
-        const newOption = new Option(text, p.code);
-        product_select.add(newOption, undefined);
+        productSelect.add(new Option(text, p.code), undefined);
     }
 
-    generateProduct(document.querySelector('#product_select').value);
+    // if new list contains same product, select it, otherwise generate new label.
+    const selectedIndex = filteredProducts.findIndex(x => { return x.code === currentlySelectedProduct });
+    if (selectedIndex != -1)
+        productSelect.value = currentlySelectedProduct;
+    else
+        selectedProductChanged(productSelect.value);
 }
 
+// need to update form validation to style input boxes instead of alerts
+// also need to update barcode on the fly while typing as long as valid.
 function generateDin() {
     // get form data in upper case without spaces.
     const regexSpace = /\s/g;
@@ -167,11 +167,9 @@ function generateDin() {
     document.getElementById('din_eye_readable').textContent = eyeReadableFormatted;
 }
 
-function generateGroupsForm() {
-    const group_select = document.querySelector('#group_select');
-
+function generateGroupsForm(group_select) {
     for (let i = 0; i < groups.length; i++) {
-        // check option not already there
+        // skip if option already there
         let alreadyExists = false
         for (let o of group_select.options) {
             if (groups[i].text == o.label) {
@@ -182,14 +180,14 @@ function generateGroupsForm() {
         if (alreadyExists) continue;
 
         // add options
-        const newOption = new Option(groups[i].text, i);
-        group_select.add(newOption, undefined);
+        group_select.add(new Option(groups[i].text, i), undefined);
     }
 
-    group_select.value = "1"; // default O Neg
+    // default = O Neg
+    group_select.value = "1";
 }
 
-function generateGroup(groupIndex) {
+function generateGroupLabel(groupIndex) {
     const group = groups[groupIndex];
     const rhdCode = '0';
     const reservedCode = '0';
@@ -228,7 +226,8 @@ function generateGroup(groupIndex) {
     }
 }
 
-function productTypeChanged() {
+function productFiltersChanged() {
+    // get DOM elements
     const productTypeSelect = document.getElementById('product_type_select');
     const irradIn = document.getElementById('irradiated_in');
     const specialIn = document.getElementById('special_in')
@@ -236,6 +235,7 @@ function productTypeChanged() {
     const hbsIn = document.getElementById('hbs_in');
     if (!productTypeSelect || !irradIn || !specialIn || !cmvIn || !hbsIn) return;
 
+    // update DOM elements of the product form based on product type
     switch (productTypeSelect.value) {
         case "R":
             irradIn.disabled = false;
@@ -275,32 +275,17 @@ function productTypeChanged() {
             return;
     }
 
-    updateProductsForm();
-    bledDateChanged();
-    cmvHbsChanged(cmvIn.checked, hbsIn.checked);
-}
-
-function irradiatedChanged() {
-    updateProductsForm();
-    bledDateChanged();
-}
-
-function availabilityChanged() {
-    updateProductsForm();
-    bledDateChanged();
-}
-
-function specialChanged() {
-    updateProductsForm();
-    bledDateChanged();
+    // update things that might have changed because product list changed.
+    updateProductsSelectForm();
+    updateCmvHbsLabel(cmvIn.checked, hbsIn.checked);
 }
 
 function selectedProductChanged(productCode) {
-    bledDateChanged();
-    generateProduct(productCode);
+    setExpiryDate();
+    generateProductLabel(productCode);
 }
 
-function rhceChanged(rhcValue, rheValue) {
+function updateRhceLabel(rhcValue, rheValue) {
     let C = document.getElementById('C_type_tspan');
     let c = document.getElementById('c_type_tspan');
     let E = document.getElementById('E_type_tspan');
@@ -313,7 +298,7 @@ function rhceChanged(rhcValue, rheValue) {
     e.textContent = (rheValue == 2) ? "\u2013" : "+";
 }
 
-function cmvHbsChanged(cmvChecked, hbsChecked) {
+function updateCmvHbsLabel(cmvChecked, hbsChecked) {
     const hbs_cmv_tspan = document.getElementById('hbs_cmv_tspan');
     const cmv_barcode_svg = document.getElementById('cmv_barcode_svg');
     if (!hbs_cmv_tspan || !cmv_barcode_svg) return;
@@ -330,8 +315,9 @@ function cmvHbsChanged(cmvChecked, hbsChecked) {
     cmv_barcode_svg.style.visibility = (cmvChecked) ? "visible" : "hidden";
 }
 
-function antigensChanged(antigens_in, antigens_out_id) {
-    const antigens_out = document.getElementById(antigens_out_id);
+function antigensChanged() {
+    const antigens_in = document.getElementById('antigens_in');
+    const antigens_out = document.getElementById('antigens_tspan');
     if (!antigens_in || !antigens_out) return;
 
     const newText = antigens_in.value.replace(/[^A-Za-z0-9,]/g, '');
@@ -339,7 +325,8 @@ function antigensChanged(antigens_in, antigens_out_id) {
     antigens_out.textContent = "NEG: " + newText;
 }
 
-function generateProduct(productCode) {
+// this is a mess. need to decide whether to use more html or svg for the product label and get rid of what i don't need.
+function generateProductLabel(productCode) {
     if (productCode == null || productCode == "") return;
 
     const selectedProduct = products.find(x => { return x.code === productCode });
@@ -435,50 +422,63 @@ function shrinkLetterSpacingToFitParent(textElement, parent) {
     //console.log("final letter spacing: " + textElement.style.letterSpacing);
 }
 
-function getDayNumber(date) {
-    const date1 = dayjs(date);
-    const firstDayOfYear = dayjs(date1.year() + "-01-01");
-    return date1.diff(firstDayOfYear, 'day') + 1;
-}
+function generateExpiryLabel() {
+    // get DOM elements
+    const expiryIn = document.getElementById('expiry_in');
+    const bledDateIn = document.getElementById('bled_date_in');
+    const expiryTspan = document.getElementById('expiry_tspan');
+    const dateBledTspan = document.getElementById('date_bled_tspan');
+    if (!expiryIn || !bledDateIn || !expiryTspan || !dateBledTspan) return;
 
-function bledDateChanged() {
-    setExpiryDate();
-    generateExpiry();
-}
+    // get dates
+    const expiryDate = dayjs(expiryIn.value);
+    const bledDate = dayjs(bledDateIn.value);
 
-function expiryChanged() {
-    setBledDate();
-    generateExpiry();
-}
+    // local function to get day number (1-366)
+    const getDayNumber = (date) => {
+        const date1 = dayjs(date);
+        const firstDayOfYear = dayjs(date1.year() + "-01-01");
+        return date1.diff(firstDayOfYear, 'day') + 1;
+    }
 
-function generateExpiry() {
-    const expiryDate = dayjs(document.getElementById('expiry_in').value);
-    const bledDate = dayjs(document.getElementById('bled_date_in').value);
+    // generate barcode
     const dayNumberString = String(getDayNumber(expiryDate)).padStart(3, '0');
     const barcode = "a" + expiryDate.year() + dayNumberString + "a";
     generateBarcode(barcode, 'expiry_barcode_svg', 'codabar');
 
-    const expiryTspan = document.getElementById('expiry_tspan');
-    const dateBledTspan = document.getElementById('date_bled_tspan');
-    if (!expiryTspan || !dateBledTspan) return;
+    // generate text
     expiryTspan.textContent = expiryDate.format("DD MMM YYYY");
     dateBledTspan.textContent = bledDate.format("DD MMM YYYY");
 }
 
 function setExpiryDate() {
+    // get DOM elements
+    const bledDateIn = document.getElementById('bled_date_in');
+    const productSelect = document.getElementById('product_select');
+    const expiryIn = document.getElementById('expiry_in');
+    if (!bledDateIn || !productSelect || !expiryIn) return;
+
     // sets the expiry date in the form from the bled date.
-    const bledDate = dayjs(document.getElementById('bled_date_in').value);
-    const productCode = document.getElementById('product_select').value;
-    const selectedProduct = products.find(x => { return x.code === productCode });
-    if (selectedProduct == null) return;
-    document.getElementById('expiry_in').value = bledDate.add(selectedProduct.shelfLife, 'day').format('YYYY-MM-DD');
+    const selectedProduct = products.find(x => { return x.code === productSelect.value });
+    if (!selectedProduct) return;
+    const bledDate = dayjs(bledDateIn.value);
+    expiryIn.value = bledDate.add(selectedProduct.shelfLife, 'day').format('YYYY-MM-DD');
+
+    generateExpiryLabel();
 }
 
 function setBledDate() {
+    // get DOM elements
+    const bledDateIn = document.getElementById('bled_date_in');
+    const productSelect = document.getElementById('product_select');
+    const expiryIn = document.getElementById('expiry_in');
+    if (!bledDateIn || !productSelect || !expiryIn) return;
+
     // sets the bled date in the form from the expiry date.
-    const expiryDate = dayjs(document.getElementById('expiry_in').value);
-    const productCode = document.getElementById('product_select').value;
-    const selectedProduct = products.find(x => { return x.code === productCode });
-    if (selectedProduct == null) return;
-    document.getElementById('bled_date_in').value = expiryDate.add(-selectedProduct.shelfLife, 'day').format('YYYY-MM-DD');
+    const selectedProduct = products.find(x => { return x.code === productSelect.value });
+    if (!selectedProduct) return;
+    const expiryDate = dayjs(expiryIn.value);
+    bledDateIn.value = expiryDate.add(-selectedProduct.shelfLife, 'day').format('YYYY-MM-DD');
+
+    generateExpiryLabel();
 }
