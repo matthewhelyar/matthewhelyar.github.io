@@ -4,7 +4,7 @@
 }
 
 @media print {
-    div.centerOnPrintedPage {
+    .centerOnPrintedPage {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -12,7 +12,7 @@
         height: 99vh;
     }
 
-    header, footer, nav, aside, form, .form {
+    header, footer, nav, aside, form, .noPrint {
         display: none;
     }
 
@@ -38,10 +38,6 @@ body {
 .errorTextInput {
     border-color: red;
     background: lightpink;
-}
-
-.form {
-    width: 524px;
 }
 
 .formTable {
@@ -141,10 +137,16 @@ g#group_label.neg .rhdBackground {
     stroke-width: 0.5;
 }
 
-.pathBagLines {
+.pathLines2px {
     fill: none;
     stroke: black;
     stroke-width: 0.5;
+}
+
+.pathLines1px {
+    fill: none;
+    stroke: black;
+    stroke-width: 0.265;
 }
 
 .pathBagOutline {
