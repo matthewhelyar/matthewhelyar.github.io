@@ -1,7 +1,8 @@
 class Component {
-    constructor(name, irradPossible, specialPossible, cmvPossible, hbsPossible,
+    constructor(name, text, irradPossible, specialPossible, cmvPossible, hbsPossible,
         storageText, color, anticoagulantTextVisibility, rhPhenVisibility) {
         this.name = name;
+        this.text = text;
         this.irradPossible = irradPossible;
         this.specialPossible = specialPossible;
         this.cmvPossible = cmvPossible;
@@ -13,19 +14,23 @@ class Component {
     }
 }
 
-const redCells = new Component("R", true, true, true, true,
-    "STORE AT 4\u00B0C \u00B1 2\u00B0C", "Red", true, true);
-const platelets = new Component("P", true, true, true, false,
-    "STORE AT 22\u00B0C \u00B1 2\u00B0C EXTENDED LIFE<br />AGITATE GENTLY THROUGHOUT STORAGE", "Yellow", false, false);
-const ffp = new Component("F", false, false, false, false,
-    "STORE FROZEN AT -25\u00B0C OR BELOW<br />TIME THAWED _______ DATE _______", "Yellow", false, false);
-const cryo = new Component("C", false, false, false, false,
-    "STORE FROZEN AT -25\u00B0C OR BELOW<br />USE WITHIN 4 HOURS OF THAWING<br />TIME THAWED _______ DATE _______", "Yellow", false, false);
-// Granulocytes should have the irradiated button disabled but also always be irradiated.
-const granulocytes = new Component("G", true, true, true, true,
-    "DO NOT AGITATE<br />STORE AT 22\u00B0C \u00B1 2\u00B0C", "Red", false, false);
+const redCells = new Component("R", "Red Cells", true, true, true, true,
+    "STORE AT 4\u00B0C \u00B1 2\u00B0C", "Red", "visible", "visible");
 
-const componentList = [redCells, platelets, ffp, cryo, granulocytes];
+const platelets = new Component("P", "Platelets", true, true, true, false,
+    "STORE AT 22\u00B0C \u00B1 2\u00B0C EXTENDED LIFE<br />AGITATE GENTLY THROUGHOUT STORAGE", "Yellow", "hidden", "hidden");
+
+const ffp = new Component("F", "Fresh Frozen Plasma", false, false, false, false,
+    "STORE FROZEN AT -25\u00B0C OR BELOW<br />TIME THAWED _______ DATE _______", "Yellow", "hidden", "hidden");
+
+const cryo = new Component("C", "Cryoprecipitate", false, false, false, false,
+    "STORE FROZEN AT -25\u00B0C OR BELOW<br />USE WITHIN 4 HOURS OF THAWING<br />TIME THAWED _______ DATE _______", "Yellow", "hidden", "hidden");
+
+// Granulocytes should have the irradiated button disabled but also always be irradiated.
+const granulocytes = new Component("G", "Granulocytes", true, true, true, true,
+    "DO NOT AGITATE<br />STORE AT 22\u00B0C \u00B1 2\u00B0C", "Red", "hidden", "hidden");
+
+const components = [redCells, platelets, ffp, cryo, granulocytes];
 
 
 

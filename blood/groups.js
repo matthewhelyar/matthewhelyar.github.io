@@ -1,3 +1,21 @@
+class RhD {
+    constructor(name, rhdText, smallDText, rhdBackground, rhdTextFill, aboStroke, aboTextFill) {
+        this.name = name;
+        this.rhdText = rhdText;
+        this.smallDText = smallDText;
+
+        // the following should be done in CSS.
+        this.rhdBackground = rhdBackground;
+        this.rhdTextFill = rhdTextFill;
+        this.aboStroke = aboStroke;
+        this.aboTextFill = aboTextFill;
+    }
+}
+
+const rhdPos = new RhD("+", "Rh D POSITIVE", "+", "white", "black", "none", "black");
+const rhdNeg = new RhD("-", "Rh D NEGATIVE", "\u2013", "black", "white", "black", "none");  // en dash (–), not -.
+
+
 //class Group {
 //    constructor(abo, rhd, text, code) {
 //        this.abo = abo;
@@ -10,49 +28,49 @@
 const groups = [
     {
         "abo": "O",
-        "rhd": "+",
+        "rhd": rhdPos,
         "text": "O Pos",
         "code": "51"
     },
     {
         "abo": "O",
-        "rhd": "-",
+        "rhd": rhdNeg,
         "text": "O Neg",
         "code": "95"
     },
     {
         "abo": "A",
-        "rhd": "+",
+        "rhd": rhdPos,
         "text": "A Pos",
         "code": "62"
     },
     {
         "abo": "A",
-        "rhd": "-",
+        "rhd": rhdNeg,
         "text": "A Neg",
         "code": "06"
     },
     {
         "abo": "B",
-        "rhd": "+",
+        "rhd": rhdPos,
         "text": "B Pos",
         "code": "73"
     },
     {
         "abo": "B",
-        "rhd": "-",
+        "rhd": rhdNeg,
         "text": "B Neg",
         "code": "17"
     },
     {
         "abo": "AB",
-        "rhd": "+",
+        "rhd": rhdPos,
         "text": "AB Pos",
         "code": "84"
     },
     {
         "abo": "AB",
-        "rhd": "-",
+        "rhd": rhdNeg,
         "text": "AB Neg",
         "code": "28"
     }

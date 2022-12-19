@@ -56,15 +56,7 @@
                         <th class="formCell">Only include currently<br />available products</th>
                     </tr>
                     <tr>
-                        <td class="formCell">
-                            <select id="product_type_select" onchange="productFiltersChanged()">
-                                <option value="R">Red Cells</option>
-                                <option value="P">Platelets</option>
-                                <option value="F">Fresh Frozen Plasma</option>
-                                <option value="C">Cryoprecipitate</option>
-                                <option value="G">Granulocytes</option>
-                            </select>
-                        </td>
+                        <td class="formCell"><select id="product_type_select" onchange="productFiltersChanged()" /></td>
                         <td class="formCell"><input id="irradiated_in" type="checkbox" onchange="productFiltersChanged()" /></td>
                         <td class="formCell"><input id="special_in" type="checkbox" onchange="productFiltersChanged()" /></td>
                         <td class="formCell"><input id="available_in" type="checkbox" onchange="productFiltersChanged()" checked /></td>
