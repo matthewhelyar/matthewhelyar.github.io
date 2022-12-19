@@ -1,3 +1,40 @@
+class Component {
+    constructor(name, text, irradPossible, specialPossible, cmvPossible, hbsPossible,
+        storageText, color, anticoagulantTextVisibility, rhPhenVisibility) {
+        this.name = name;
+        this.text = text;
+        this.irradPossible = irradPossible;
+        this.specialPossible = specialPossible;
+        this.cmvPossible = cmvPossible;
+        this.hbsPossible = hbsPossible;
+        this.storageText = storageText;
+        this.color = color;
+        this.anticoagulantTextVisibility = anticoagulantTextVisibility;
+        this.rhPhenVisibility = rhPhenVisibility;
+    }
+}
+
+const redCells = new Component("R", "Red Cells", true, true, true, true,
+    "STORE AT 4\u00B0C \u00B1 2\u00B0C", "Red", "visible", "visible");
+
+const platelets = new Component("P", "Platelets", true, true, true, false,
+    "STORE AT 22\u00B0C \u00B1 2\u00B0C EXTENDED LIFE<br />AGITATE GENTLY THROUGHOUT STORAGE", "Yellow", "hidden", "hidden");
+
+const ffp = new Component("F", "Fresh Frozen Plasma", false, false, false, false,
+    "STORE FROZEN AT -25\u00B0C OR BELOW<br />TIME THAWED _______ DATE _______", "Yellow", "hidden", "hidden");
+
+const cryo = new Component("C", "Cryoprecipitate", false, false, false, false,
+    "STORE FROZEN AT -25\u00B0C OR BELOW<br />USE WITHIN 4 HOURS OF THAWING<br />TIME THAWED _______ DATE _______", "Yellow", "hidden", "hidden");
+
+// Granulocytes should have the irradiated button disabled but also always be irradiated.
+const granulocytes = new Component("G", "Granulocytes", true, true, true, true,
+    "DO NOT AGITATE<br />STORE AT 22\u00B0C \u00B1 2\u00B0C", "Red", "hidden", "hidden");
+
+const components = [redCells, platelets, ffp, cryo, granulocytes];
+
+
+
+
 //class Product {
 //    constructor(component, pack, irr, special, availability, code, volume, shelfLife, text) {
 //        this.component = component;
@@ -14,7 +51,7 @@
 
 const products = [
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -25,7 +62,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -36,7 +73,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD, IRRADIATED"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": false,
     "special": true,
@@ -47,7 +84,7 @@ const products = [
     "text": "RED CELLS THAWED AND WASHED, LD MANUAL PREPARATION"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": false,
     "special": true,
@@ -58,7 +95,7 @@ const products = [
     "text": "RED CELLS THAWED AND WASHED, LD CLOSED SYSTEM PREPARATION"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": false,
     "special": true,
@@ -69,7 +106,7 @@ const products = [
     "text": "RED CELLS WASHED, LD. MANUAL WASH IN SAGM"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": true,
     "special": true,
@@ -80,7 +117,7 @@ const products = [
     "text": "RED CELLS WASHED, LD, IRRADIATED. MANUAL WASH IN SAGM"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -91,7 +128,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": false,
     "special": false,
@@ -102,7 +139,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": false,
     "special": false,
@@ -113,7 +150,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": false,
     "special": false,
@@ -124,7 +161,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -135,7 +172,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, LD, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": true,
     "special": false,
@@ -146,7 +183,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, LD, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": true,
     "special": false,
@@ -157,7 +194,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, LD, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": true,
     "special": false,
@@ -168,7 +205,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, LD, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": false,
     "special": true,
@@ -179,7 +216,7 @@ const products = [
     "text": "PLATELETS, APHERESIS IN ADDITIVE SOLUTION PACK 1 LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": false,
     "special": true,
@@ -190,7 +227,7 @@ const products = [
     "text": "PLATELETS, APHERESIS IN ADDITIVE SOLUTION PACK 2 LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": false,
     "special": true,
@@ -201,7 +238,7 @@ const products = [
     "text": "PLATELETS, APHERESIS IN ADDITIVE SOLUTION PACK 3 LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": false,
     "special": true,
@@ -212,7 +249,7 @@ const products = [
     "text": "PLATELETS, APHERESIS IN ADDITIVE SOLUTION LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": true,
     "special": true,
@@ -223,7 +260,7 @@ const products = [
     "text": "PLATELETS, APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, PACK 1 LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": true,
     "special": true,
@@ -234,7 +271,7 @@ const products = [
     "text": "PLATELETS, APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, PACK 2 LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": true,
     "special": true,
@@ -245,7 +282,7 @@ const products = [
     "text": "PLATELETS, APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, PACK 3 LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": true,
     "special": true,
@@ -256,7 +293,7 @@ const products = [
     "text": "PLATELETS APHERESIS IN ADDITIVE SOLUTION, IRRADIATED, LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -267,7 +304,7 @@ const products = [
     "text": "PLATELETS POOLED IN ADDITIVE SOLUTION AND PLASMA, LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -278,7 +315,7 @@ const products = [
     "text": "PLATELETS POOLED IN ADDITIVE SOLUTION AND PLASMA, IRRADIATED, LD"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -289,7 +326,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -300,7 +337,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 1,
     "irr": false,
     "special": false,
@@ -311,7 +348,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 2,
     "irr": false,
     "special": false,
@@ -322,7 +359,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD"
   },
   {
-    "component": "C",
+    "component": cryo,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -333,7 +370,7 @@ const products = [
     "text": "CRYOPRECIPITATE, POOLED, LD"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": true,
     "special": true,
@@ -344,7 +381,7 @@ const products = [
     "text": "RED CELLS, CPD, LD, IRRADIATED, FOR INTRAUTERINE TRANSFUSION"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 1,
     "irr": false,
     "special": false,
@@ -355,7 +392,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 2,
     "irr": false,
     "special": false,
@@ -366,7 +403,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 3,
     "irr": false,
     "special": false,
@@ -377,7 +414,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 4,
     "irr": false,
     "special": false,
@@ -388,7 +425,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 5,
     "irr": false,
     "special": false,
@@ -399,7 +436,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 6,
     "irr": false,
     "special": false,
@@ -410,7 +447,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 1,
     "irr": true,
     "special": false,
@@ -421,7 +458,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 2,
     "irr": true,
     "special": false,
@@ -432,7 +469,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 3,
     "irr": true,
     "special": false,
@@ -443,7 +480,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 4,
     "irr": true,
     "special": false,
@@ -454,7 +491,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 4,
     "irr": true,
     "special": false,
@@ -465,7 +502,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 6,
     "irr": true,
     "special": false,
@@ -476,7 +513,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": true,
     "special": true,
@@ -487,7 +524,7 @@ const products = [
     "text": "RED CELLS (CPD), LD, IRRADIATED FOR EXCHANGE TRANSFUSION"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -498,7 +535,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION, LD FOR NEONATES AND INFANTS"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -509,7 +546,7 @@ const products = [
     "text": "RED CELLS IN ADDITIVE SOLUTION, LD FOR NEONATES AND INFANTS, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": true,
     "special": true,
@@ -520,7 +557,7 @@ const products = [
     "text": "PLATELETS, HYPERCONCENTRATED, IRRADIATED, FOR INTRAUTERINE TRANSFUSION"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": false,
     "special": false,
@@ -531,7 +568,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": false,
     "special": false,
@@ -542,7 +579,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": false,
     "special": false,
@@ -553,7 +590,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 4,
     "irr": false,
     "special": false,
@@ -564,7 +601,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 5,
     "irr": false,
     "special": false,
@@ -575,7 +612,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 6,
     "irr": false,
     "special": false,
@@ -586,7 +623,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 7,
     "irr": false,
     "special": false,
@@ -597,7 +634,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 8,
     "irr": false,
     "special": false,
@@ -608,7 +645,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": true,
     "special": false,
@@ -619,7 +656,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": true,
     "special": false,
@@ -630,7 +667,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": true,
     "special": false,
@@ -641,7 +678,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 4,
     "irr": true,
     "special": false,
@@ -652,7 +689,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 5,
     "irr": true,
     "special": false,
@@ -663,7 +700,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 6,
     "irr": true,
     "special": false,
@@ -674,7 +711,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 7,
     "irr": true,
     "special": false,
@@ -685,7 +722,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 8,
     "irr": true,
     "special": false,
@@ -696,7 +733,7 @@ const products = [
     "text": "PLATELETS IN PLASMA AND ADDITIVE SOLUTION, LD IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 1,
     "irr": false,
     "special": false,
@@ -707,7 +744,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 2,
     "irr": false,
     "special": false,
@@ -718,7 +755,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 3,
     "irr": false,
     "special": false,
@@ -729,7 +766,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 4,
     "irr": false,
     "special": false,
@@ -740,7 +777,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 5,
     "irr": false,
     "special": false,
@@ -751,7 +788,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 6,
     "irr": false,
     "special": false,
@@ -762,7 +799,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 7,
     "irr": false,
     "special": false,
@@ -773,7 +810,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 8,
     "irr": false,
     "special": false,
@@ -784,7 +821,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 9,
     "irr": false,
     "special": false,
@@ -795,7 +832,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 10,
     "irr": false,
     "special": false,
@@ -806,7 +843,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 11,
     "irr": false,
     "special": false,
@@ -817,7 +854,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "F",
+    "component": ffp,
     "pack": 12,
     "irr": false,
     "special": false,
@@ -828,7 +865,7 @@ const products = [
     "text": "FRESH FROZEN PLASMA, LD FOR NEONATAL USE"
   },
   {
-    "component": "C",
+    "component": cryo,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -839,7 +876,7 @@ const products = [
     "text": "CRYOPRECIPITATE, LD FOR NEONATAL USE"
   },
   {
-    "component": "G",
+    "component": granulocytes,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -850,7 +887,7 @@ const products = [
     "text": "GRANULOCYTES, POOLED, IN ADDITIVE SOLUTION / PLASMA MIX, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -861,7 +898,7 @@ const products = [
     "text": "PLATELETS APHERESIS LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": false,
     "special": false,
@@ -872,7 +909,7 @@ const products = [
     "text": "PLATELETS APHERESIS LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": false,
     "special": false,
@@ -883,7 +920,7 @@ const products = [
     "text": "PLATELETS APHERESIS LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": false,
     "special": false,
@@ -894,7 +931,7 @@ const products = [
     "text": "PLATELETS APHERESIS LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -905,7 +942,7 @@ const products = [
     "text": "PLATELETS APHERESIS LD, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": true,
     "special": false,
@@ -916,7 +953,7 @@ const products = [
     "text": "PLATELETS APHERESIS LD, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": true,
     "special": false,
@@ -927,7 +964,7 @@ const products = [
     "text": "PLATELETS APHERESIS LD, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": true,
     "special": false,
@@ -938,7 +975,7 @@ const products = [
     "text": "PLATELETS APHERESIS LD, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -949,7 +986,7 @@ const products = [
     "text": "PLATELETS POOLED IN PLASMA/ADDITIVE MIXTURE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -960,7 +997,7 @@ const products = [
     "text": "PLATELETS POOLED IN PLASMA/ADDITIVE MIX, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -971,7 +1008,7 @@ const products = [
     "text": "PLATELETS POOLED, LD"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -982,7 +1019,7 @@ const products = [
     "text": "PLATELETS POOLED, LD, EXTENDED LIFE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -993,7 +1030,7 @@ const products = [
     "text": "PLATELETS POOLED, LD, EXTENDED LIFE, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": false,
     "special": false,
@@ -1004,7 +1041,7 @@ const products = [
     "text": "PLATELETS POOLED IN ADDITIVE SOLUTION"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -1015,7 +1052,7 @@ const products = [
     "text": "PLATELETS POOLED IN ADDITIVE SOLUTION, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 0,
     "irr": true,
     "special": false,
@@ -1026,7 +1063,7 @@ const products = [
     "text": "PLATELETS POOLED, LD, IRRADIATED"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": false,
     "special": false,
@@ -1037,7 +1074,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 01 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": false,
     "special": false,
@@ -1048,7 +1085,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 02 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": false,
     "special": false,
@@ -1059,7 +1096,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 03 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 4,
     "irr": false,
     "special": false,
@@ -1070,7 +1107,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 04 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 5,
     "irr": false,
     "special": false,
@@ -1081,7 +1118,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 05 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 6,
     "irr": false,
     "special": false,
@@ -1092,7 +1129,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 06 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 7,
     "irr": false,
     "special": false,
@@ -1103,7 +1140,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 07 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 8,
     "irr": false,
     "special": false,
@@ -1114,7 +1151,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 08 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 9,
     "irr": false,
     "special": false,
@@ -1125,7 +1162,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 09 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 10,
     "irr": false,
     "special": false,
@@ -1136,7 +1173,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 10 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 11,
     "irr": false,
     "special": false,
@@ -1147,7 +1184,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 11 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 12,
     "irr": false,
     "special": false,
@@ -1158,7 +1195,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 12 LD FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 1,
     "irr": true,
     "special": false,
@@ -1169,7 +1206,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 01 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 2,
     "irr": true,
     "special": false,
@@ -1180,7 +1217,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 02 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 3,
     "irr": true,
     "special": false,
@@ -1191,7 +1228,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 03 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 4,
     "irr": true,
     "special": false,
@@ -1202,7 +1239,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 04 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 5,
     "irr": true,
     "special": false,
@@ -1213,7 +1250,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 05 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 6,
     "irr": true,
     "special": false,
@@ -1224,7 +1261,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 06 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 7,
     "irr": true,
     "special": false,
@@ -1235,7 +1272,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 07 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 8,
     "irr": true,
     "special": false,
@@ -1246,7 +1283,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 08 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 9,
     "irr": true,
     "special": false,
@@ -1257,7 +1294,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 09 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 10,
     "irr": true,
     "special": false,
@@ -1268,7 +1305,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 10 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 11,
     "irr": true,
     "special": false,
@@ -1279,7 +1316,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 11 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "P",
+    "component": platelets,
     "pack": 12,
     "irr": true,
     "special": false,
@@ -1290,7 +1327,7 @@ const products = [
     "text": "PLATELETS, APHERESIS, PACK 12 LD, IRRADIATED FOR NEONATAL USE"
   },
   {
-    "component": "G",
+    "component": granulocytes,
     "pack": 0,
     "irr": true,
     "special": true,
@@ -1301,7 +1338,7 @@ const products = [
     "text": "LEUCOCYTES, BUFFY COAT, IRRADIATED"
   },
   {
-    "component": "R",
+    "component": redCells,
     "pack": 0,
     "irr": false,
     "special": true,

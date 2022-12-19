@@ -13,6 +13,7 @@ function startup() {
     document.getElementById('bled_date_in').value = dayjs().format('YYYY-MM-DD'); // default bled date is today.
     document.getElementById('din_year_in').value = dayjs().format('YY');
 
+    generateProductsFilter(document.getElementById("product_type_select"));
     generateGroupsForm(document.getElementById('group_select'));
     updateProductsSelectForm();
 
@@ -65,9 +66,10 @@ function updateProductsSelectForm() {
     // clear options from productSelect
     productSelect.length = 0;
 
+    // this one I can possibly update to use the polymorphism.
     // filter products as per form
     const filteredProducts = products.filter(x => {
-        return x.component === productType.value &&
+        return x.component.name === productType.value &&
             x.irr === showIrradiated.checked &&
             x.special === showSpecial.checked &&
             x.availability >= showAvailable.checked;
@@ -99,7 +101,7 @@ function setError(errorMessage, isError, textInputElement) {
     if (textInputElement) {
         if (isError)
             textInputElement.classList.add("errorTextInput");
-        else 
+        else
             textInputElement.classList.remove("errorTextInput");
     }
 }
@@ -192,6 +194,25 @@ function generateDin() {
     document.getElementById('din_eye_readable').textContent = eyeReadableFormatted;
 }
 
+function generateProductsFilter(productSelect) {
+    if (!productSelect) return;
+
+    for (let c of components) {
+        // skip if option already there
+        let alreadyExists = false
+        for (let o of productSelect.options) {
+            if (c.text == o.label) {
+                alreadyExists = true;
+                break;
+            }
+        }
+        if (alreadyExists) continue;
+
+        // add options
+        productSelect.add(new Option(c.text, c.name), undefined);
+    }
+}
+
 function generateGroupsForm(group_select) {
     for (let i = 0; i < groups.length; i++) {
         // skip if option already there
@@ -213,42 +234,26 @@ function generateGroupsForm(group_select) {
 }
 
 function generateGroupLabel(groupIndex) {
-    const group = groups[groupIndex];
+    const group = groups[groupIndex]; // potential index out of range bug.
     const rhdCode = '0';
     const reservedCode = '0';
     barcode = "=%" + group.code + rhdCode + reservedCode;
     generateBarcode(barcode, 'group_barcode_svg', 'code128');
 
+    const groupLabel = document.getElementById('group_label');
     const aboTspan = document.getElementById('abo_tspan');
     const rhdTspan = document.getElementById('rhd_tspan');
-    const aboText = document.getElementById('abo_text');
-    const rhdText = document.getElementById('rhd_text');
-    const rhdBackground = document.getElementById('rhd_background');
     const smallDPhen = document.getElementById('D_type_tspan');
 
-    if (!aboTspan || !rhdTspan || !aboText || !rhdText || !rhdBackground || !smallDPhen) return;
+    if (!groupLabel || !aboTspan || !rhdTspan || !smallDPhen) return;
 
     aboTspan.textContent = group.abo;
-    switch (group.rhd) {
-        case '+':
-            rhdTspan.textContent = "Rh D POSITIVE";
-            rhdBackground.style.fill = '#FFFFFF';
-            rhdText.style.fill = '#000000';
-            rhdTspan.style.fill = '#000000';
-            aboText.style.fill = '#000000';
-            aboText.style.stroke = 'none';
-            smallDPhen.textContent = '+';
-            break;
-        case '-':
-            rhdTspan.textContent = "Rh D NEGATIVE";
-            rhdBackground.style.fill = '#000000';
-            rhdText.style.fill = '#FFFFFF';
-            rhdTspan.style.fill = '#FFFFFF';
-            aboText.style.fill = 'none';
-            aboText.style.stroke = '#000000';
-            smallDPhen.textContent = '\u2013'; // en dash (–), not -.
-            break;
-    }
+    rhdTspan.textContent = group.rhd.rhdText;
+    smallDPhen.textContent = group.rhd.smallDText;
+
+    groupLabel.classList.remove("pos");
+    groupLabel.classList.remove("neg");
+    groupLabel.classList.add(group.rhd.cssClass);
 }
 
 function productFiltersChanged() {
@@ -261,43 +266,20 @@ function productFiltersChanged() {
     if (!productTypeSelect || !irradIn || !specialIn || !cmvIn || !hbsIn) return;
 
     // update DOM elements of the product form based on product type
-    switch (productTypeSelect.value) {
-        case "R":
-            irradIn.disabled = false;
-            specialIn.disabled = false;
-            cmvIn.disabled = false;
-            hbsIn.disabled = false;
-            break;
-        case "P":
-            irradIn.disabled = false;
-            specialIn.disabled = false;
+    const selectedComponent = components.find(x => { return x.name === productTypeSelect.value });
+    irradIn.disabled = !selectedComponent.irradPossible;
+    specialIn.disabled = !selectedComponent.specialPossible;
+    cmvIn.disabled = !selectedComponent.cmvPossible;
+    hbsIn.disabled = !selectedComponent.hbsPossible;
+    if (!selectedComponent.irradPossible) irradIn.checked = false;
+    if (!selectedComponent.specialPossible) specialIn.checked = false;
+    if (!selectedComponent.cmvPossible) cmvIn.checked = false;
+    if (!selectedComponent.hbsPossible) hbsIn.checked = false;
 
-            cmvIn.disabled = false;
-            hbsIn.checked = false;
-            hbsIn.disabled = true;
-            break;
-        case "F":
-        case "C":
-            irradIn.checked = false;
-            specialIn.checked = false;
-            irradIn.disabled = true;
-            specialIn.disabled = true;
-
-            cmvIn.checked = false;
-            cmvIn.disabled = true;
-            hbsIn.checked = false;
-            hbsIn.disabled = true;
-            break;
-        case "G":
-            irradIn.checked = true;
-            irradIn.disabled = true;
-            specialIn.disabled = false;
-
-            cmvIn.disabled = false;
-            hbsIn.disabled = false;
-            break;
-        default:
-            return;
+    // special case, force irradiated for granulocytes but disable the button.
+    if (selectedComponent.name == "G") {
+        irradIn.checked = true;
+        irradIn.disabled = true;
     }
 
     // update things that might have changed because product list changed.
@@ -353,7 +335,6 @@ function antigensChanged() {
     antigens_out.textContent = "NEG: " + newText;
 }
 
-// this is a mess. need to decide whether to use more html or svg for the product label and get rid of what i don't need.
 function generateProductLabel(productCode) {
     if (productCode == null || productCode == "") return;
 
@@ -365,77 +346,34 @@ function generateProductLabel(productCode) {
     generateBarcode(barcode, 'product_barcode_svg_3', 'codabar');
 
     const productTextFo = document.getElementById('product_text_fo');
+    const packTextBlock = document.getElementById('packTextBlock');
     const packTextFo = document.getElementById('pack_text_fo');
-    const packBackgroundFo = document.getElementById('pack_background_fo');
+    if (!productTextFo || !packTextBlock || !packTextFo) return;
 
-    // will change this to the foreignObject method, but for now like this.
-    //document.getElementById('product_tspan').textContent = selectedProduct.text;                // to remove later
-    //document.getElementById('product_tspan_line2').textContent = "";                            // to remove later
-    if (productTextFo) {
-        productTextFo.textContent = selectedProduct.text;                          // new method
+    productTextFo.textContent = selectedProduct.text;
 
-        productTextFo.style.fontSize = "9pt"; // default
-        productTextFo.style.letterSpacing = "0px"; // default
-        shrinkLetterSpacingToFitParent(productTextFo, document.getElementById('product_text_fo_parent'));
-    }
-
+    // default font settings then shrink to fit if necessary
+    productTextFo.style.fontSize = "9pt";
+    productTextFo.style.letterSpacing = "0px";
+    shrinkLetterSpacingToFitParent(productTextFo, document.getElementById('product_text_fo_parent'));
 
     if (selectedProduct.pack < 1) {
-        //document.getElementById('pack_no_tspan').textContent = "";                              // to remove later
-        //document.getElementById('pack_no_background').style.fill = "none";                      // to remove later
-        if (packTextFo) packTextFo.textContent = "";                                              // new method
-        if (packBackgroundFo) packBackgroundFo.style.fill = "none";                               // new method
+        packTextFo.textContent = "";
+        packTextBlock.style.visibility = "hidden";
     }
     else {
-        //document.getElementById('pack_no_tspan').textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0'); // to remove later
-        //document.getElementById('pack_no_background').style.fill = "#000000";                   // to remove later
-        if (packTextFo) packTextFo.textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0');  // new method
-        if (packBackgroundFo) packBackgroundFo.style.fill = "#000000";                            // new method
+        packTextFo.textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0');
+        packTextBlock.style.visibility = "visible";
     }
 
-    let storageText, gradient, anticoagulantVisibility, rhPhenVisibility;
-    switch (selectedProduct.component) {
-        case 'R':
-            storageText = "STORE AT 4\u00B0C \u00B1 2\u00B0C";
-            gradient = "#linearGradientFluidRed";
-            anticoagulantVisibility = "visible";
-            rhPhenVisibility = "visible";
-            break;
-        case 'P':
-            storageText = "STORE AT 22\u00B0C \u00B1 2\u00B0C EXTENDED LIFE<br />AGITATE GENTLY THROUGHOUT STORAGE";
-            gradient = "#linearGradientFluidYellow";
-            anticoagulantVisibility = "hidden";
-            rhPhenVisibility = "hidden";
-            break;
-        case 'F':
-            storageText = "STORE FROZEN AT -25\u00B0C OR BELOW<br />TIME THAWED _______ DATE _______";
-            gradient = "#linearGradientFluidYellow";
-            anticoagulantVisibility = "hidden";
-            rhPhenVisibility = "hidden";
-            break;
-        case 'C':
-            storageText = "STORE FROZEN AT -25\u00B0C OR BELOW<br />USE WITHIN 4 HOURS OF THAWING<br />TIME THAWED _______ DATE _______";
-            gradient = "#linearGradientFluidYellow";
-            anticoagulantVisibility = "hidden";
-            rhPhenVisibility = "hidden";
-            break;
-        case 'G':
-            storageText = "DO NOT AGITATE<br />STORE AT 22\u00B0C \u00B1 2\u00B0C"
-            gradient = "#linearGradientFluidRed";
-            anticoagulantVisibility = "hidden";
-            rhPhenVisibility = "hidden";
-            break;
-    }
-    //document.getElementById('storage_tspan').textContent = storageText; // to remove later
-    document.getElementById('storage_text_fo').innerHTML = storageText; // new method
-    document.getElementById('linearGradientFluidUrl1').setAttribute("xlink:href", gradient);
-    document.getElementById('linearGradientFluidUrl2').setAttribute("xlink:href", gradient);
-    //document.getElementById('volume_tspan').textContent = selectedProduct.volume + " mL"; // to remove later
-    document.getElementById('volume_text_fo').innerHTML = "Volume<br />" + selectedProduct.volume + " mL"; // new method
-    document.getElementById('anticoagulant_info').style.visibility = anticoagulantVisibility;
-    document.getElementById('rh_phen_group').style.visibility = rhPhenVisibility;
-    document.getElementById('rhc_select').disabled = (rhPhenVisibility == "hidden");
-    document.getElementById('rhe_select').disabled = (rhPhenVisibility == "hidden");
+    document.getElementById('storage_text_fo').innerHTML = selectedProduct.component.storageText;
+    document.getElementById('linearGradientFluidUrl1').setAttribute("xlink:href", "#linearGradientFluid" + selectedProduct.component.color);
+    document.getElementById('linearGradientFluidUrl2').setAttribute("xlink:href", "#linearGradientFluid" + selectedProduct.component.color);
+    document.getElementById('volume_text_fo').innerHTML = "Volume<br />" + selectedProduct.volume + " mL";
+    document.getElementById('anticoagulant_info').style.visibility = selectedProduct.component.anticoagulantTextVisibility;
+    document.getElementById('rh_phen_group').style.visibility = selectedProduct.component.rhPhenVisibility;
+    document.getElementById('rhc_select').disabled = (selectedProduct.component.rhPhenVisibility == "hidden");
+    document.getElementById('rhe_select').disabled = (selectedProduct.component.rhPhenVisibility == "hidden");
     document.getElementById('irradiated_sticker').style.visibility = selectedProduct.irr ? "visible" : "hidden";
 }
 

@@ -4,7 +4,7 @@
 }
 
 @media print {
-    div.centerOnPrintedPage {
+    .centerOnPrintedPage {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -12,7 +12,7 @@
         height: 99vh;
     }
 
-    header, footer, nav, aside, form, .form {
+    header, footer, nav, aside, form, .noPrint {
         display: none;
     }
 
@@ -40,80 +40,151 @@ body {
     background: lightpink;
 }
 
+.formTable {
+    border-collapse: collapse;
+    text-align: center;
+    width: 100%
+}
+
 .formCell {
     border: 1px solid black;
     padding: 2px 5px 2px 5px;
 }
 
-.svg-path1 {
+input[type=text] {
+    text-align: center;
+}
+
+.abo {
+    font-weight: bold;
+    font-stretch: condensed;
+    font-size: 26.8111px;
+    font-family: sans-serif;
+    text-align: center;
+    text-anchor: middle;
+    stroke-width: 1.165;
+}
+
+g#group_label.pos .abo {
+    stroke: none;
+    fill: black;
+}
+
+g#group_label.neg .abo {
+    stroke: black;
+    fill: none;
+}
+
+.rhdText {
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 5.29167px;
+    font-family: sans-serif;
+    text-align: start;
+    text-anchor: middle;
+    stroke: none;
+}
+
+g#group_label.pos .rhdText {
+    fill: black
+}
+
+g#group_label.neg .rhdText {
+    fill: white
+}
+
+.rhdBackground {
+    display: inline;
+    opacity: 1;
+    fill-opacity: 1;
+    stroke: none;
+    stroke-width: 1;
+    stroke-dasharray: none;
+    stroke-opacity: 1;
+}
+
+g#group_label.pos .rhdBackground {
+    fill: white;
+}
+
+g#group_label.neg .rhdBackground {
+    fill: black;
+}
+
+.packText {
+    font-family: sans-serif;
+    font-size: 3.175mm;
+    font-weight: bold;
+    font-stretch: condensed;
+    text-align: left;
+    color: white;
+    margin: 0;
+    padding-left: 1.2mm;
+    padding-right: 1.2mm;
+}
+
+.packBackground {
+    opacity: 1;
+    fill: black;
+    fill-opacity: 1;
+    stroke: none;
+}
+
+.pathEmbossed {
     opacity: 0.5;
     fill: none;
-    fill-opacity: 1;
-    fill-rule: nonzero;
-    stroke: #000;
+    stroke: black;
     stroke-width: 0.5;
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-    stroke-opacity: 1
 }
 
-.svg-path2 {
-    opacity: 1;
+.pathLines2px {
     fill: none;
-    fill-opacity: 1;
-    fill-rule: nonzero;
-    stroke: #000;
+    stroke: black;
     stroke-width: 0.5;
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-    stroke-opacity: 1
 }
 
-.svg-path3 {
-    opacity: 1;
-    fill: #fff;
+.pathLines1px {
+    fill: none;
+    stroke: black;
+    stroke-width: 0.265;
+}
+
+.pathBagOutline {
+    fill: white;
     fill-opacity: 0.75;
-    fill-rule: nonzero;
-    stroke: #000;
+    stroke: black;
     stroke-width: 0.5;
-    stroke-dasharray: none;
-    stroke-dashoffset: 0;
-    stroke-opacity: 1
 }
 
-.svg-path4 {
-    opacity: 1;
-    fill: none;
-    stroke: #000;
-    stroke-width: 0.5;
-    stroke-opacity: 1
+.rhPhenText {
+    font-weight: bold;
+    font-stretch: condensed;
+    font-size: 3.175px;
+    font-family: sans-serif;
+    text-align: center;
+    text-anchor: middle;
+    fill: black;
+    stroke: none;
 }
 
-.svg-path5 {
-    opacity: 1;
-    fill: none;
-    fill-opacity: 1;
-    stroke: #000;
-    stroke-width: 0.5;
-    stroke-dasharray: none;
-    stroke-opacity: 1
+.text1 {
+    font-family: sans-serif;
+    font-size: 1.85839mm;
+    font-weight: bold;
+    font-stretch: condensed;
+    text-align: left;
+    margin: 0;
+    padding-left: 1.2mm;
+    padding-right: 1.2mm;
 }
 
-.svg-path6 {
-    opacity: 0.5;
-    fill: none;
-    fill-opacity: 1;
-    stroke: #000;
-    stroke-width: 0.5;
-    stroke-dasharray: none;
-    stroke-opacity: 1
+.text2 {
+    font-family: sans-serif;
+    font-size: 2.82222mm;
+    font-weight: bold;
+    font-stretch: condensed;
+    text-align: left;
+    margin: 0;
+    padding-left: 1.2mm;
+    padding-right: 1.2mm;
 }
-
-.svg-path7 {
-    opacity: 1;
-    fill: none;
-    fill-opacity: 0.75;
-    stroke: #000;
-    stroke-width: 0.5;
-    stroke-dasharray: none;
-    stroke-opacity: 1
