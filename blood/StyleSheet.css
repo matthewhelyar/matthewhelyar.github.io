@@ -72,7 +72,6 @@ g#group_label.neg .abo {
     font-family: sans-serif;
     text-align: start;
     text-anchor: middle;
-    fill: blue;
     stroke: none;
 }
 
@@ -87,7 +86,6 @@ g#group_label.neg .rhdText {
 .rhdBackground {
     display: inline;
     opacity: 1;
-    fill: red;
     fill-opacity: 1;
     stroke: none;
     stroke-width: 1;

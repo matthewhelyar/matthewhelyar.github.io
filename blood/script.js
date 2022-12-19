@@ -243,12 +243,9 @@ function generateGroupLabel(groupIndex) {
     const groupLabel = document.getElementById('group_label');
     const aboTspan = document.getElementById('abo_tspan');
     const rhdTspan = document.getElementById('rhd_tspan');
-    const aboText = document.getElementById('abo_text');
-    const rhdText = document.getElementById('rhd_text');
-    const rhdBackground = document.getElementById('rhd_background');
     const smallDPhen = document.getElementById('D_type_tspan');
 
-    if (!aboTspan || !rhdTspan || !aboText || !rhdText || !rhdBackground || !smallDPhen) return;
+    if (!groupLabel || !aboTspan || !rhdTspan || !smallDPhen) return;
 
     aboTspan.textContent = group.abo;
     rhdTspan.textContent = group.rhd.rhdText;
@@ -256,7 +253,7 @@ function generateGroupLabel(groupIndex) {
 
     groupLabel.classList.remove("pos");
     groupLabel.classList.remove("neg");
-    groupLabel.classList.add(group.rhd.name);
+    groupLabel.classList.add(group.rhd.cssClass);
 }
 
 function productFiltersChanged() {

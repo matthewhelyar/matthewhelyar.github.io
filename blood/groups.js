@@ -1,6 +1,6 @@
 class RhD {
-    constructor(name, rhdText, smallDText) {
-        this.name = name;
+    constructor(cssClass, rhdText, smallDText) {
+        this.cssClass = cssClass;
         this.rhdText = rhdText;
         this.smallDText = smallDText;
     }
