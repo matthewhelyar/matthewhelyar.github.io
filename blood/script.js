@@ -346,9 +346,9 @@ function generateProductLabel(productCode) {
     generateBarcode(barcode, 'product_barcode_svg_3', 'codabar');
 
     const productTextFo = document.getElementById('product_text_fo');
+    const packTextBlock = document.getElementById('packTextBlock');
     const packTextFo = document.getElementById('pack_text_fo');
-    const packBackgroundFo = document.getElementById('pack_background_fo');
-    if (!productTextFo || !packTextFo || !packBackgroundFo) return;
+    if (!productTextFo || !packTextBlock || !packTextFo) return;
 
     productTextFo.textContent = selectedProduct.text;
 
@@ -359,11 +359,11 @@ function generateProductLabel(productCode) {
 
     if (selectedProduct.pack < 1) {
         packTextFo.textContent = "";
-        packBackgroundFo.style.fill = "none";
+        packTextBlock.style.visibility = "hidden";
     }
     else {
         packTextFo.textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0');
-        packBackgroundFo.style.fill = "#000000";
+        packTextBlock.style.visibility = "visible";
     }
 
     document.getElementById('storage_text_fo').innerHTML = selectedProduct.component.storageText;
