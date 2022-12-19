@@ -240,6 +240,7 @@ function generateGroupLabel(groupIndex) {
     barcode = "=%" + group.code + rhdCode + reservedCode;
     generateBarcode(barcode, 'group_barcode_svg', 'code128');
 
+    const groupLabel = document.getElementById('group_label');
     const aboTspan = document.getElementById('abo_tspan');
     const rhdTspan = document.getElementById('rhd_tspan');
     const aboText = document.getElementById('abo_text');
@@ -253,14 +254,9 @@ function generateGroupLabel(groupIndex) {
     rhdTspan.textContent = group.rhd.rhdText;
     smallDPhen.textContent = group.rhd.smallDText;
 
-    rhdBackground.style.fill = group.rhd.rhdBackground;
-    rhdText.style.fill = group.rhd.rhdTextFill;
-    rhdTspan.style.fill = group.rhd.rhdTextFill;
-
-    aboText.classList.remove("pos");
-    aboText.classList.remove("neg");
-    aboText.classList.add(group.rhd.name);
-
+    groupLabel.classList.remove("pos");
+    groupLabel.classList.remove("neg");
+    groupLabel.classList.add(group.rhd.name);
 }
 
 function productFiltersChanged() {

@@ -52,20 +52,56 @@ body {
     font-family: sans-serif;
     text-align: center;
     text-anchor: middle;
-    fill: red;
-    stroke: blue;
     stroke-width: 1.165;
 }
 
-    .abo.pos {
-        stroke: none;
-        fill: black;
-    }
+g#group_label.pos .abo {
+    stroke: none;
+    fill: black;
+}
 
-    .abo.neg {
-        stroke: black;
-        fill: none;
-    }
+g#group_label.neg .abo {
+    stroke: black;
+    fill: none;
+}
+
+.rhdText {
+    font-weight: bold;
+    font-stretch: normal;
+    font-size: 5.29167px;
+    font-family: sans-serif;
+    text-align: start;
+    text-anchor: middle;
+    fill: blue;
+    stroke: none;
+}
+
+g#group_label.pos .rhdText {
+    fill: black
+}
+
+g#group_label.neg .rhdText {
+    fill: white
+}
+
+.rhdBackground {
+    display: inline;
+    opacity: 1;
+    fill: red;
+    fill-opacity: 1;
+    stroke: none;
+    stroke-width: 1;
+    stroke-dasharray: none;
+    stroke-opacity: 1;
+}
+
+g#group_label.pos .rhdBackground {
+    fill: white;
+}
+
+g#group_label.neg .rhdBackground {
+    fill: black;
+}
 
 .svg-path1 {
     opacity: 0.5;
