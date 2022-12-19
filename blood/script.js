@@ -251,12 +251,15 @@ function generateGroupLabel(groupIndex) {
 
     aboTspan.textContent = group.abo;
     rhdTspan.textContent = group.rhd.rhdText;
+    smallDPhen.textContent = group.rhd.smallDText;
+
     rhdBackground.style.fill = group.rhd.rhdBackground;
     rhdText.style.fill = group.rhd.rhdTextFill;
     rhdTspan.style.fill = group.rhd.rhdTextFill;
-    aboText.style.fill = group.rhd.aboTextFill;
-    aboText.style.stroke = group.rhd.aboStroke;
-    smallDPhen.textContent = group.rhd.smallDText;
+
+    aboText.classList.remove("pos");
+    aboText.classList.remove("neg");
+    aboText.classList.add(group.rhd.name);
 
 }
 

@@ -1,5 +1,5 @@
 class RhD {
-    constructor(name, rhdText, smallDText, rhdBackground, rhdTextFill, aboStroke, aboTextFill) {
+    constructor(name, rhdText, smallDText, rhdBackground, rhdTextFill, /*aboStroke, aboTextFill*/) {
         this.name = name;
         this.rhdText = rhdText;
         this.smallDText = smallDText;
@@ -7,13 +7,13 @@ class RhD {
         // the following should be done in CSS.
         this.rhdBackground = rhdBackground;
         this.rhdTextFill = rhdTextFill;
-        this.aboStroke = aboStroke;
-        this.aboTextFill = aboTextFill;
+        //this.aboStroke = aboStroke;
+        //this.aboTextFill = aboTextFill;
     }
 }
 
-const rhdPos = new RhD("+", "Rh D POSITIVE", "+", "white", "black", "none", "black");
-const rhdNeg = new RhD("-", "Rh D NEGATIVE", "\u2013", "black", "white", "black", "none");  // en dash (–), not -.
+const rhdPos = new RhD("pos", "Rh D POSITIVE", "+", "white", "black", /*"none", "black"*/);
+const rhdNeg = new RhD("neg", "Rh D NEGATIVE", "\u2013", "black", "white", /*"black", "none"*/);  // en dash (–), not -.
 
 
 //class Group {

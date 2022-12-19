@@ -45,6 +45,28 @@ body {
     padding: 2px 5px 2px 5px;
 }
 
+.abo {
+    font-weight: bold;
+    font-stretch: condensed;
+    font-size: 26.8111px;
+    font-family: sans-serif;
+    text-align: center;
+    text-anchor: middle;
+    fill: red;
+    stroke: blue;
+    stroke-width: 1.165;
+}
+
+    .abo.pos {
+        stroke: none;
+        fill: black;
+    }
+
+    .abo.neg {
+        stroke: black;
+        fill: none;
+    }
+
 .svg-path1 {
     opacity: 0.5;
     fill: none;
