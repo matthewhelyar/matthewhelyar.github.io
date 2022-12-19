@@ -65,9 +65,10 @@ function updateProductsSelectForm() {
     // clear options from productSelect
     productSelect.length = 0;
 
+    // this one I can possibly update to use the polymorphism.
     // filter products as per form
     const filteredProducts = products.filter(x => {
-        return x.component === productType.value &&
+        return x.component.name === productType.value &&
             x.irr === showIrradiated.checked &&
             x.special === showSpecial.checked &&
             x.availability >= showAvailable.checked;
@@ -261,6 +262,9 @@ function productFiltersChanged() {
     if (!productTypeSelect || !irradIn || !specialIn || !cmvIn || !hbsIn) return;
 
     // update DOM elements of the product form based on product type
+
+
+    // this is a switch on the DOM select value, not the product, so will be tricky to relpace with polymorphism on Component class.
     switch (productTypeSelect.value) {
         case "R":
             irradIn.disabled = false;
@@ -394,7 +398,9 @@ function generateProductLabel(productCode) {
     }
 
     let storageText, gradient, anticoagulantVisibility, rhPhenVisibility;
-    switch (selectedProduct.component) {
+
+    // this one I can replace with polymorphism on Component class.
+    switch (selectedProduct.component.name) {
         case 'R':
             storageText = "STORE AT 4\u00B0C \u00B1 2\u00B0C";
             gradient = "#linearGradientFluidRed";
@@ -420,7 +426,7 @@ function generateProductLabel(productCode) {
             rhPhenVisibility = "hidden";
             break;
         case 'G':
-            storageText = "DO NOT AGITATE<br />STORE AT 22\u00B0C \u00B1 2\u00B0C"
+            storageText = "DO NOT AGITATE<br />STORE AT 22\u00B0C \u00B1 2\u00B0C";
             gradient = "#linearGradientFluidRed";
             anticoagulantVisibility = "hidden";
             rhPhenVisibility = "hidden";
