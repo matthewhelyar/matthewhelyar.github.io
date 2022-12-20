@@ -6,49 +6,33 @@
 
 window.onload = startup;
 
+// globals -> eventually use eventListeners instead of HTML to get rid of these.
+const barcodeGenerator = new BarcodeGenerator();
+
 function startup() {
-    generateBarcode("a8738a", 'cmv_barcode_svg', 'codabar');
-    generateBarcode("=)0MAVXX603B", 'bag_mfg_barcode_svg', 'code128');
+    // set up objects
+    const errorHandler = new ErrorHandler();
+    const din = new Din(errorHandler, barcodeGenerator);
 
+    // these barcodes don't change.
+    barcodeGenerator.generateBarcodefromId("a8738a", 'cmv_barcode_svg', 'codabar');
+    barcodeGenerator.generateBarcodefromId("=)0MAVXX603B", 'bag_mfg_barcode_svg', 'code128');
+
+    // other setup stuff
     document.getElementById('bled_date_in').value = dayjs().format('YYYY-MM-DD'); // default bled date is today.
-    document.getElementById('din_year_in').value = dayjs().format('YY');
-
     generateProductsFilter(document.getElementById("product_type_select"));
     generateGroupsForm(document.getElementById('group_select'));
     updateProductsSelectForm();
-
-    generateDin();
     generateGroupLabel(document.getElementById('group_select').value);
     updateRhceLabel(document.getElementById('rhc_select').value, document.getElementById('rhe_select').value);
     antigensChanged();
     productFiltersChanged();
-
     setExpiryDate();
     generateExpiryLabel();
 }
 
 function generateBarcode(value, svgId, format) {
-    // store existing size attribtues
-    const s = document.getElementById(svgId);
-    if (s == null) return;
-    const x = s.getAttribute('x');
-    const y = s.getAttribute('y');
-    const h = s.getAttribute('height');
-    const w = s.getAttribute('width');
-
-    // generate new SVG
-    JsBarcode('#' + svgId, value, {
-        format: format,
-        displayValue: false,
-        margin: 0,
-    });
-
-    // set the SVG's attributes back to the stored ones.
-    s.setAttribute('preserveAspectRatio', 'none')
-    s.setAttribute('x', x);
-    s.setAttribute('y', y);
-    s.setAttribute('width', w);
-    s.setAttribute('height', h);
+    barcodeGenerator.generateBarcodefromId(value, svgId, format);
 }
 
 function updateProductsSelectForm() {
@@ -88,110 +72,6 @@ function updateProductsSelectForm() {
         productSelect.value = currentlySelectedProduct;
     else
         selectedProductChanged(productSelect.value);
-}
-
-function setError(errorMessage, isError, textInputElement) {
-    if (isError)
-        errorText.innerHTML += "<li>" + errorMessage + "</li>";
-    else
-        errorText.innerHTML = "";
-
-    errorText.style.display = isError ? "block" : "none";
-
-    if (textInputElement) {
-        if (isError)
-            textInputElement.classList.add("errorTextInput");
-        else
-            textInputElement.classList.remove("errorTextInput");
-    }
-}
-
-function generateDin() {
-    // get form data in upper case without spaces.
-    const regexSpace = /\s/g;
-    const finIn = document.getElementById('din_fin_in');
-    const yearIn = document.getElementById('din_year_in');
-    const seqIn = document.getElementById('din_seq_in');
-    if (!finIn || !yearIn || !seqIn) return;
-
-    const fin_str = finIn.value.replace(regexSpace, '').toUpperCase();
-    const year_str = yearIn.value.replace(regexSpace, '').toUpperCase();
-    const seq_str = seqIn.value.replace(regexSpace, '').toUpperCase();
-
-    setError("", false, finIn);
-    setError("", false, yearIn);
-    setError("", false, seqIn);
-    // check input validity
-    let errorSet = false;
-    if (fin_str.length != 5) {
-        setError("FIN string wrong length. Must be 5 characters.", true, finIn);
-        errorSet = true;
-    };
-    if (/[^A-NP-Z0-9]/g.test(fin_str.slice(0, 3))) {
-        setError("The first 3 digits of FIN can only contain A-N, P-Z or 0-9.", true, finIn);
-        errorSet = true;
-    };
-    if (isNaN(fin_str.slice(3))) {
-        setError("The last 2 digits of FIN can only contain numbers.", true, finIn);
-        errorSet = true;
-    };
-    if (year_str.length != 2 || isNaN(year_str) || year_str < 0 || year_str > 99) {
-        setError("Year string wrong. Must be a 2 digit number between 00 and 99.", true, yearIn);
-        errorSet = true;
-    };
-    if (seq_str.length != 6 || isNaN(seq_str) || year_str < 0 || year_str > 999999) {
-        setError("Sequence number string wrong. Must be a 6 digit number between 000000 and 999999.", true, seqIn);
-        errorSet = true;
-    };
-
-    // concatenate string
-    const din_str = fin_str + year_str + seq_str;
-    if (din_str.length != 13) {
-        setError("DIN string wrong length", true, null);
-        errorSet = true;
-    };
-
-    if (errorSet) return;
-
-    // feed back corrected strings into form.
-    document.getElementById('din_fin_in').value = fin_str;
-    document.getElementById('din_year_in').value = year_str;
-    document.getElementById('din_seq_in').value = seq_str;
-
-    // split din into array
-    let din_arr = din_str.split("");
-
-    // calculate checksum, both eye readable and numerical
-    const charArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '*'];
-    let sum = 0;
-    for (let i = 0; i < din_arr.length; i++) {
-        // look up character in array to find equivalent int value (which is array index)
-        const value = charArray.findIndex((x) => x == din_arr[i]);
-        if (value < 0) {
-            setError("Error: Non-alphanumeric character in checksum calculation. Unable to continue.", true);
-            return;
-        }
-        const weight = Math.pow(2, 13 - i);
-        const weightedValue = weight * value;
-        sum += weightedValue;
-    }
-    // modulo to get value between 0 and 36
-    const checkDigit = (38 - (sum % 37)) % 37;
-
-    // convert back from value to character
-    const checkChar = charArray[checkDigit];
-
-    // write checkChar back to form
-    document.getElementById('din_cd_in').value = checkChar;
-
-    const barcode = "=" + din_str + (checkDigit + 60);
-    const smallBarcode = "&a" + seq_str;
-    const eyeReadableFormatted = din_str.slice(0, 4) + ' ' + din_str.slice(4, 7) + ' ' + din_str.slice(7, 10) + ' ' + din_str.slice(10, 13) + '  ' + checkChar;
-
-    // apply code to SVG both eye reable and barcode.
-    generateBarcode(barcode, 'din_barcode_svg', 'code128');
-    generateBarcode(smallBarcode, 'din_small_barcode_svg', 'code128');
-    document.getElementById('din_eye_readable').textContent = eyeReadableFormatted;
 }
 
 function generateProductsFilter(productSelect) {
