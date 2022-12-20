@@ -31,10 +31,6 @@ function startup() {
     generateExpiryLabel();
 }
 
-function generateBarcode(value, svgId, format) {
-    barcodeGenerator.generateBarcodefromId(value, svgId, format);
-}
-
 function updateProductsSelectForm() {
     // get DOM elements
     const productSelect = document.getElementById('product_select');
@@ -118,7 +114,7 @@ function generateGroupLabel(groupIndex) {
     const rhdCode = '0';
     const reservedCode = '0';
     barcode = "=%" + group.code + rhdCode + reservedCode;
-    generateBarcode(barcode, 'group_barcode_svg', 'code128');
+    barcodeGenerator.generateBarcodefromId(barcode, 'group_barcode_svg', 'code128');
 
     const groupLabel = document.getElementById('group_label');
     const aboTspan = document.getElementById('abo_tspan');
@@ -222,8 +218,8 @@ function generateProductLabel(productCode) {
     if (selectedProduct == null) return;
 
     const barcode = "a0" + selectedProduct.code + "3b";
-    generateBarcode(barcode, 'product_barcode_svg', 'codabar');
-    generateBarcode(barcode, 'product_barcode_svg_3', 'codabar');
+    barcodeGenerator.generateBarcodefromId(barcode, 'product_barcode_svg', 'codabar');
+    barcodeGenerator.generateBarcodefromId(barcode, 'product_barcode_svg_3', 'codabar');
 
     const productTextFo = document.getElementById('product_text_fo');
     const packTextBlock = document.getElementById('packTextBlock');
@@ -290,7 +286,7 @@ function generateExpiryLabel() {
     // generate barcode
     const dayNumberString = String(getDayNumber(expiryDate)).padStart(3, '0');
     const barcode = "a" + expiryDate.year() + dayNumberString + "a";
-    generateBarcode(barcode, 'expiry_barcode_svg', 'codabar');
+    barcodeGenerator.generateBarcodefromId(barcode, 'expiry_barcode_svg', 'codabar');
 
     // generate text
     expiryTspan.textContent = expiryDate.format("DD MMM YYYY");
