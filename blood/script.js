@@ -10,115 +10,33 @@ window.onload = startup;
 const barcodeGenerator = new BarcodeGenerator();
 
 function startup() {
-    // set up objects
+    // these barcodes don't change. - cmv barcode must be before group
+    barcodeGenerator.generateBarcodefromId("a8738a", 'cmv_barcode_svg', 'codabar');
+    barcodeGenerator.generateBarcodefromId("=)0MAVXX603B", 'bag_mfg_barcode_svg', 'code128');
+
+    // set up DIN
     const errorHandler = new ErrorHandler();
     const dinLabel = new DinLabel(barcodeGenerator);
     const dinForm = new DinForm(errorHandler, dinLabel);
 
+    // set up groups - must be before products
+    const groupLabel = new GroupsLabel(barcodeGenerator);
+    const groupForm = new GroupsForm(groupLabel);
+
+    // set up bled - must be before products (updateProductSelect -> setExpiryDate -> reads bledDate)
+    document.getElementById('bled_date_in').value = dayjs().format('YYYY-MM-DD'); // default bled date is today.
+
+    // set up products
     const components = [redCells, platelets, ffp, cryo, granulocytes];
     const productLabel = new ProductsLabel(barcodeGenerator);
-    const productForm = new ProductsForm(productLabel, components);
+    const productForm = new ProductsForm(productLabel, components, groupLabel);
 
-    // these barcodes don't change.
-    barcodeGenerator.generateBarcodefromId("a8738a", 'cmv_barcode_svg', 'codabar');
-    barcodeGenerator.generateBarcodefromId("=)0MAVXX603B", 'bag_mfg_barcode_svg', 'code128');
-
-    // other setup stuff
-    document.getElementById('bled_date_in').value = dayjs().format('YYYY-MM-DD'); // default bled date is today.
-    generateGroupsForm(document.getElementById('group_select'));
-    generateGroupLabel(document.getElementById('group_select').value);
-    updateRhceLabel(document.getElementById('rhc_select').value, document.getElementById('rhe_select').value);
-    antigensChanged();
+    // set up expiry - must be after products (setExpiryDate -> reads productSelect)
     setExpiryDate();
     generateExpiryLabel();
 }
 
 // this is on the group label, but set by changing product form. ? where to put it.
-function updateCmvHbsLabel(cmvChecked, hbsChecked) {
-    // get DOM elements
-    const hbs_cmv_tspan = document.getElementById('hbs_cmv_tspan');
-    const cmv_barcode_svg = document.getElementById('cmv_barcode_svg');
-    if (!hbs_cmv_tspan || !cmv_barcode_svg) return;
-
-    // generate text
-    let newText = "";
-    if (hbsChecked && cmvChecked)
-        newText = "HbS Neg, CMV Neg";
-    else if (hbsChecked)
-        newText = "HbS Neg";
-    else if (cmvChecked)
-        newText = "CMV Neg";
-
-    // apply to SVG
-    hbs_cmv_tspan.textContent = newText;
-    cmv_barcode_svg.style.visibility = (cmvChecked) ? "visible" : "hidden";
-}
-
-function generateGroupsForm(group_select) {
-    for (let i = 0; i < groups.length; i++) {
-        // skip if option already there
-        let alreadyExists = false
-        for (let o of group_select.options) {
-            if (groups[i].text == o.label) {
-                alreadyExists = true;
-                break;
-            }
-        }
-        if (alreadyExists) continue;
-
-        // add options
-        group_select.add(new Option(groups[i].text, i), undefined);
-    }
-
-    // default = O Neg
-    group_select.value = "1";
-}
-
-function generateGroupLabel(groupIndex) {
-    const group = groups[groupIndex]; // potential index out of range bug.
-    const rhdCode = '0';
-    const reservedCode = '0';
-    barcode = "=%" + group.code + rhdCode + reservedCode;
-    barcodeGenerator.generateBarcodefromId(barcode, 'group_barcode_svg', 'code128');
-
-    const groupLabel = document.getElementById('group_label');
-    const aboTspan = document.getElementById('abo_tspan');
-    const rhdTspan = document.getElementById('rhd_tspan');
-    const smallDPhen = document.getElementById('D_type_tspan');
-
-    if (!groupLabel || !aboTspan || !rhdTspan || !smallDPhen) return;
-
-    aboTspan.textContent = group.abo;
-    rhdTspan.textContent = group.rhd.rhdText;
-    smallDPhen.textContent = group.rhd.smallDText;
-
-    groupLabel.classList.remove("pos");
-    groupLabel.classList.remove("neg");
-    groupLabel.classList.add(group.rhd.cssClass);
-}
-
-function updateRhceLabel(rhcValue, rheValue) {
-    let C = document.getElementById('C_type_tspan');
-    let c = document.getElementById('c_type_tspan');
-    let E = document.getElementById('E_type_tspan');
-    let e = document.getElementById('e_type_tspan');
-    if (!C || !c || !E || !e) return;
-    // en dash (–), not -.
-    C.textContent = (rhcValue == 0) ? "\u2013" : "+";
-    c.textContent = (rhcValue == 2) ? "\u2013" : "+";
-    E.textContent = (rheValue == 0) ? "\u2013" : "+";
-    e.textContent = (rheValue == 2) ? "\u2013" : "+";
-}
-
-function antigensChanged() {
-    const antigens_in = document.getElementById('antigens_in');
-    const antigens_out = document.getElementById('antigens_tspan');
-    if (!antigens_in || !antigens_out) return;
-
-    const newText = antigens_in.value.replace(/[^A-Za-z0-9,]/g, '');
-    antigens_in.value = newText;
-    antigens_out.textContent = "NEG: " + newText;
-}
 
 function shrinkLetterSpacingToFitParent(textElement, parent) {
     if (!textElement || !parent) return;

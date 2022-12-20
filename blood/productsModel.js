@@ -1,9 +1,9 @@
-// everything to do with the products form, products filter, products label.
-
 class ProductsForm {
-    constructor(productLabel, components) {
+    constructor(productLabel, components, groupLabel) {
         if (!productLabel) alert("Product Label Undefined");
+        if (!groupLabel) alert("Product Label Undefined");
         this.productLabel = productLabel;
+        this.groupLabel = groupLabel;
         this.components = components;
 
         this.componentSelect = document.getElementById("product_type_select");
@@ -83,14 +83,14 @@ class ProductsForm {
         // update things that might have changed because product list changed.
         this.updateProductsSelect();
 
-        // cmv/hbs  from stuff, it changes with the product, but also it isn't on the product form so maybe should be somewhere else. e.g. group form class.
+        // cmv/hbs stuff is affected by change of product, but is on group form. move to group form class.
         this.cmvIn.disabled = !selectedComponent.cmvPossible;
         this.hbsIn.disabled = !selectedComponent.hbsPossible;
         if (!selectedComponent.cmvPossible) this.cmvIn.checked = false;
         if (!selectedComponent.hbsPossible) this.hbsIn.checked = false;
 
-        // this is label stuff, so should move to a different class. - currently global, but is on the group label, so move to that class when done.
-        updateCmvHbsLabel(this.cmvIn.checked, this.hbsIn.checked);
+        // cmv/hbs stuff is affected by change of product, but is on group label 
+        //this.groupLabel.updateCmvHbsLabel(this.cmvIn.checked, this.hbsIn.checked);
     }
 
     selectedProductChanged() {

@@ -17,6 +17,7 @@ improve variable text block widths for different fonts on different platforms (l
     <script src="./errorHandler.js"></script>
     <script src="./barcodeGenerator.js"></script>
     <script src="./dinModel.js"></script>
+    <script src="./groupsModel.js"></script>
     <script src="./productsModel.js"></script>
     <script src="./script.js"></script>
 </head>
@@ -79,23 +80,23 @@ improve variable text block widths for different fonts on different platforms (l
                         <th class="formCell">HbS-</th>
                     </tr>
                     <tr>
-                        <td class="formCell"><select id="group_select" onchange="generateGroupLabel(this.value)" /></td>
+                        <td class="formCell"><select id="group_select" /></td>
                         <td class="formCell">
-                            <select id="rhc_select" onchange="updateRhceLabel(rhc_select.value, rhe_select.value)">
+                            <select id="rhc_select">
                                 <option value="0">cc</option>
                                 <option value="1">Cc</option>
                                 <option value="2">CC</option>
                             </select>
                         </td>
                         <td class="formCell">
-                            <select id="rhe_select" onchange="updateRhceLabel(rhc_select.value, rhe_select.value)">
+                            <select id="rhe_select">
                                 <option value="0">ee</option>
                                 <option value="1">Ee</option>
                                 <option value="2">EE</option>
                             </select>
                         </td>
-                        <td class="formCell"><input id="cmv_in" type="checkbox" onchange="updateCmvHbsLabel(cmv_in.checked, hbs_in.checked)" /></td>
-                        <td class="formCell"><input id="hbs_in" type="checkbox" onchange="updateCmvHbsLabel(cmv_in.checked, hbs_in.checked)" /></td>
+                        <td class="formCell"><input id="cmv_in" type="checkbox" /></td>
+                        <td class="formCell"><input id="hbs_in" type="checkbox" /></td>
                     </tr>
                 </table>
             </td>
@@ -109,7 +110,7 @@ improve variable text block widths for different fonts on different platforms (l
                         <th class="formCell">Expiry Date</th>
                     </tr>
                     <tr>
-                        <td class="formCell"> <input id="antigens_in" type="text" value="HEV,K" style="text-align:start" onkeyup="antigensChanged(this, 'antigens_tspan')" /></td>
+                        <td class="formCell"> <input id="antigens_in" type="text" value="HEV,K" style="text-align:start" /></td>
                         <td class="formCell"> <input type="date" id="bled_date_in" onchange="setExpiryDate()" required=required /></td>
                         <td class="formCell"> <input type="date" id="expiry_in" onchange="setBledDate()" required=required /></td>
                     </tr>
@@ -319,7 +320,7 @@ improve variable text block widths for different fonts on different platforms (l
                 <text x="122.000" y="200.800" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none;"><tspan id="date_bled_tspan"></tspan></text>
                 <text x="102.542" y="162.183" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none;"><tspan>Expiry Date:</tspan></text>
                 <text x="117.450" y="162.183" style="font-weight:bold; font-stretch:condensed; font-size:4.23333px; fill:black; stroke:none;"><tspan id="expiry_tspan"></tspan></text>
-                <svg id="cmv_barcode_svg" width="16.738" height="6.175" x="126.432" y="181.468" />
+                <svg id="cmv_barcode_svg" style="visibility:hidden" width="16.738" height="6.175" x="126.432" y="181.468" />
                         </g>
                     </g>
                 <g id="irradiated_sticker" style="visibility:hidden" transform="translate(14.454 -58.693)">
