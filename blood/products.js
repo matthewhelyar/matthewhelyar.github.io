@@ -30,11 +30,6 @@ const cryo = new Component("C", "Cryoprecipitate", false, false, false, false,
 const granulocytes = new Component("G", "Granulocytes", true, true, true, true,
     "DO NOT AGITATE<br />STORE AT 22\u00B0C \u00B1 2\u00B0C", "Red", "hidden", "hidden");
 
-const components = [redCells, platelets, ffp, cryo, granulocytes];
-
-
-
-
 //class Product {
 //    constructor(component, pack, irr, special, availability, code, volume, shelfLife, text) {
 //        this.component = component;
