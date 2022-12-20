@@ -1,10 +1,12 @@
 class ProductsForm {
-    constructor(productLabel, components, groupLabel) {
+    constructor(productLabel, components, groupLabel, datesForm) {
         if (!productLabel) alert("Product Label Undefined");
         if (!groupLabel) alert("Product Label Undefined");
+        if (!datesForm) alert("Dates Form Undefined");
         this.productLabel = productLabel;
         this.groupLabel = groupLabel;
         this.components = components;
+        this.datesForm = datesForm;
 
         this.componentSelect = document.getElementById("product_type_select");
         this.irradiatedIn = document.getElementById("irradiated_in");
@@ -83,18 +85,18 @@ class ProductsForm {
         // update things that might have changed because product list changed.
         this.updateProductsSelect();
 
-        // cmv/hbs stuff is affected by change of product, but is on group form. move to group form class.
+        // cmv/hbs stuff is affected by change of product, but is on group form. move to group form class?
         this.cmvIn.disabled = !selectedComponent.cmvPossible;
         this.hbsIn.disabled = !selectedComponent.hbsPossible;
         if (!selectedComponent.cmvPossible) this.cmvIn.checked = false;
         if (!selectedComponent.hbsPossible) this.hbsIn.checked = false;
 
-        // cmv/hbs stuff is affected by change of product, but is on group label 
-        //this.groupLabel.updateCmvHbsLabel(this.cmvIn.checked, this.hbsIn.checked);
+        // cmv/hbs stuff is affected by change of product, but is on group label. move to group label class?
+        this.groupLabel.updateCmvHbsLabel(this.cmvIn.checked, this.hbsIn.checked);
     }
 
     selectedProductChanged() {
-        setExpiryDate(); // call to global function for now
+        this.datesForm.setExpiryDate();
         this.productLabel.generateProductLabel(this.productSelect.value);
     }
 }
@@ -120,6 +122,17 @@ class ProductsLabel {
         this.productBarcodeSvg = document.getElementById('product_barcode_svg');
     }
 
+    shrinkLetterSpacingToFitParent(textElement, parent) {
+    if (!textElement || !parent) return;
+
+    const minimumSpacing = -1;
+    for (let i = 0; i > minimumSpacing; i -= 0.1) {
+        if (parent.scrollHeight <= parent.clientHeight + 2) break;
+        textElement.style.letterSpacing = i + "px";
+    }
+    //console.log("final letter spacing: " + textElement.style.letterSpacing);
+}
+
     generateProductLabel(productCode) {
         if (productCode == null || productCode == "") return;
 
@@ -128,14 +141,14 @@ class ProductsLabel {
 
         const barcode = "a0" + selectedProduct.code + "3b";
 
-        barcodeGenerator.generateBarcode(barcode, this.productBarcodeSvg, 'codabar');
+        this.barcodeGenerator.generateBarcode(barcode, this.productBarcodeSvg, 'codabar');
 
         this.productTextFo.textContent = selectedProduct.text;
 
         // default font settings then shrink to fit if necessary
         this.productTextFo.style.fontSize = "9pt";
         this.productTextFo.style.letterSpacing = "0px";
-        shrinkLetterSpacingToFitParent(this.productTextFo, this.productTextFoParent);  /// currently global, to move in here or somewhere else?
+        this.shrinkLetterSpacingToFitParent(this.productTextFo, this.productTextFoParent);
 
         if (selectedProduct.pack < 1) {
             this.packTextFo.textContent = "";
@@ -157,3 +170,4 @@ class ProductsLabel {
         this.irradSticker.style.visibility = selectedProduct.irr ? "visible" : "hidden";
     }
 }
+

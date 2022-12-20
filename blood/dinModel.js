@@ -6,7 +6,7 @@ class DinForm {
         if (!errorHandler) alert("Error handler undefined");
         this.error = errorHandler;
 
-        if (!barcodeGenerator) alert("DIN label undefined");
+        if (!dinLabel) alert("DIN label undefined");
         this.dinLabel = dinLabel;
 
         // RAII

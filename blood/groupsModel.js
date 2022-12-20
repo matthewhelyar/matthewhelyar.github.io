@@ -13,7 +13,6 @@ class GroupsForm {
 
         const init = (() => {
             for (let i = 0; i < groups.length; i++) {
-            // accessing global groups
                 group_select.add(new Option(groups[i].text, i), undefined);
             }
 
@@ -31,7 +30,7 @@ class GroupsForm {
         })();
     }
 
-    // put these into local methods so that I can pass parameters (other than event) to groupLabel.
+    // I put these into local methods so that I can pass parameters (other than event) to groupLabel.
     groupSelectChanged() {
         this.groupLabel.generateGroupLabel(this.groupSelect.value);
     }
@@ -64,10 +63,6 @@ class GroupsLabel {
         this.E = document.getElementById('E_type_tspan');
         this.e = document.getElementById('e_type_tspan');
         this.antigensTspan = document.getElementById('antigens_tspan');
-
-        const init = (() => {
-
-        })();
     }
 
     generateGroupLabel(groupIndex) {
@@ -75,7 +70,7 @@ class GroupsLabel {
         const rhdCode = '0';
         const reservedCode = '0';
         const barcode = "=%" + group.code + rhdCode + reservedCode;
-        barcodeGenerator.generateBarcode(barcode, this.groupBarcodeSvg, 'code128');
+        this.barcodeGenerator.generateBarcode(barcode, this.groupBarcodeSvg, 'code128');
 
         const groupLabel = document.getElementById('group_label');
         const aboTspan = document.getElementById('abo_tspan');
