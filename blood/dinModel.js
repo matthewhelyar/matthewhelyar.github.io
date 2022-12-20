@@ -1,12 +1,13 @@
 // everything to do with DIN form and DIN on SVG. ? split into 2 different classes
 
-class Din {
-    constructor(errorObject, barcodeGenerator) {
+class DinForm {
+    constructor(errorHandler, dinLabel) {
         // DI
-        if (!errorObject) alert("Error handler undefined");
-        if (!barcodeGenerator) alert("Barcode Generator undefined");
-        this.error = errorObject;
-        this.barcodeGenerator = barcodeGenerator;
+        if (!errorHandler) alert("Error handler undefined");
+        this.error = errorHandler;
+
+        if (!barcodeGenerator) alert("DIN label undefined");
+        this.dinLabel = dinLabel;
 
         // RAII
         this.fin = document.getElementById("din_fin_in");
@@ -14,10 +15,6 @@ class Din {
         this.seq = document.getElementById("din_seq_in");
         this.cd = document.getElementById("din_cd_in");
         this.submit = document.getElementById("din_go");
-        this.dinSvg = document.getElementById("din_barcode_svg");
-        this.smallDinSvg = document.getElementById("din_small_barcode_svg");
-        this.dinTspan = document.getElementById("din_eye_readable");
-        this.cdBox = document.getElementById("checkdigitBox");
 
         const init = (() => {
             this.fin.value = "S0000";
@@ -111,25 +108,43 @@ class Din {
         let dinStr = this.validateInputs(finStr, yearStr, seqStr);
         if (!dinStr) return;
 
-        // feed back corrected strings into form.
-        this.fin.value = finStr;
-        this.year.value = yearStr;
-        this.seq.value = seqStr;
-
         // split din into character array
         const checkSum = this.calculateChecksum(dinStr);
         if (!checkSum) return;
 
-        // write checkChar back to form
+        // apply to form
+        this.fin.value = finStr;
+        this.year.value = yearStr;
+        this.seq.value = seqStr;
         this.cd.value = checkSum.checkChar;
 
+        // apply to SVG
+        this.dinLabel.apply(dinStr, checkSum, seqStr);
+    }
+}
+
+class DinLabel {
+    constructor(barcodeGenerator) {
+        if (!barcodeGenerator) alert("Barcode Generator undefined");
+        this.barcodeGenerator = barcodeGenerator;
+
+        this.dinSvg = document.getElementById("din_barcode_svg");
+        this.smallDinSvg = document.getElementById("din_small_barcode_svg");
+        this.dinTspan = document.getElementById("din_eye_readable");
+        //this.cdBox = document.getElementById("checkdigitBox"); // not currently used.
+    }
+
+    apply(dinStr, checkSum, seqStr) {
         const barcode = "=" + dinStr + (checkSum.checkDigit + 60);
         const smallBarcode = "&a" + seqStr;
         const eyeReadableFormatted = `${dinStr.slice(0, 4)} ${dinStr.slice(4, 7)} ${dinStr.slice(7, 10)} ${dinStr.slice(10, 13)}  ${checkSum.checkChar}`;
 
-        // apply code to SVG both eye reable and barcode.
+        // might break up the eyeReadable text into blocks or otherwise change it to line up better with the checkdigitBox on different devices.
+
+        // apply to SVG
         this.barcodeGenerator.generateBarcode(barcode, this.dinSvg, 'code128');
         this.barcodeGenerator.generateBarcode(smallBarcode, this.smallDinSvg, 'code128');
         this.dinTspan.textContent = eyeReadableFormatted;
+
     }
 }

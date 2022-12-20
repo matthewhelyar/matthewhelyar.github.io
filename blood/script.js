@@ -10,12 +10,12 @@ window.onload = startup;
 const barcodeGenerator = new BarcodeGenerator();
 
 function startup() {
-
-    const components = [redCells, platelets, ffp, cryo, granulocytes];
-
     // set up objects
     const errorHandler = new ErrorHandler();
-    const din = new Din(errorHandler, barcodeGenerator);
+    const dinLabel = new DinLabel(barcodeGenerator);
+    const dinForm = new DinForm(errorHandler, dinLabel);
+
+    const components = [redCells, platelets, ffp, cryo, granulocytes];
     const productLabel = new ProductsLabel(barcodeGenerator);
     const productForm = new ProductsForm(productLabel, components);
 
@@ -32,8 +32,9 @@ function startup() {
     setExpiryDate();
     generateExpiryLabel();
 }
+
+// this is on the group label, but set by changing product form. ? where to put it.
 function updateCmvHbsLabel(cmvChecked, hbsChecked) {
-    // this is label stuff, so should move to a different class.
     // get DOM elements
     const hbs_cmv_tspan = document.getElementById('hbs_cmv_tspan');
     const cmv_barcode_svg = document.getElementById('cmv_barcode_svg');
