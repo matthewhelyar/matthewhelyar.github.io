@@ -131,20 +131,25 @@ class DinLabel {
         this.dinSvg = document.getElementById("din_barcode_svg");
         this.smallDinSvg = document.getElementById("din_small_barcode_svg");
         this.dinTspan = document.getElementById("din_eye_readable");
+        this.dinTspan1 = document.getElementById("din_eye_readable_1");
+        this.dinTspan2 = document.getElementById("din_eye_readable_2");
+        this.dinTspan3 = document.getElementById("din_eye_readable_3");
+        this.dinTspan4 = document.getElementById("din_eye_readable_4");
+        this.dinTspan5 = document.getElementById("din_eye_readable_5");
         //this.cdBox = document.getElementById("checkdigitBox"); // not currently used.
     }
 
     apply(dinStr, checkSum, seqStr) {
         const barcode = "=" + dinStr + (checkSum.checkDigit + 60);
         const smallBarcode = "&a" + seqStr;
-        const eyeReadableFormatted = `${dinStr.slice(0, 4)} ${dinStr.slice(4, 7)} ${dinStr.slice(7, 10)} ${dinStr.slice(10, 13)}  ${checkSum.checkChar}`;
-
-        // might break up the eyeReadable text into blocks or otherwise change it to line up better with the checkdigitBox on different devices.
-
-        // apply to SVG
         this.barcodeGenerator.generateBarcode(barcode, this.dinSvg, 'code128');
         this.barcodeGenerator.generateBarcode(smallBarcode, this.smallDinSvg, 'code128');
-        this.dinTspan.textContent = eyeReadableFormatted;
-
+		
+        //this.dinTspan.textContent = `${dinStr.slice(0, 4)} ${dinStr.slice(4, 7)} ${dinStr.slice(7, 10)} ${dinStr.slice(10, 13)}  ${checkSum.checkChar}`;
+        this.dinTspan1.textContent = dinStr.slice(0, 4);
+        this.dinTspan2.textContent = dinStr.slice(4, 7);
+        this.dinTspan3.textContent = dinStr.slice(7, 10);
+        this.dinTspan4.textContent = dinStr.slice(10, 13);
+        this.dinTspan5.textContent = checkSum.checkChar;
     }
 }

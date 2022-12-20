@@ -123,15 +123,14 @@ class ProductsLabel {
     }
 
     shrinkLetterSpacingToFitParent(textElement, parent) {
-    if (!textElement || !parent) return;
+        if (!textElement || !parent) return;
 
-    const minimumSpacing = -1;
-    for (let i = 0; i > minimumSpacing; i -= 0.1) {
-        if (parent.scrollHeight <= parent.clientHeight + 2) break;
-        textElement.style.letterSpacing = i + "px";
+        const minimumSpacing = -1.5;
+        for (let i = 0; i > minimumSpacing; i -= 0.1) {
+            if (parent.scrollHeight <= parent.clientHeight + 2) break;
+            textElement.style.letterSpacing = i + "px";
+        }
     }
-    //console.log("final letter spacing: " + textElement.style.letterSpacing);
-}
 
     generateProductLabel(productCode) {
         if (productCode == null || productCode == "") return;
@@ -140,15 +139,7 @@ class ProductsLabel {
         if (selectedProduct == null) return;
 
         const barcode = "a0" + selectedProduct.code + "3b";
-
         this.barcodeGenerator.generateBarcode(barcode, this.productBarcodeSvg, 'codabar');
-
-        this.productTextFo.textContent = selectedProduct.text;
-
-        // default font settings then shrink to fit if necessary
-        this.productTextFo.style.fontSize = "9pt";
-        this.productTextFo.style.letterSpacing = "0px";
-        this.shrinkLetterSpacingToFitParent(this.productTextFo, this.productTextFoParent);
 
         if (selectedProduct.pack < 1) {
             this.packTextFo.textContent = "";
@@ -168,6 +159,13 @@ class ProductsLabel {
         this.rhcSelect.disabled = (selectedProduct.component.rhPhenVisibility == "hidden");
         this.rheSelect.disabled = (selectedProduct.component.rhPhenVisibility == "hidden");
         this.irradSticker.style.visibility = selectedProduct.irr ? "visible" : "hidden";
+		
+		        this.productTextFo.textContent = selectedProduct.text;
+
+        // default font settings then shrink to fit if necessary
+        this.productTextFo.style.fontSize = "9pt";
+        this.productTextFo.style.letterSpacing = "0px";
+        this.shrinkLetterSpacingToFitParent(this.productTextFo, this.productTextFoParent);
     }
 }
 

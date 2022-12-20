@@ -1,4 +1,10 @@
-﻿@page {
+﻿@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap'); */
+
+@page {
     size: A4 portrait; /* auto is the initial value */
     margin: 0mm; /* this affects the margin in the printer settings */
 }
@@ -26,7 +32,20 @@ body {
     max-width: max-content;
     margin: auto;
     background-color: lightblue;
-    font-family: sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+p {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+text {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 .centerOnPrintedPage {
@@ -61,12 +80,13 @@ input[type=text] {
 
 .abo {
     font-weight: bold;
-    font-stretch: condensed;
+    /*font-stretch: normal;*/
     font-size: 26.8111px;
-    font-family: sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     text-align: center;
     text-anchor: middle;
-    stroke-width: 1.165;
+    /* stroke-width: 1.165; */
+    stroke-width: 1.0;
 }
 
 g#group_label.pos .abo {
@@ -81,9 +101,9 @@ g#group_label.neg .abo {
 
 .rhdText {
     font-weight: bold;
-    font-stretch: normal;
+    /*font-stretch: normal;*/
     font-size: 5.29167px;
-    font-family: sans-serif;
+    font-family: "Roboto", sans-serif;
     text-align: start;
     text-anchor: middle;
     stroke: none;
@@ -116,10 +136,10 @@ g#group_label.neg .rhdBackground {
 }
 
 .packText {
-    font-family: sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
     font-size: 3.175mm;
     font-weight: bold;
-    font-stretch: condensed;
+    /*font-stretch: condensed;*/
     text-align: left;
     color: white;
     margin: 0;
@@ -162,9 +182,9 @@ g#group_label.neg .rhdBackground {
 
 .rhPhenText {
     font-weight: bold;
-    font-stretch: condensed;
+    /*font-stretch: condensed;*/
     font-size: 3.175px;
-    font-family: sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
     text-align: center;
     text-anchor: middle;
     fill: black;
@@ -172,10 +192,10 @@ g#group_label.neg .rhdBackground {
 }
 
 .text1 {
-    font-family: sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
     font-size: 1.85839mm;
     font-weight: bold;
-    font-stretch: condensed;
+    /*font-stretch: condensed;*/
     text-align: left;
     margin: 0;
     padding-left: 1.2mm;
@@ -183,12 +203,51 @@ g#group_label.neg .rhdBackground {
 }
 
 .text2 {
-    font-family: sans-serif;
+    font-family: "Roboto Condensed", sans-serif;
     font-size: 2.82222mm;
     font-weight: bold;
-    font-stretch: condensed;
+    /*font-stretch: condensed;*/
     text-align: left;
     margin: 0;
     padding-left: 1.2mm;
     padding-right: 1.2mm;
+}
+
+#product_text_fo {
+	display:block; 
+	font-family: "Roboto Condensed", sans-serif;
+	font-size: 3.175mm; 
+	letter-spacing:0px; 
+	font-weight: bold; 
+	/*font-stretch: condensed;*/ 
+	text-align: left; 
+	margin: 0; 
+	padding-left: 1.2mm; 
+	padding-right: 1.2mm; 
+	padding-top: 0.6mm;
+}
+
+#volume_text_fo {
+	font-family: "Roboto Condensed", sans-serif;
+	font-size:3.175mm; 
+	font-weight:bold; 
+	/*font-stretch: condensed;*/ 
+	text-align:right; 
+	margin:0; 
+	padding-left :1.2mm; 
+	padding-right :5mm;
+}
+
+.bag_mfg_text {
+	font-family: "Roboto", sans-serif;
+	/*font-stretch: normal;*/ 
+	text-align:center; 
+	text-anchor:middle; 
+	fill:black; 
+	stroke:none;
+}
+
+#irradiated_sticker text {
+	font-family: "Roboto", sans-serif;
+	/*font-stretch: normal;*/ 	
 }

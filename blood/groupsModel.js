@@ -8,8 +8,7 @@ class GroupsForm {
         this.rheSelect = document.getElementById("rhe_select");
         this.cmvIn = document.getElementById("cmv_in");
         this.hbsIn = document.getElementById("hbs_in");
-        this.antigensIn = document.getElementById('antigens_in'); 
-
+        this.antigensIn = document.getElementById('antigens_in');
 
         const init = (() => {
             for (let i = 0; i < groups.length; i++) {
@@ -23,6 +22,7 @@ class GroupsForm {
             this.hbsIn.addEventListener("change", this.cmvHbsChanged.bind(this));
             this.antigensIn.addEventListener("keyup", this.antigensChanged.bind(this));
 
+            this.groupSelect.value = 1; // default = O Neg.
             this.groupSelectChanged();
             this.cmvHbsChanged();
             this.rhceChanged();
@@ -32,7 +32,8 @@ class GroupsForm {
 
     // I put these into local methods so that I can pass parameters (other than event) to groupLabel.
     groupSelectChanged() {
-        this.groupLabel.generateGroupLabel(this.groupSelect.value);
+        const group = groups[this.groupSelect.value];
+        if (group) this.groupLabel.generateGroupLabel(group);
     }
 
     cmvHbsChanged() {
@@ -56,36 +57,33 @@ class GroupsLabel {
         this.barcodeGenerator = barcodeGenerator;
 
         this.groupBarcodeSvg = document.getElementById('group_barcode_svg');
-        this.hbsCmvTspan = document.getElementById('hbs_cmv_tspan');
         this.cmvBarcodeSvg = document.getElementById('cmv_barcode_svg');
+        this.D = document.getElementById('D_type_tspan');
         this.C = document.getElementById('C_type_tspan');
         this.c = document.getElementById('c_type_tspan');
         this.E = document.getElementById('E_type_tspan');
         this.e = document.getElementById('e_type_tspan');
+        this.aboTspan = document.getElementById('abo_tspan');
+        this.rhdTspan = document.getElementById('rhd_tspan');
+        this.hbsCmvTspan = document.getElementById('hbs_cmv_tspan');
         this.antigensTspan = document.getElementById('antigens_tspan');
+        this.groupLabel = document.getElementById('group_label');
     }
 
-    generateGroupLabel(groupIndex) {
-        const group = groups[groupIndex]; // potential index out of range bug.
+    generateGroupLabel(group) {
+        if (!group) return;
         const rhdCode = '0';
         const reservedCode = '0';
         const barcode = "=%" + group.code + rhdCode + reservedCode;
         this.barcodeGenerator.generateBarcode(barcode, this.groupBarcodeSvg, 'code128');
 
-        const groupLabel = document.getElementById('group_label');
-        const aboTspan = document.getElementById('abo_tspan');
-        const rhdTspan = document.getElementById('rhd_tspan');
-        const smallDPhen = document.getElementById('D_type_tspan');
+        this.aboTspan.textContent = group.abo;
+        this.rhdTspan.textContent = group.rhd.rhdText;
+        this.D.textContent = group.rhd.smallDText;
 
-        if (!groupLabel || !aboTspan || !rhdTspan || !smallDPhen) return;
-
-        aboTspan.textContent = group.abo;
-        rhdTspan.textContent = group.rhd.rhdText;
-        smallDPhen.textContent = group.rhd.smallDText;
-
-        groupLabel.classList.remove("pos");
-        groupLabel.classList.remove("neg");
-        groupLabel.classList.add(group.rhd.cssClass);
+        this.groupLabel.classList.remove("pos");
+        this.groupLabel.classList.remove("neg");
+        this.groupLabel.classList.add(group.rhd.cssClass);
     }
 
     updateCmvHbsLabel(cmvChecked, hbsChecked) {
@@ -112,7 +110,6 @@ class GroupsLabel {
     }
 
     updateAntigens(newText) {
-        this.antigensTspan = document.getElementById('antigens_tspan');
         this.antigensTspan.textContent = "NEG: " + newText;
     }
 }
