@@ -1,18 +1,10 @@
-//<th class="formCell" rowspan="2"><input id="din_go" type="submit" value="Set DIN" onclick="generateDin()" style="height:40px" /></th>
-//<td class="formCell"><input id="din_fin_in" type="text" value="S0000" size="5" onchange="generateDin();" /></td>
-//<td class="formCell"><input id="din_year_in" type="text" value="23" size="2" onchange="generateDin();" /></td>
-//<td class="formCell"><input id="din_seq_in" type="text" value="000000" size="6" onchange="generateDin();" /></td>
-//<td class="formCell"><input id="din_cd_in" type="text" value="" size="1" disabled=disabled /></td>
-
-//<text x="75.663" y="107.036" style="font-weight:bold; font-stretch:condensed; font-size:4.5861px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan id="din_eye_readable" x="75.663" y="107.036"></tspan></text>
-//<svg id="din_barcode_svg" width="39.371" height="14.722" x="56.598" y="108.565" />
-//<path d="M89.957 103.151h4.807v4.391h-4.807z" class="pathLines1px" id="checkdigitBox"/>
+// everything to do with DIN form and DIN on SVG. ? split into 2 different classes
 
 class Din {
     constructor(errorObject, barcodeGenerator) {
         // DI
         if (!errorObject) alert("Error handler undefined");
-        if (!barcodeGenerator) alert("Error handler undefined");
+        if (!barcodeGenerator) alert("Barcode Generator undefined");
         this.error = errorObject;
         this.barcodeGenerator = barcodeGenerator;
 

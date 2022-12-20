@@ -10,9 +10,14 @@ window.onload = startup;
 const barcodeGenerator = new BarcodeGenerator();
 
 function startup() {
+
+    const components = [redCells, platelets, ffp, cryo, granulocytes];
+
     // set up objects
     const errorHandler = new ErrorHandler();
     const din = new Din(errorHandler, barcodeGenerator);
+    const productLabel = new ProductsLabel(barcodeGenerator);
+    const productForm = new ProductsForm(productLabel, components);
 
     // these barcodes don't change.
     barcodeGenerator.generateBarcodefromId("a8738a", 'cmv_barcode_svg', 'codabar');
@@ -20,73 +25,32 @@ function startup() {
 
     // other setup stuff
     document.getElementById('bled_date_in').value = dayjs().format('YYYY-MM-DD'); // default bled date is today.
-    generateProductsFilter(document.getElementById("product_type_select"));
     generateGroupsForm(document.getElementById('group_select'));
-    updateProductsSelectForm();
     generateGroupLabel(document.getElementById('group_select').value);
     updateRhceLabel(document.getElementById('rhc_select').value, document.getElementById('rhe_select').value);
     antigensChanged();
-    productFiltersChanged();
     setExpiryDate();
     generateExpiryLabel();
 }
-
-function updateProductsSelectForm() {
+function updateCmvHbsLabel(cmvChecked, hbsChecked) {
+    // this is label stuff, so should move to a different class.
     // get DOM elements
-    const productSelect = document.getElementById('product_select');
-    const productType = document.getElementById('product_type_select');
-    const showIrradiated = document.getElementById('irradiated_in');
-    const showSpecial = document.getElementById('special_in');
-    const showAvailable = document.getElementById('available_in');
-    if (!productSelect || !productType || !showIrradiated || !showSpecial || !showAvailable) return;
+    const hbs_cmv_tspan = document.getElementById('hbs_cmv_tspan');
+    const cmv_barcode_svg = document.getElementById('cmv_barcode_svg');
+    if (!hbs_cmv_tspan || !cmv_barcode_svg) return;
 
-    // store currently selected product code:
-    const currentlySelectedProduct = productSelect.value;
+    // generate text
+    let newText = "";
+    if (hbsChecked && cmvChecked)
+        newText = "HbS Neg, CMV Neg";
+    else if (hbsChecked)
+        newText = "HbS Neg";
+    else if (cmvChecked)
+        newText = "CMV Neg";
 
-    // clear options from productSelect
-    productSelect.length = 0;
-
-    // this one I can possibly update to use the polymorphism.
-    // filter products as per form
-    const filteredProducts = products.filter(x => {
-        return x.component.name === productType.value &&
-            x.irr === showIrradiated.checked &&
-            x.special === showSpecial.checked &&
-            x.availability >= showAvailable.checked;
-    });
-
-    // add options to productSelect
-    for (const p of filteredProducts) {
-        let text = (p.pack > 0) ? p.text + " (" + p.pack + ")" : p.text;
-        if (!p.availability) text += " [unavailable]";
-        productSelect.add(new Option(text, p.code), undefined);
-    }
-
-    // if new list contains same product, select it, otherwise generate new label.
-    const selectedIndex = filteredProducts.findIndex(x => { return x.code === currentlySelectedProduct });
-    if (selectedIndex != -1)
-        productSelect.value = currentlySelectedProduct;
-    else
-        selectedProductChanged(productSelect.value);
-}
-
-function generateProductsFilter(productSelect) {
-    if (!productSelect) return;
-
-    for (let c of components) {
-        // skip if option already there
-        let alreadyExists = false
-        for (let o of productSelect.options) {
-            if (c.text == o.label) {
-                alreadyExists = true;
-                break;
-            }
-        }
-        if (alreadyExists) continue;
-
-        // add options
-        productSelect.add(new Option(c.text, c.name), undefined);
-    }
+    // apply to SVG
+    hbs_cmv_tspan.textContent = newText;
+    cmv_barcode_svg.style.visibility = (cmvChecked) ? "visible" : "hidden";
 }
 
 function generateGroupsForm(group_select) {
@@ -132,42 +96,6 @@ function generateGroupLabel(groupIndex) {
     groupLabel.classList.add(group.rhd.cssClass);
 }
 
-function productFiltersChanged() {
-    // get DOM elements
-    const productTypeSelect = document.getElementById('product_type_select');
-    const irradIn = document.getElementById('irradiated_in');
-    const specialIn = document.getElementById('special_in')
-    const cmvIn = document.getElementById('cmv_in');
-    const hbsIn = document.getElementById('hbs_in');
-    if (!productTypeSelect || !irradIn || !specialIn || !cmvIn || !hbsIn) return;
-
-    // update DOM elements of the product form based on product type
-    const selectedComponent = components.find(x => { return x.name === productTypeSelect.value });
-    irradIn.disabled = !selectedComponent.irradPossible;
-    specialIn.disabled = !selectedComponent.specialPossible;
-    cmvIn.disabled = !selectedComponent.cmvPossible;
-    hbsIn.disabled = !selectedComponent.hbsPossible;
-    if (!selectedComponent.irradPossible) irradIn.checked = false;
-    if (!selectedComponent.specialPossible) specialIn.checked = false;
-    if (!selectedComponent.cmvPossible) cmvIn.checked = false;
-    if (!selectedComponent.hbsPossible) hbsIn.checked = false;
-
-    // special case, force irradiated for granulocytes but disable the button.
-    if (selectedComponent.name == "G") {
-        irradIn.checked = true;
-        irradIn.disabled = true;
-    }
-
-    // update things that might have changed because product list changed.
-    updateProductsSelectForm();
-    updateCmvHbsLabel(cmvIn.checked, hbsIn.checked);
-}
-
-function selectedProductChanged(productCode) {
-    setExpiryDate();
-    generateProductLabel(productCode);
-}
-
 function updateRhceLabel(rhcValue, rheValue) {
     let C = document.getElementById('C_type_tspan');
     let c = document.getElementById('c_type_tspan');
@@ -181,26 +109,6 @@ function updateRhceLabel(rhcValue, rheValue) {
     e.textContent = (rheValue == 2) ? "\u2013" : "+";
 }
 
-function updateCmvHbsLabel(cmvChecked, hbsChecked) {
-    // get DOM elements
-    const hbs_cmv_tspan = document.getElementById('hbs_cmv_tspan');
-    const cmv_barcode_svg = document.getElementById('cmv_barcode_svg');
-    if (!hbs_cmv_tspan || !cmv_barcode_svg) return;
-
-    // generate text
-    let newText = "";
-    if (hbsChecked && cmvChecked)
-        newText = "HbS Neg, CMV Neg";
-    else if (hbsChecked)
-        newText = "HbS Neg";
-    else if (cmvChecked)
-        newText = "CMV Neg";
-
-    // apply to SVG
-    hbs_cmv_tspan.textContent = newText;
-    cmv_barcode_svg.style.visibility = (cmvChecked) ? "visible" : "hidden";
-}
-
 function antigensChanged() {
     const antigens_in = document.getElementById('antigens_in');
     const antigens_out = document.getElementById('antigens_tspan');
@@ -209,48 +117,6 @@ function antigensChanged() {
     const newText = antigens_in.value.replace(/[^A-Za-z0-9,]/g, '');
     antigens_in.value = newText;
     antigens_out.textContent = "NEG: " + newText;
-}
-
-function generateProductLabel(productCode) {
-    if (productCode == null || productCode == "") return;
-
-    const selectedProduct = products.find(x => { return x.code === productCode });
-    if (selectedProduct == null) return;
-
-    const barcode = "a0" + selectedProduct.code + "3b";
-    barcodeGenerator.generateBarcodefromId(barcode, 'product_barcode_svg', 'codabar');
-    barcodeGenerator.generateBarcodefromId(barcode, 'product_barcode_svg_3', 'codabar');
-
-    const productTextFo = document.getElementById('product_text_fo');
-    const packTextBlock = document.getElementById('packTextBlock');
-    const packTextFo = document.getElementById('pack_text_fo');
-    if (!productTextFo || !packTextBlock || !packTextFo) return;
-
-    productTextFo.textContent = selectedProduct.text;
-
-    // default font settings then shrink to fit if necessary
-    productTextFo.style.fontSize = "9pt";
-    productTextFo.style.letterSpacing = "0px";
-    shrinkLetterSpacingToFitParent(productTextFo, document.getElementById('product_text_fo_parent'));
-
-    if (selectedProduct.pack < 1) {
-        packTextFo.textContent = "";
-        packTextBlock.style.visibility = "hidden";
-    }
-    else {
-        packTextFo.textContent = "PACK " + String(selectedProduct.pack).padStart(2, '0');
-        packTextBlock.style.visibility = "visible";
-    }
-
-    document.getElementById('storage_text_fo').innerHTML = selectedProduct.component.storageText;
-    document.getElementById('linearGradientFluidUrl1').setAttribute("xlink:href", "#linearGradientFluid" + selectedProduct.component.color);
-    document.getElementById('linearGradientFluidUrl2').setAttribute("xlink:href", "#linearGradientFluid" + selectedProduct.component.color);
-    document.getElementById('volume_text_fo').innerHTML = "Volume<br />" + selectedProduct.volume + " mL";
-    document.getElementById('anticoagulant_info').style.visibility = selectedProduct.component.anticoagulantTextVisibility;
-    document.getElementById('rh_phen_group').style.visibility = selectedProduct.component.rhPhenVisibility;
-    document.getElementById('rhc_select').disabled = (selectedProduct.component.rhPhenVisibility == "hidden");
-    document.getElementById('rhe_select').disabled = (selectedProduct.component.rhPhenVisibility == "hidden");
-    document.getElementById('irradiated_sticker').style.visibility = selectedProduct.irr ? "visible" : "hidden";
 }
 
 function shrinkLetterSpacingToFitParent(textElement, parent) {

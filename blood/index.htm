@@ -17,6 +17,7 @@ improve variable text block widths for different fonts on different platforms (l
     <script src="./errorHandler.js"></script>
     <script src="./barcodeGenerator.js"></script>
     <script src="./dinModel.js"></script>
+    <script src="./productsModel.js"></script>
     <script src="./script.js"></script>
 </head>
 
@@ -56,13 +57,13 @@ improve variable text block widths for different fonts on different platforms (l
                         <th class="formCell">Only include currently<br />available products</th>
                     </tr>
                     <tr>
-                        <td class="formCell"><select id="product_type_select" onchange="productFiltersChanged()" /></td>
-                        <td class="formCell"><input id="irradiated_in" type="checkbox" onchange="productFiltersChanged()" /></td>
-                        <td class="formCell"><input id="special_in" type="checkbox" onchange="productFiltersChanged()" /></td>
-                        <td class="formCell"><input id="available_in" type="checkbox" onchange="productFiltersChanged()" checked /></td>
+                        <td class="formCell"><select id="product_type_select" /></td>
+                        <td class="formCell"><input id="irradiated_in" type="checkbox" /></td>
+                        <td class="formCell"><input id="special_in" type="checkbox" /></td>
+                        <td class="formCell"><input id="available_in" type="checkbox" checked /></td>
                     </tr>
                     <tr>
-                        <td class="formCell" colspan="4"><select id="product_select" onchange="selectedProductChanged(this.value)" style="width:500px;" /></td>
+                        <td class="formCell" colspan="4"><select id="product_select" style="width:500px;" /></td>
                     </tr>
                 </table>
             </td>
@@ -125,208 +126,208 @@ improve variable text block widths for different fonts on different platforms (l
         <tr class="centerOnPrintedPage">
             <td>
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" id="blood_unit" width="523.948" height="931.308" version="1.1" viewBox="0 0 138.628 246.409">
-                    <defs>
-                        <linearGradient id="linearGradientFluidRed">
-                        <stop offset="0" style="stop-color:#3d0a17; stop-opacity:1" />
-                        <stop offset="0.25" style="stop-color:#661424; stop-opacity:1" />
-                        <stop offset="0.75" style="stop-color:#671424; stop-opacity:1" />
-                        <stop offset="1" style="stop-color:#3b0b15; stop-opacity:1" />
+                <defs>
+                <linearGradient id="linearGradientFluidRed">
+                <stop offset="0" style="stop-color:#3d0a17; stop-opacity:1" />
+                <stop offset="0.25" style="stop-color:#661424; stop-opacity:1" />
+                <stop offset="0.75" style="stop-color:#671424; stop-opacity:1" />
+                <stop offset="1" style="stop-color:#3b0b15; stop-opacity:1" />
                         </linearGradient>
-                        <linearGradient id="linearGradientFluidYellow">
-                        <stop offset="0" style="stop-color:#ccae57; stop-opacity: 1" />
-                        <stop offset="0.25" style="stop-color:#936e17; stop-opacity: 1" />
-                        <stop offset="0.75" style="stop-color:#936e17; stop-opacity: 1" />
-                        <stop offset="1" style="stop-color:#ccae57; stop-opacity: 1" />
+                <linearGradient id="linearGradientFluidYellow">
+                <stop offset="0" style="stop-color:#ccae57; stop-opacity: 1" />
+                <stop offset="0.25" style="stop-color:#936e17; stop-opacity: 1" />
+                <stop offset="0.75" style="stop-color:#936e17; stop-opacity: 1" />
+                <stop offset="1" style="stop-color:#ccae57; stop-opacity: 1" />
                         </linearGradient>
-                        <linearGradient id="linearGradientRedTubes">
-                        <stop offset="0" style="stop-color:black; stop-opacity:0" />
-                        <stop offset="1" style="stop-color:#3f0000; stop-opacity:0.75" />
+                <linearGradient id="linearGradientRedTubes">
+                <stop offset="0" style="stop-color:black; stop-opacity:0" />
+                <stop offset="1" style="stop-color:#3f0000; stop-opacity:0.75" />
                         </linearGradient>
-                        <linearGradient id="linearGradientGreyTubes">
-                        <stop offset="0" style="stop-color:black; stop-opacity:0" />
-                        <stop offset="1" style="stop-color:black; stop-opacity:0.75" />
+                <linearGradient id="linearGradientGreyTubes">
+                <stop offset="0" style="stop-color:black; stop-opacity:0" />
+                <stop offset="1" style="stop-color:black; stop-opacity:0.75" />
                         </linearGradient>
-                        <linearGradient id="linearGradientIrradiated">
-                        <stop id="stop1113" offset="0" style="stop-color:#dae9fb; stop-opacity:1" />
-                        <stop id="stop1121" offset=".318" style="stop-color:#dae9fb; stop-opacity:1" />
-                        <stop id="stop1123" offset=".318" style="stop-color:white; stop-opacity:1" />
-                        <stop id="stop1115" offset="1" style="stop-color:white; stop-opacity:1" />
+                <linearGradient id="linearGradientIrradiated">
+                <stop id="stop1113" offset="0" style="stop-color:#dae9fb; stop-opacity:1" />
+                <stop id="stop1121" offset=".318" style="stop-color:#dae9fb; stop-opacity:1" />
+                <stop id="stop1123" offset=".318" style="stop-color:white; stop-opacity:1" />
+                <stop id="stop1115" offset="1" style="stop-color:white; stop-opacity:1" />
                         </linearGradient>
-                        <linearGradient xlink:href="#linearGradientRedTubes" id="linearGradientRedTubesUrl1" x1="70.511" x2="75.318" y1="50.532" y2="50.532" gradientTransform="matrix(.62296 0 0 .43732 27.47 35.205)" gradientUnits="userSpaceOnUse" />
-                        <linearGradient xlink:href="#linearGradientRedTubes" id="linearGradientRedTubesUrl2" x1="70.511" x2="75.318" y1="50.532" y2="50.532" gradientTransform="matrix(.62296 0 0 .43732 76.785 34.368)" gradientUnits="userSpaceOnUse" />
-                        <linearGradient xlink:href="#linearGradientGreyTubes" id="linearGradientGreyTubesUrl1" x1="70.511" x2="75.318" y1="50.532" y2="50.532" gradientTransform="matrix(.61282 0 0 .53627 77.788 15.884)" gradientUnits="userSpaceOnUse" />
-                        <linearGradient xlink:href="#linearGradientGreyTubes" id="linearGradientGreyTubesUrl2" x1="70.511" x2="75.318" y1="50.532" y2="50.532" gradientTransform="matrix(.61282 0 0 .52547 29.002 16.468)" gradientUnits="userSpaceOnUse" />
-                        <linearGradient xlink:href="#linearGradientFluidRed" id="linearGradientFluidUrl1" x1="34.375" x2="159.972" y1="123.867" y2="123.867" gradientUnits="userSpaceOnUse" />
-                        <linearGradient xlink:href="#linearGradientFluidRed" id="linearGradientFluidUrl2" x1="94.334" x2="98.851" y1="60.173" y2="60.173" gradientUnits="userSpaceOnUse" />
-                        <linearGradient xlink:href="#linearGradientIrradiated" id="linearGradientIrradiatedUrl" x1="39.291" x2="104.907" y1="210.873" y2="210.873" gradientTransform="matrix(1.03545 0 0 1.0119 -19.203 56.002)" gradientUnits="userSpaceOnUse" />
+                <linearGradient xlink:href="#linearGradientRedTubes" id="linearGradientRedTubesUrl1" x1="70.511" x2="75.318" y1="50.532" y2="50.532" gradientTransform="matrix(.62296 0 0 .43732 27.47 35.205)" gradientUnits="userSpaceOnUse" />
+                <linearGradient xlink:href="#linearGradientRedTubes" id="linearGradientRedTubesUrl2" x1="70.511" x2="75.318" y1="50.532" y2="50.532" gradientTransform="matrix(.62296 0 0 .43732 76.785 34.368)" gradientUnits="userSpaceOnUse" />
+                <linearGradient xlink:href="#linearGradientGreyTubes" id="linearGradientGreyTubesUrl1" x1="70.511" x2="75.318" y1="50.532" y2="50.532" gradientTransform="matrix(.61282 0 0 .53627 77.788 15.884)" gradientUnits="userSpaceOnUse" />
+                <linearGradient xlink:href="#linearGradientGreyTubes" id="linearGradientGreyTubesUrl2" x1="70.511" x2="75.318" y1="50.532" y2="50.532" gradientTransform="matrix(.61282 0 0 .52547 29.002 16.468)" gradientUnits="userSpaceOnUse" />
+                <linearGradient xlink:href="#linearGradientFluidRed" id="linearGradientFluidUrl1" x1="34.375" x2="159.972" y1="123.867" y2="123.867" gradientUnits="userSpaceOnUse" />
+                <linearGradient xlink:href="#linearGradientFluidRed" id="linearGradientFluidUrl2" x1="94.334" x2="98.851" y1="60.173" y2="60.173" gradientUnits="userSpaceOnUse" />
+                <linearGradient xlink:href="#linearGradientIrradiated" id="linearGradientIrradiatedUrl" x1="39.291" x2="104.907" y1="210.873" y2="210.873" gradientTransform="matrix(1.03545 0 0 1.0119 -19.203 56.002)" gradientUnits="userSpaceOnUse" />
                     </defs>
 
-                    <g id="bag" transform="translate(-28.222 -11.421)">
-                        <circle cx="107.097" cy="57.37" r="1.489" class="pathLines2px" />
-                        <circle cx="86.031" cy="57.419" r="1.489" class="pathLines2px" />
-                        <path d="M40.847 66.876c3.575-3.176 5.277-4.591 9.861-4.71 4.583-.118 7.267-3.032 7.206-7.816-.063-4.924-.084-32.467-.036-36.977.048-4.511.785-5.149 5.984-5.117 5.2.032 5.844.82 6.216 4.596.372 3.777.859 5.9 2.1 5.867 1.243-.033 1.758-1.772 2.285-5.688.528-3.916 1.005-4.637 6.115-4.71 5.11-.072 5.652.636 5.632 5.289-.02 4.652-.12 11.764-.198 21.06-.097 11.534-.484 11.832 6.702 11.87 1.35.008 1.52-1.03 1.756-4.493.236-3.462.269-4.44.269-4.44l5.46.263s-.078.547-.305 4.311c-.226 3.765.248 4.344 1.145 4.361 5.741.112 6.01.083 6.003-6.487-.006-6.57-.021-22.546-.028-26.952-.006-4.406.428-4.92 5.838-4.987 5.41-.067 5.948.453 6.41 4.473.463 4.02.607 5.153 1.654 5.156 1.048.003 1.343-.963 1.851-5.114.508-4.15 1.08-4.517 6.081-4.567 5.003-.05 6.199.264 6.244 4.813.045 4.548.023 22.319-.11 37.483-.043 4.369 3.247 7.806 7.345 7.799 4.51-.007 7.058 2.594 9.857 5.074 2.799 2.48 6.34 5.435 9.884 8.996 3.544 3.562 4.693 5.437 4.643 8.916-.098 6.959-.188 135.756-.188 135.756s.262 9.426-7.136 13.681c-7.399 4.256-37.87 21.088-37.87 21.088s-3.386 1.974-5.678 1.908c-2.291-.065-36.683-.14-36.683-.14s-2.291-.262-3.928-1.113c-1.637-.852-23.886-12.418-35.945-18.398-7.398-3.67-10.816-8.192-10.79-12.845.029-5.525-.02-135.317-.019-140.93.002-5.613.977-6.663 3.671-9.236 2.695-2.572 5.128-4.864 8.702-8.04z" class="pathBagOutline" />
-                        <path d="m88.02 249.792-3.151-.015s-1.272-.036-1.277 1.277c-.005 1.313 1.251 1.28 1.251 1.28l26.279.128s1.353 0 1.35-1.33c-.003-1.328-1.355-1.334-1.355-1.334l-3.267-.008" class="pathLines2px" />
-                        <path d="M61.871 60.431s1.585.12 3.241-.655c1.914-.895 3.409-1.851 3.409-1.851-3.736.002-6.866-2.785-6.42-8.09.445-5.306.82-12.475 1.075-15.719.255-3.244 1.886-6.187 4.214-6.187 2.327 0 2.41 1.216 4.55 1.216 2.14 0 2.264-1.32 4.56-1.32s3.783 3.247 3.99 6.23c.205 2.984.7 11.146.976 15.775.277 4.628-1.81 7.842-6.043 7.901 0 0 3.308 2.667 6.516 2.733 3.208.065 6.525-.01 6.525-.01.7-.007 1.285-.706 1.419-1.294 0 0 .114-.602.142-1.948.042-2.093-.446-3.593-1.735-3.64a1759.33 1759.33 0 0 1-5.058-.032" class="pathEmbossed" />
-                        <path d="M72.17 22.766s-.122 14.111-.122 18.612c0 4.5-.036 5.133-1.413 6.51-1.377 1.377-4.695 1.16-4.695 1.16" class="pathLines2px" />
-                        <path d="M109.666 53.323c-2.047-.02-2.827-.012-4.468-.02-1.535-.016-1.722 2.07-1.719 3.658.004 1.703 0 2.455.508 2.88.507.426 1.096.475 1.67.475.572 0 6.104-.016 6.104-.016s1.13.164 2.587-.704c1.456-.867 3.2-2.272 3.2-2.272-3.97-.065-6.754-3.436-6.458-7.268.296-3.83 1.016-13.837 1.26-16.698.245-2.86 1.805-5.582 4.256-5.602 2.452-.02 2.49 1.248 4.275 1.258 1.785.01 1.893-1.232 4.508-1.235 2.615-.003 4.052 2.616 4.263 5.485.21 2.87.852 12.657 1.031 16.724.178 4.067-2.945 7.085-6.42 7.273 0 0 .89.816 2.083 1.596 1.219.796 2.053.986 3.068 1.034 1.076.05 1.564.016 1.564.016" class="pathEmbossed" />
-                        <path d="M120.917 21.792s-.064 15.886-.114 19.64c-.05 3.755.043 5.234 1.27 6.363 1.227 1.129 4.295.912 4.295.912" class="pathLines2px" />
-                        <path d="m118.56 25.638-8.398-.08" class="pathEmbossed" />
-                        <path d="m111.978 23.385-1.726 2.18 1.816 2.178" class="pathEmbossed" />
-                        <path d="m130.02 23.368 2.01 2.236-2.089 2.134" class="pathEmbossed" />
-                        <path d="m123.06 25.587 9.062-.023" class="pathEmbossed" />
-                        <path d="m69.915 25.942-9.216-.04" class="pathEmbossed" />
-                        <path d="m62.761 23.722-2.043 2.225 2.134 1.997" class="pathEmbossed" />
-                        <path d="m80.9 24.005 1.998 1.952-1.907 1.998" class="pathEmbossed" />
-                        <path d="m74.338 25.964 8.63-.009" class="pathEmbossed" />
-                        <path d="m57.881 19.475 7.348-7.19" class="pathEmbossed" />
-                        <path d="m57.836 24.605 11.048-11.41" class="pathEmbossed" />
-                        <path d="m65.69 21.7 4.512-4.421" class="pathEmbossed" />
-                        <path d="m68.274 23.749 2.254-2.03" class="pathEmbossed" />
-                        <path d="m60.333 22.063-2.406-2.224" class="pathEmbossed" />
-                        <path d="m68.232 23.743-10.093-9.435" class="pathEmbossed" />
-                        <path d="M70.385 20.79c-.136-.228-9.109-8.453-9.109-8.453" class="pathEmbossed" />
-                        <path d="m73.672 21.336 8.433-8.953" class="pathEmbossed" />
-                        <path d="m76.21 23.884 9.487-10.123" class="pathEmbossed" />
-                        <path d="m74.362 17.542 4.117 3.89" class="pathEmbossed" />
-                        <path d="m75.245 13.863 10.994 10.563" class="pathEmbossed" />
-                        <path d="m79.03 12.449 7.187 6.644" class="pathEmbossed" />
-                        <path d="m83.291 21.841 2.724-2.95" class="pathEmbossed" />
-                        <path d="m76.255 23.884-2.588-2.36" class="pathEmbossed" />
-                        <path d="m107.092 24.197 10.73-11.213" class="pathEmbossed" />
-                        <path d="m119.951 21.064-2.554 2.679-10.023-9.616" class="pathEmbossed" />
-                        <path d="m109.86 21.473-2.632-2.633 6.593-6.638" class="pathEmbossed" />
-                        <path d="m110.86 12.166 9.013 8.964" class="pathEmbossed" />
-                        <path d="m115.025 21.473 4.25-4.693" class="pathEmbossed" />
-                        <path d="m121.755 20.656 2.633 2.95 10.115-9.977" class="pathEmbossed" />
-                        <path d="m135.02 24.61-11.141-11.595" class="pathEmbossed" />
-                        <path d="m127.904 12.125 6.613 6.664-2.656 2.604" class="pathEmbossed" />
-                        <path d="m126.84 21.382-4.162-4.302" class="pathEmbossed" />
-                        <path d="m121.857 20.82 8.977-8.79" class="pathEmbossed" />
-                        <path d="m68.61 50.377-.005-15.713 6.705-.027.02 15.663" class="pathLines2px" />
-                        <path d="m117.587 50.52.028-16.125 6.52.04.028 15.97" class="pathLines2px" />
-                        <path d="M162.992 158.269v34.401" class="pathLines2px" />
-                        <path d="M162.897 101.381v34.401" class="pathLines2px" />
-                        <path d="M31.877 158.272v34.4" class="pathLines2px" />
-                        <path d="M31.798 101.369v34.4" class="pathLines2px" />
-                        <path d="M32.636-101.37a.84.84 0 0 1-.42.728.84.84 0 0 1-.84 0 .84.84 0 0 1-.421-.728" class="pathEmbossed" transform="scale(1 -1)" />
-                        <path d="M32.71-158.283a.84.84 0 0 1-.42.728.84.84 0 0 1-.842 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" transform="scale(1 -1)" />
-                        <path d="M163.717-101.377a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" transform="scale(1 -1)" />
-                        <path d="M163.829-158.27a.84.84 0 0 1-.42.727.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" transform="scale(1 -1)" />
-                        <path d="M32.626 135.773a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" />
-                        <path d="M32.715 192.677a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" />
-                        <path d="M163.749 135.763a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" />
-                        <path d="M163.796 192.653a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" />
-                        <path d="M87.111 49.707c5.925 4.023 12.785 3.999 18.904.368" class="pathLines2px" />
+                <g id="bag" transform="translate(-28.222 -11.421)">
+                <circle cx="107.097" cy="57.37" r="1.489" class="pathLines2px" />
+                <circle cx="86.031" cy="57.419" r="1.489" class="pathLines2px" />
+                <path d="M40.847 66.876c3.575-3.176 5.277-4.591 9.861-4.71 4.583-.118 7.267-3.032 7.206-7.816-.063-4.924-.084-32.467-.036-36.977.048-4.511.785-5.149 5.984-5.117 5.2.032 5.844.82 6.216 4.596.372 3.777.859 5.9 2.1 5.867 1.243-.033 1.758-1.772 2.285-5.688.528-3.916 1.005-4.637 6.115-4.71 5.11-.072 5.652.636 5.632 5.289-.02 4.652-.12 11.764-.198 21.06-.097 11.534-.484 11.832 6.702 11.87 1.35.008 1.52-1.03 1.756-4.493.236-3.462.269-4.44.269-4.44l5.46.263s-.078.547-.305 4.311c-.226 3.765.248 4.344 1.145 4.361 5.741.112 6.01.083 6.003-6.487-.006-6.57-.021-22.546-.028-26.952-.006-4.406.428-4.92 5.838-4.987 5.41-.067 5.948.453 6.41 4.473.463 4.02.607 5.153 1.654 5.156 1.048.003 1.343-.963 1.851-5.114.508-4.15 1.08-4.517 6.081-4.567 5.003-.05 6.199.264 6.244 4.813.045 4.548.023 22.319-.11 37.483-.043 4.369 3.247 7.806 7.345 7.799 4.51-.007 7.058 2.594 9.857 5.074 2.799 2.48 6.34 5.435 9.884 8.996 3.544 3.562 4.693 5.437 4.643 8.916-.098 6.959-.188 135.756-.188 135.756s.262 9.426-7.136 13.681c-7.399 4.256-37.87 21.088-37.87 21.088s-3.386 1.974-5.678 1.908c-2.291-.065-36.683-.14-36.683-.14s-2.291-.262-3.928-1.113c-1.637-.852-23.886-12.418-35.945-18.398-7.398-3.67-10.816-8.192-10.79-12.845.029-5.525-.02-135.317-.019-140.93.002-5.613.977-6.663 3.671-9.236 2.695-2.572 5.128-4.864 8.702-8.04z" class="pathBagOutline" />
+                <path d="m88.02 249.792-3.151-.015s-1.272-.036-1.277 1.277c-.005 1.313 1.251 1.28 1.251 1.28l26.279.128s1.353 0 1.35-1.33c-.003-1.328-1.355-1.334-1.355-1.334l-3.267-.008" class="pathLines2px" />
+                <path d="M61.871 60.431s1.585.12 3.241-.655c1.914-.895 3.409-1.851 3.409-1.851-3.736.002-6.866-2.785-6.42-8.09.445-5.306.82-12.475 1.075-15.719.255-3.244 1.886-6.187 4.214-6.187 2.327 0 2.41 1.216 4.55 1.216 2.14 0 2.264-1.32 4.56-1.32s3.783 3.247 3.99 6.23c.205 2.984.7 11.146.976 15.775.277 4.628-1.81 7.842-6.043 7.901 0 0 3.308 2.667 6.516 2.733 3.208.065 6.525-.01 6.525-.01.7-.007 1.285-.706 1.419-1.294 0 0 .114-.602.142-1.948.042-2.093-.446-3.593-1.735-3.64a1759.33 1759.33 0 0 1-5.058-.032" class="pathEmbossed" />
+                <path d="M72.17 22.766s-.122 14.111-.122 18.612c0 4.5-.036 5.133-1.413 6.51-1.377 1.377-4.695 1.16-4.695 1.16" class="pathLines2px" />
+                <path d="M109.666 53.323c-2.047-.02-2.827-.012-4.468-.02-1.535-.016-1.722 2.07-1.719 3.658.004 1.703 0 2.455.508 2.88.507.426 1.096.475 1.67.475.572 0 6.104-.016 6.104-.016s1.13.164 2.587-.704c1.456-.867 3.2-2.272 3.2-2.272-3.97-.065-6.754-3.436-6.458-7.268.296-3.83 1.016-13.837 1.26-16.698.245-2.86 1.805-5.582 4.256-5.602 2.452-.02 2.49 1.248 4.275 1.258 1.785.01 1.893-1.232 4.508-1.235 2.615-.003 4.052 2.616 4.263 5.485.21 2.87.852 12.657 1.031 16.724.178 4.067-2.945 7.085-6.42 7.273 0 0 .89.816 2.083 1.596 1.219.796 2.053.986 3.068 1.034 1.076.05 1.564.016 1.564.016" class="pathEmbossed" />
+                <path d="M120.917 21.792s-.064 15.886-.114 19.64c-.05 3.755.043 5.234 1.27 6.363 1.227 1.129 4.295.912 4.295.912" class="pathLines2px" />
+                <path d="m118.56 25.638-8.398-.08" class="pathEmbossed" />
+                <path d="m111.978 23.385-1.726 2.18 1.816 2.178" class="pathEmbossed" />
+                <path d="m130.02 23.368 2.01 2.236-2.089 2.134" class="pathEmbossed" />
+                <path d="m123.06 25.587 9.062-.023" class="pathEmbossed" />
+                <path d="m69.915 25.942-9.216-.04" class="pathEmbossed" />
+                <path d="m62.761 23.722-2.043 2.225 2.134 1.997" class="pathEmbossed" />
+                <path d="m80.9 24.005 1.998 1.952-1.907 1.998" class="pathEmbossed" />
+                <path d="m74.338 25.964 8.63-.009" class="pathEmbossed" />
+                <path d="m57.881 19.475 7.348-7.19" class="pathEmbossed" />
+                <path d="m57.836 24.605 11.048-11.41" class="pathEmbossed" />
+                <path d="m65.69 21.7 4.512-4.421" class="pathEmbossed" />
+                <path d="m68.274 23.749 2.254-2.03" class="pathEmbossed" />
+                <path d="m60.333 22.063-2.406-2.224" class="pathEmbossed" />
+                <path d="m68.232 23.743-10.093-9.435" class="pathEmbossed" />
+                <path d="M70.385 20.79c-.136-.228-9.109-8.453-9.109-8.453" class="pathEmbossed" />
+                <path d="m73.672 21.336 8.433-8.953" class="pathEmbossed" />
+                <path d="m76.21 23.884 9.487-10.123" class="pathEmbossed" />
+                <path d="m74.362 17.542 4.117 3.89" class="pathEmbossed" />
+                <path d="m75.245 13.863 10.994 10.563" class="pathEmbossed" />
+                <path d="m79.03 12.449 7.187 6.644" class="pathEmbossed" />
+                <path d="m83.291 21.841 2.724-2.95" class="pathEmbossed" />
+                <path d="m76.255 23.884-2.588-2.36" class="pathEmbossed" />
+                <path d="m107.092 24.197 10.73-11.213" class="pathEmbossed" />
+                <path d="m119.951 21.064-2.554 2.679-10.023-9.616" class="pathEmbossed" />
+                <path d="m109.86 21.473-2.632-2.633 6.593-6.638" class="pathEmbossed" />
+                <path d="m110.86 12.166 9.013 8.964" class="pathEmbossed" />
+                <path d="m115.025 21.473 4.25-4.693" class="pathEmbossed" />
+                <path d="m121.755 20.656 2.633 2.95 10.115-9.977" class="pathEmbossed" />
+                <path d="m135.02 24.61-11.141-11.595" class="pathEmbossed" />
+                <path d="m127.904 12.125 6.613 6.664-2.656 2.604" class="pathEmbossed" />
+                <path d="m126.84 21.382-4.162-4.302" class="pathEmbossed" />
+                <path d="m121.857 20.82 8.977-8.79" class="pathEmbossed" />
+                <path d="m68.61 50.377-.005-15.713 6.705-.027.02 15.663" class="pathLines2px" />
+                <path d="m117.587 50.52.028-16.125 6.52.04.028 15.97" class="pathLines2px" />
+                <path d="M162.992 158.269v34.401" class="pathLines2px" />
+                <path d="M162.897 101.381v34.401" class="pathLines2px" />
+                <path d="M31.877 158.272v34.4" class="pathLines2px" />
+                <path d="M31.798 101.369v34.4" class="pathLines2px" />
+                <path d="M32.636-101.37a.84.84 0 0 1-.42.728.84.84 0 0 1-.84 0 .84.84 0 0 1-.421-.728" class="pathEmbossed" transform="scale(1 -1)" />
+                <path d="M32.71-158.283a.84.84 0 0 1-.42.728.84.84 0 0 1-.842 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" transform="scale(1 -1)" />
+                <path d="M163.717-101.377a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" transform="scale(1 -1)" />
+                <path d="M163.829-158.27a.84.84 0 0 1-.42.727.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" transform="scale(1 -1)" />
+                <path d="M32.626 135.773a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" />
+                <path d="M32.715 192.677a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" />
+                <path d="M163.749 135.763a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" />
+                <path d="M163.796 192.653a.84.84 0 0 1-.42.728.84.84 0 0 1-.841 0 .84.84 0 0 1-.42-.728" class="pathEmbossed" />
+                <path d="M87.111 49.707c5.925 4.023 12.785 3.999 18.904.368" class="pathLines2px" />
                     </g>
 
-                    <g id="fluid" transform="translate(-28.222 -11.421)">
-                        <path d="M35.173 89.515s.033-9.313 9.456-12.525a1311.5 1311.5 0 0 1 21.019-6.944s1.389-.232 1.527-1.574c.14-1.343.14-2.917.556-3.24.417-.325.833-1.39.833-1.714 0-.324.047-13.148.047-13.148l6.716-.088.092 13.051s.06.817.934 1.25c.456.225.806 1.148.957 1.533.412 1.05 1.176 1.406 2.55 1.245 2.095-.246 4.028-.602 6.575-.834 2.546-.231 4.027-.277 4.444-.972.417-.694.88-1.065 1.528-1.296.648-.232 1.57-.47 1.662-1.164.093-.694.092-6.27.092-6.27l.667-.017s.584-11.352 1.005-17.132c.437-6.013 1.008-13.151 1.224-19.138.195-5.34.272-10.898-.53-17.621l3.75.092s.463 9.861.232 17.269c-.232 7.407-.649 13.981-1.25 21.851a418.413 418.413 0 0 0-.853 14.668l.714.015-.047 6.197s-.138.74.741.88c.88.138 1.898.509 2.408 1.203.509.695.787 1.019 1.759 1.158.972.138 2.407 0 6.157.463 3.75.462 5.324.694 5.695-.278.37-.972.463-1.39.926-1.852.462-.463.91-.787.91-1.574s-.109-12.537-.109-12.537l6.606-.01.092 12.5s.325.926.88 1.482c.556.556 1.111 1.019 1.065 2.13-.046 1.11-.463 2.453 1.481 3.009 1.945.555 10.417 2.87 14.445 4.305 4.027 1.436 8.75 3.565 8.75 3.565s8.101 3.472 8.101 14.49c0 11.02.741 125.972.741 125.972s.278 11.25-9.028 15.046c-9.305 3.797-18.657 7.686-32.962 10.232-14.306 2.546-31.296 1.852-42.454-.278-11.157-2.13-16.666-4.12-24.213-6.99-7.546-2.871-15.419-6.806-15.462-15.278-.225-43.35-.084-87.784-.43-131.132z" style="fill:url(#linearGradientFluidUrl1); stroke:black; stroke-width:0.5;" />
-                        <path d="M70.063 50.465h4.365v12.797h-4.365z" style="fill:url(#linearGradientRedTubesUrl1); stroke:none;" transform="matrix(1 .00073 .01261 .99992 0 0)" />
-                        <path d="M119.378 49.628h4.365v12.797h-4.365z" style="fill:url(#linearGradientRedTubesUrl2); stroke:none;" transform="matrix(.99997 .00826 .00508 .99999 0 0)" />
-                        <path d="M119.688 34.597h4.294v15.692h-4.294z" style="fill:url(#linearGradientGreyTubesUrl1); stroke:none;" />
-                        <path d="M70.902 34.805h4.294v15.376h-4.294z" style="fill:url(#linearGradientGreyTubesUrl2); stroke:none;" />
-                        <path d="m94.403 57.056 4.448.011-.035 6.224-4.482-.057z" style="fill:url(#linearGradientFluidUrl2); stroke:none;" />
+                <g id="fluid" transform="translate(-28.222 -11.421)">
+                <path d="M35.173 89.515s.033-9.313 9.456-12.525a1311.5 1311.5 0 0 1 21.019-6.944s1.389-.232 1.527-1.574c.14-1.343.14-2.917.556-3.24.417-.325.833-1.39.833-1.714 0-.324.047-13.148.047-13.148l6.716-.088.092 13.051s.06.817.934 1.25c.456.225.806 1.148.957 1.533.412 1.05 1.176 1.406 2.55 1.245 2.095-.246 4.028-.602 6.575-.834 2.546-.231 4.027-.277 4.444-.972.417-.694.88-1.065 1.528-1.296.648-.232 1.57-.47 1.662-1.164.093-.694.092-6.27.092-6.27l.667-.017s.584-11.352 1.005-17.132c.437-6.013 1.008-13.151 1.224-19.138.195-5.34.272-10.898-.53-17.621l3.75.092s.463 9.861.232 17.269c-.232 7.407-.649 13.981-1.25 21.851a418.413 418.413 0 0 0-.853 14.668l.714.015-.047 6.197s-.138.74.741.88c.88.138 1.898.509 2.408 1.203.509.695.787 1.019 1.759 1.158.972.138 2.407 0 6.157.463 3.75.462 5.324.694 5.695-.278.37-.972.463-1.39.926-1.852.462-.463.91-.787.91-1.574s-.109-12.537-.109-12.537l6.606-.01.092 12.5s.325.926.88 1.482c.556.556 1.111 1.019 1.065 2.13-.046 1.11-.463 2.453 1.481 3.009 1.945.555 10.417 2.87 14.445 4.305 4.027 1.436 8.75 3.565 8.75 3.565s8.101 3.472 8.101 14.49c0 11.02.741 125.972.741 125.972s.278 11.25-9.028 15.046c-9.305 3.797-18.657 7.686-32.962 10.232-14.306 2.546-31.296 1.852-42.454-.278-11.157-2.13-16.666-4.12-24.213-6.99-7.546-2.871-15.419-6.806-15.462-15.278-.225-43.35-.084-87.784-.43-131.132z" style="fill:url(#linearGradientFluidUrl1); stroke:black; stroke-width:0.5;" />
+                <path d="M70.063 50.465h4.365v12.797h-4.365z" style="fill:url(#linearGradientRedTubesUrl1); stroke:none;" transform="matrix(1 .00073 .01261 .99992 0 0)" />
+                <path d="M119.378 49.628h4.365v12.797h-4.365z" style="fill:url(#linearGradientRedTubesUrl2); stroke:none;" transform="matrix(.99997 .00826 .00508 .99999 0 0)" />
+                <path d="M119.688 34.597h4.294v15.692h-4.294z" style="fill:url(#linearGradientGreyTubesUrl1); stroke:none;" />
+                <path d="M70.902 34.805h4.294v15.376h-4.294z" style="fill:url(#linearGradientGreyTubesUrl2); stroke:none;" />
+                <path d="m94.403 57.056 4.448.011-.035 6.224-4.482-.057z" style="fill:url(#linearGradientFluidUrl2); stroke:none;" />
                     </g>
 
-                    <g id="whole_label" transform="translate(-28.222 -11.421)">
-                        <rect width="109.305" height="108.965" x="43.858" y="101.146" rx="6" class="pathLines1px" style="fill:white;" />
-                        <path d="M89.957 103.151h4.807v4.391h-4.807z" class="pathLines1px" id="checkdigitBox"/>
-                        <path d="M57.314 192.591h6.806v3.426h-6.806z" class="pathLines1px" id="refBox" />
-                        <path d="M98.657 190.878v-14.86" class="pathLines1px" style="stroke-dasharray:0.8,0.8;" />
-                        <svg id="din_barcode_svg" width="39.371" height="14.722" x="56.598" y="108.565" />
-                        <svg id="bag_mfg_barcode_svg" width="43.333" height="6.991" x="50.555" y="196.897" />
-                        <text x="75.663" y="107.036" style="font-weight:bold; font-stretch:condensed; font-size:4.5861px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan id="din_eye_readable" x="75.663" y="107.036"></tspan></text>
-                        <text x="72.083" y="207.036" style="font-size:3.52778px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan x="72.083" y="207.036">0MAVXX603B</tspan></text>
-                        <text x="127.126" y="200.341" style="font-family:'Courier New'; font-weight: bold; font-stretch: condensed; font-size: 3.48775px; text-align: center; text-anchor: middle; display: inline; fill: black; stroke: none;"><tspan x="123" y="207">11424511BM</tspan></text>
-                        <text x="72.752" y="195.642" style="font-size:3.52778px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan x="72.752" y="195.642">VXX603B</tspan></text>
-                        <text x="60.787" y="195.184" style="font-size:2.82222px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan x="60.787" y="195.184">REF</tspan></text>
-                        <text x="97.499" y="207.823" style="font-size: 9.87778px; text-align: center; text-anchor: middle; font-stretch: condensed; font-size: 9.87778px; fill: black; stroke: none;"><tspan x="97.499" y="207.823">0</tspan></text>
+                <g id="whole_label" transform="translate(-28.222 -11.421)">
+                <rect width="109.305" height="108.965" x="43.858" y="101.146" rx="6" class="pathLines1px" style="fill:white;" />
+                <path d="M89.957 103.151h4.807v4.391h-4.807z" class="pathLines1px" id="checkdigitBox" />
+                <path d="M57.314 192.591h6.806v3.426h-6.806z" class="pathLines1px" id="refBox" />
+                <path d="M98.657 190.878v-14.86" class="pathLines1px" style="stroke-dasharray:0.8,0.8;" />
+                <svg id="din_barcode_svg" width="39.371" height="14.722" x="56.598" y="108.565" />
+                <svg id="bag_mfg_barcode_svg" width="43.333" height="6.991" x="50.555" y="196.897" />
+                <text x="75.663" y="107.036" style="font-weight:bold; font-stretch:condensed; font-size:4.5861px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan id="din_eye_readable" x="75.663" y="107.036"></tspan></text>
+                <text x="72.083" y="207.036" style="font-size:3.52778px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan x="72.083" y="207.036">0MAVXX603B</tspan></text>
+                <text x="127.126" y="200.341" style="font-family:'Courier New'; font-weight: bold; font-stretch: condensed; font-size: 3.48775px; text-align: center; text-anchor: middle; display: inline; fill: black; stroke: none;"><tspan x="123" y="207">11424511BM</tspan></text>
+                <text x="72.752" y="195.642" style="font-size:3.52778px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan x="72.752" y="195.642">VXX603B</tspan></text>
+                <text x="60.787" y="195.184" style="font-size:2.82222px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan x="60.787" y="195.184">REF</tspan></text>
+                <text x="97.499" y="207.823" style="font-size: 9.87778px; text-align: center; text-anchor: middle; font-stretch: condensed; font-size: 9.87778px; fill: black; stroke: none;"><tspan x="97.499" y="207.823">0</tspan></text>
 
-                        <g id="product_label" transform="scale(0.265 0.265) translate(167 468)">
-                            <rect style="fill:white; stroke:silver; stroke-width:0.265mm" id="outline" width="55.401638mm" height="52.08931mm" />
-                            <path style="fill:none; stroke:black; stroke-width:0.265mm;" d="M 0,123 H 210" id="path10834" />
-                            <switch>
-                            <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-                                <foreignObject x="0" y="15.8mm" width="55.401638mm" height="7.94mm">
-                                <p class="text1">Always check patient/component compatibility/identity<br /> Inspect pack for signs of deterioration or damage<br /> Risk of adverse reaction/infection, Including vCJD</p>
+                <g id="product_label" transform="scale(0.265 0.265) translate(167 468)">
+                <rect style="fill:white; stroke:silver; stroke-width:0.265mm" id="outline" width="55.401638mm" height="52.08931mm" />
+                <path style="fill:none; stroke:black; stroke-width:0.265mm;" d="M 0,123 H 210" id="path10834" />
+                <switch>
+                <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                <foreignObject x="0" y="15.8mm" width="55.401638mm" height="7.94mm">
+                <p class="text1">Always check patient/component compatibility/identity<br /> Inspect pack for signs of deterioration or damage<br /> Risk of adverse reaction/infection, Including vCJD</p>
                                 </foreignObject>
-                                <foreignObject x="0" y="0" width="55.401638mm" height="7.9mm">
-                                <div style="display:block; width: 55.401638mm; height: 7.9mm;" id="product_text_fo_parent">
-                                <p style="display:block; font-size: 3.175mm; letter-spacing:0px; font-weight: bold; font-stretch: condensed; text-align: left; margin: 0; padding-left: 1.2mm; padding-right: 1.2mm; padding-top: 0.6mm;" id="product_text_fo"></p>
+                <foreignObject x="0" y="0" width="55.401638mm" height="7.9mm">
+                <div style="display:block; width: 55.401638mm; height: 7.9mm;" id="product_text_fo_parent">
+                <p style="display:block; font-size: 3.175mm; letter-spacing:0px; font-weight: bold; font-stretch: condensed; text-align: left; margin: 0; padding-left: 1.2mm; padding-right: 1.2mm; padding-top: 0.6mm;" id="product_text_fo"></p>
                                 </div>
                                 </foreignObject>
-                                <foreignObject x="0" y="7.9mm" width="55.401638mm" height="7.9mm" id="storage_text_fo_parent">
-                                <p class="text2" id="storage_text_fo">STORE AT 4°C ± 2°C</p>
+                <foreignObject x="0" y="7.9mm" width="55.401638mm" height="7.9mm" id="storage_text_fo_parent">
+                <p class="text2" id="storage_text_fo">STORE AT 4°C ± 2°C</p>
                                 </foreignObject>
-                                <foreignObject x="0" y="23.8mm" width="55.4mm" height="7.94mm">
-                                <p style=" font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:right; margin:0; padding-left :1.2mm; padding-right :5mm;" id="volume_text_fo">Volume<br /></p>
+                <foreignObject x="0" y="23.8mm" width="55.4mm" height="7.94mm">
+                <p style=" font-size:3.175mm; font-weight:bold; font-stretch:condensed; text-align:right; margin:0; padding-left :1.2mm; padding-right :5mm;" id="volume_text_fo">Volume<br /></p>
                                 </foreignObject>
-                                <g id="anticoagulant_info" style="visibility:visible;">
-                                    <foreignObject x="0" y="33mm" width="55.401638mm" height="7.94mm">
-                                    <p class="text1">This component was collected in CPD anticoagulant and is<br />suspended in 105 millilitres of additive solution of the<br />following composition.</p>
+                <g id="anticoagulant_info" style="visibility:visible;">
+                <foreignObject x="0" y="33mm" width="55.401638mm" height="7.94mm">
+                <p class="text1">This component was collected in CPD anticoagulant and is<br />suspended in 105 millilitres of additive solution of the<br />following composition.</p>
                                         </foreignObject>
-                                    <foreignObject x="0" y="41.23mm" width="27.7mm" height="15.8mm">
-                                    <p class="text1">Sodium Chloride<br />Adenine<br />Anhydrous Glucose<br />Mannitol</p>
+                <foreignObject x="0" y="41.23mm" width="27.7mm" height="15.8mm">
+                <p class="text1">Sodium Chloride<br />Adenine<br />Anhydrous Glucose<br />Mannitol</p>
                                         </foreignObject>
-                                    <foreignObject x="26.5mm" y="38.9mm" width="27.7mm" height="15.8mm">
-                                    <p class="text1">mmols/l<br />150.0<br />1.25<br />45.4<br />28.8</p>
+                <foreignObject x="26.5mm" y="38.9mm" width="27.7mm" height="15.8mm">
+                <p class="text1">mmols/l<br />150.0<br />1.25<br />45.4<br />28.8</p>
                                         </foreignObject>
-                                    <foreignObject x="41.55mm" y="44mm" width="13.85mm" height="15.8mm">
-                                    <p class="text2">DO NOT<br />VENT</p>
+                <foreignObject x="41.55mm" y="44mm" width="13.85mm" height="15.8mm">
+                <p class="text2">DO NOT<br />VENT</p>
                                         </foreignObject>
                                 </g>
-                                <g id="packTextBlock">
-                                <rect class="packBackground" id="pack_background_fo" width="17mm" height="4mm" x="35mm" y="23.8mm" />
-                                <foreignObject x="35mm" y="23.8mm" width="17mm" height="4mm">
-                                <p class="packText" id="pack_text_fo">PACK 05</p>
+                <g id="packTextBlock">
+                <rect class="packBackground" id="pack_background_fo" width="17mm" height="4mm" x="35mm" y="23.8mm" />
+                <foreignObject x="35mm" y="23.8mm" width="17mm" height="4mm">
+                <p class="packText" id="pack_text_fo">PACK 05</p>
                                     </foreignObject>
                                 </g>
                             </g>
-                            <text>Your SVG viewer cannot display html</text>
+                <text>Your SVG viewer cannot display html</text>
                             </switch>
-                            <svg id="product_barcode_svg_3" width="24.019293mm" height="7.9508266mm" x="1.2mm" y="23.8mm" />
+                <svg id="product_barcode_svg" width="24.019293mm" height="7.9508266mm" x="1.2mm" y="23.8mm" />
                         </g>
 
-                        <g id="group_label" style="display:inline">
-                            <rect width="43.688" height="100.976" x="100.976" y="102.166" rx="2" style="fill:white; stroke:silver; stroke-width:0.265;" />
-                            <svg id="group_barcode_svg" width="27.467" height="11.231" x="102.138" y="118.15" />
-                            <svg id="din_small_barcode_svg" width="27.467" height="11.231" x="102.138" y="106.308" />
-                            <path d="M100.972 169.875h43.769" class="pathLines1px" />
-                            <path d="M100.972 192.518h43.769" class="pathLines1px" />
-                            <path d="M100.972 197.448h43.769" class="pathLines1px" />
-                            <svg id="expiry_barcode_svg" width="26.543" height="5.959" x="111.589" y="162.942" />
-                            <path id="rhd_background" class="rhdBackground" d="M101.536 151.803h42.425v6.564h-42.425z" />
-                            <text id="abo_text" class="abo" x="122.192" y="149.937"><tspan id="abo_tspan"></tspan></text>
-                            <text id="rhd_text" class="rhdText" x="122.572" y="156.950"><tspan id="rhd_tspan"></tspan></text>
-                            <text x="122.911" y="172.746" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan>Additional Information</tspan></text>
-                            <g id="rh_phen_group" class="rhPhenText">
-                                <text x="107" y="176.592"><tspan>D</tspan></text>
-                                <text x="115" y="176.592"><tspan>C</tspan></text>
-                                <text x="123" y="176.592"><tspan>E</tspan></text>
-                                <text x="131" y="176.592"><tspan>c</tspan></text>
-                                <text x="139" y="176.592"><tspan>e</tspan></text>
-                                <text x="107" y="180.166"><tspan id="D_type_tspan"></tspan></text>
-                                <text x="115" y="180.166"><tspan id="C_type_tspan"></tspan></text>
-                                <text x="123" y="180.166"><tspan id="E_type_tspan"></tspan></text>
-                                <text x="131" y="180.166"><tspan id="c_type_tspan"></tspan></text>
-                                <text x="139" y="180.166"><tspan id="e_type_tspan"></tspan></text>
+                <g id="group_label" style="display:inline">
+                <rect width="43.688" height="100.976" x="100.976" y="102.166" rx="2" style="fill:white; stroke:silver; stroke-width:0.265;" />
+                <svg id="group_barcode_svg" width="27.467" height="11.231" x="102.138" y="118.15" />
+                <svg id="din_small_barcode_svg" width="27.467" height="11.231" x="102.138" y="106.308" />
+                <path d="M100.972 169.875h43.769" class="pathLines1px" />
+                <path d="M100.972 192.518h43.769" class="pathLines1px" />
+                <path d="M100.972 197.448h43.769" class="pathLines1px" />
+                <svg id="expiry_barcode_svg" width="26.543" height="5.959" x="111.589" y="162.942" />
+                <path id="rhd_background" class="rhdBackground" d="M101.536 151.803h42.425v6.564h-42.425z" />
+                <text id="abo_text" class="abo" x="122.192" y="149.937"><tspan id="abo_tspan"></tspan></text>
+                <text id="rhd_text" class="rhdText" x="122.572" y="156.950"><tspan id="rhd_tspan"></tspan></text>
+                <text x="122.911" y="172.746" style="font-weight:bold; font-stretch:condensed; font-size:3.175px; text-align:center; text-anchor:middle; fill:black; stroke:none;"><tspan>Additional Information</tspan></text>
+                <g id="rh_phen_group" class="rhPhenText">
+                <text x="107" y="176.592"><tspan>D</tspan></text>
+                <text x="115" y="176.592"><tspan>C</tspan></text>
+                <text x="123" y="176.592"><tspan>E</tspan></text>
+                <text x="131" y="176.592"><tspan>c</tspan></text>
+                <text x="139" y="176.592"><tspan>e</tspan></text>
+                <text x="107" y="180.166"><tspan id="D_type_tspan"></tspan></text>
+                <text x="115" y="180.166"><tspan id="C_type_tspan"></tspan></text>
+                <text x="123" y="180.166"><tspan id="E_type_tspan"></tspan></text>
+                <text x="131" y="180.166"><tspan id="c_type_tspan"></tspan></text>
+                <text x="139" y="180.166"><tspan id="e_type_tspan"></tspan></text>
                             </g>
-                            <text x="102.850" y="184.650" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none; letter-spacing:-0.1px;"><tspan id="hbs_cmv_tspan"></tspan></text>
-                            <text x="102.850" y="191.250" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none; letter-spacing:-0.1px;"><tspan id="antigens_tspan">NEG: </tspan></text>
-                            <text x="103.300" y="196.050" style="font-weight:bold; font-stretch:condensed; font-size:3.52778px; fill:black; stroke:none;"><tspan>SIMULATED COMPONENT</tspan></text>
-                            <text x="121.250" y="200.800" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; text-align:right; text-anchor:end; fill:black; stroke:none;"><tspan>Date Bled:</tspan></text>
-                            <text x="122.000" y="200.800" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none;"><tspan id="date_bled_tspan"></tspan></text>
-                            <text x="102.542" y="162.183" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none;"><tspan>Expiry Date:</tspan></text>
-                            <text x="117.450" y="162.183" style="font-weight:bold; font-stretch:condensed; font-size:4.23333px; fill:black; stroke:none;"><tspan id="expiry_tspan"></tspan></text>
-                            <svg id="cmv_barcode_svg" width="16.738" height="6.175" x="126.432" y="181.468" />
+                <text x="102.850" y="184.650" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none; letter-spacing:-0.1px;"><tspan id="hbs_cmv_tspan"></tspan></text>
+                <text x="102.850" y="191.250" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none; letter-spacing:-0.1px;"><tspan id="antigens_tspan">NEG: </tspan></text>
+                <text x="103.300" y="196.050" style="font-weight:bold; font-stretch:condensed; font-size:3.52778px; fill:black; stroke:none;"><tspan>SIMULATED COMPONENT</tspan></text>
+                <text x="121.250" y="200.800" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; text-align:right; text-anchor:end; fill:black; stroke:none;"><tspan>Date Bled:</tspan></text>
+                <text x="122.000" y="200.800" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none;"><tspan id="date_bled_tspan"></tspan></text>
+                <text x="102.542" y="162.183" style="font-weight:bold; font-stretch:condensed; font-size:2.82222px; fill:black; stroke:none;"><tspan>Expiry Date:</tspan></text>
+                <text x="117.450" y="162.183" style="font-weight:bold; font-stretch:condensed; font-size:4.23333px; fill:black; stroke:none;"><tspan id="expiry_tspan"></tspan></text>
+                <svg id="cmv_barcode_svg" width="16.738" height="6.175" x="126.432" y="181.468" />
                         </g>
                     </g>
-                    <g id="irradiated_sticker" style="visibility:hidden" transform="translate(14.454 -58.693)">
-                        <rect width="67.669" height="21.419" x="21.617" y="258.674" rx="1.5" ry="1.5" style="fill:url(#linearGradientIrradiatedUrl); stroke:black; stroke-width:0.265;" />
-                        <text x="44.392" y="262.125" style="font-weight:bold; font-size:3.52778px; fill:black; stroke:none;"><tspan x="44.392" y="262.125">IRRADIATION INDICATOR</tspan></text>
-                        <text x="44.547" y="264.810" style="font-weight:bold; font-size:2.11667px; letter-spacing:.045px; font-weight:bold; font-size:2.11667px; fill:red; stroke:none;"><tspan x="44.547" y="264.81">If central dot white, not irradiated ✗</tspan></text>
-                        <text x="44.551" y="267.321" style="font-weight:bold; font-size:2.11667px; letter-spacing:.045px; font-weight:bold; font-size:2.11667px; fill:#0C0; stroke:none;"><tspan x="44.551" y="267.321">If central dot blue, irradiated ✓</tspan></text>
-                        <circle cx="32.287" cy="269.017" r="3.071" style="fill:#b6d4f7; stroke:none;" />
+                <g id="irradiated_sticker" style="visibility:hidden" transform="translate(14.454 -58.693)">
+                <rect width="67.669" height="21.419" x="21.617" y="258.674" rx="1.5" ry="1.5" style="fill:url(#linearGradientIrradiatedUrl); stroke:black; stroke-width:0.265;" />
+                <text x="44.392" y="262.125" style="font-weight:bold; font-size:3.52778px; fill:black; stroke:none;"><tspan x="44.392" y="262.125">IRRADIATION INDICATOR</tspan></text>
+                <text x="44.547" y="264.810" style="font-weight:bold; font-size:2.11667px; letter-spacing:.045px; font-weight:bold; font-size:2.11667px; fill:red; stroke:none;"><tspan x="44.547" y="264.81">If central dot white, not irradiated ✗</tspan></text>
+                <text x="44.551" y="267.321" style="font-weight:bold; font-size:2.11667px; letter-spacing:.045px; font-weight:bold; font-size:2.11667px; fill:#0C0; stroke:none;"><tspan x="44.551" y="267.321">If central dot blue, irradiated ✓</tspan></text>
+                <circle cx="32.287" cy="269.017" r="3.071" style="fill:#b6d4f7; stroke:none;" />
                     </g>
                 </svg>
             </td>
