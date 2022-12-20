@@ -23,17 +23,17 @@ function startup() {
     const groupLabel = new GroupsLabel(barcodeGenerator);
     const groupForm = new GroupsForm(groupLabel);
 
-    // set up bled - must be before products (updateProductSelect -> setExpiryDate -> reads bledDate)
-    document.getElementById('bled_date_in').value = dayjs().format('YYYY-MM-DD'); // default bled date is today.
-
+    
     // set up products
     const components = [redCells, platelets, ffp, cryo, granulocytes];
     const productLabel = new ProductsLabel(barcodeGenerator);
     const productForm = new ProductsForm(productLabel, components, groupLabel);
 
+    // set up bled - must be before products (updateProductSelect -> setExpiryDate -> reads bledDate)
+    document.getElementById('bled_date_in').value = dayjs().format('YYYY-MM-DD'); // default bled date is today.
+
     // set up expiry - must be after products (setExpiryDate -> reads productSelect)
     setExpiryDate();
-    generateExpiryLabel();
 }
 
 // this is on the group label, but set by changing product form. ? where to put it.
@@ -81,9 +81,11 @@ function generateExpiryLabel() {
 function setExpiryDate() {
     // get DOM elements
     const bledDateIn = document.getElementById('bled_date_in');
+
     const productSelect = document.getElementById('product_select');
     const expiryIn = document.getElementById('expiry_in');
     if (!bledDateIn || !productSelect || !expiryIn) return;
+    if (bledDateIn.value === "") return;
 
     // sets the expiry date in the form from the bled date.
     const selectedProduct = products.find(x => { return x.code === productSelect.value });
@@ -100,6 +102,7 @@ function setBledDate() {
     const productSelect = document.getElementById('product_select');
     const expiryIn = document.getElementById('expiry_in');
     if (!bledDateIn || !productSelect || !expiryIn) return;
+    if (expiryIn.value === "") return;
 
     // sets the bled date in the form from the expiry date.
     const selectedProduct = products.find(x => { return x.code === productSelect.value });
