@@ -59,7 +59,7 @@ class DatesLabel {
 
         // generate barcode
         const dayNumberString = String(getDayNumber(expiryDate)).padStart(3, '0');
-        const barcode = "a" + expiryDate.year() + dayNumberString + "a";
+        const barcode = "a" + expiryDate.year() + dayNumberString + "4a";
         this.barcodeGenerator.generateBarcode(barcode, this.expiryBarcodeSvg, 'codabar');
 
         // generate text
