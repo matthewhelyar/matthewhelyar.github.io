@@ -7,24 +7,23 @@ function startup() {
     barcodeGenerator.generateBarcodefromId("a8738a", 'cmv_barcode_svg', 'codabar');
     barcodeGenerator.generateBarcodefromId("=)0MAVXX603B", 'bag_mfg_barcode_svg', 'code128');
 
+    const dataMatrixBarcode = new DataMatrixBarcode(barcodeGenerator);
+
     // set up DIN
     const errorHandler = new ErrorHandler();
-    const dinLabel = new DinLabel(barcodeGenerator);
+    const dinLabel = new DinLabel(barcodeGenerator, dataMatrixBarcode);
     const dinForm = new DinForm(errorHandler, dinLabel);
 
     // set up groups - must be before products
-    const groupLabel = new GroupsLabel(barcodeGenerator);
+    const groupLabel = new GroupsLabel(barcodeGenerator, dataMatrixBarcode);
     const groupForm = new GroupsForm(groupLabel);
 
     // set up bled and expiry dates
-    const datesLabel = new DatesLabel(barcodeGenerator);
+    const datesLabel = new DatesLabel(barcodeGenerator, dataMatrixBarcode);
     const datesForm = new DatesForm(datesLabel);
 
     // set up products (expiry date set inside here after initial product selected)
     const components = [redCells, platelets, ffp, cryo, granulocytes];
-    const productLabel = new ProductsLabel(barcodeGenerator);
+    const productLabel = new ProductsLabel(barcodeGenerator, dataMatrixBarcode);
     const productForm = new ProductsForm(productLabel, components, groupLabel, datesForm);
-
-    barcodeGenerator.generateDataMatrix(dinLabel.barcode, groupLabel.barcode, productLabel.IsbtCode, datesLabel.IsbtCode);
-    //barcodeGenerator.generateDataMatrix(dinLabel.barcode, groupLabel.barcode, productLabel.IsbtCode, datesLabel.IsbtCode, "=\999999999999999999");
 }

@@ -102,9 +102,11 @@ class ProductsForm {
 }
 
 class ProductsLabel {
-    constructor(barcodeGenerator) {
+    constructor(barcodeGenerator, dataMatrixBarcode) {
         if (!barcodeGenerator) alert("Barcode Generator undefined");
         this.barcodeGenerator = barcodeGenerator;
+        if (!dataMatrixBarcode) alert("DataMatrix Barcode Undefined");
+        this.dataMatrixBarcode = dataMatrixBarcode;
 
         this.productTextFo = document.getElementById('product_text_fo');
         this.packTextBlock = document.getElementById('packTextBlock');
@@ -141,6 +143,7 @@ class ProductsLabel {
         this.barcode = "a0" + selectedProduct.code + "3b";
         this.IsbtCode = "=<" + selectedProduct.code;
         this.barcodeGenerator.generateBarcode(this.barcode, this.productBarcodeSvg, 'codabar');
+        this.dataMatrixBarcode.setProductCode = this.IsbtCode;
 
         if (selectedProduct.pack < 1) {
             this.packTextFo.textContent = "";
@@ -167,8 +170,6 @@ class ProductsLabel {
         this.productTextFo.style.fontSize = "9pt";
         this.productTextFo.style.letterSpacing = "0px";
         this.shrinkLetterSpacingToFitParent(this.productTextFo, this.productTextFoParent);
-
-
     }
 }
 

@@ -40,9 +40,11 @@ class DatesForm {
 }
 
 class DatesLabel {
-    constructor(barcodeGenerator) {
+    constructor(barcodeGenerator, dataMatrixBarcode) {
         if (!barcodeGenerator) alert("Barcode Generator undefined");
         this.barcodeGenerator = barcodeGenerator;
+        if (!dataMatrixBarcode) alert("DataMatrix Barcode Undefined");
+        this.dataMatrixBarcode = dataMatrixBarcode;
 
         this.expiryTspan = document.getElementById('expiry_tspan');
         this.dateBledTspan = document.getElementById('date_bled_tspan');
@@ -57,18 +59,17 @@ class DatesLabel {
             return date1.diff(firstDayOfYear, 'day') + 1;
         }
 
-        // generate barcode
+        // generate barcodes
         const dayNumberString = String(getDayNumber(expiryDate)).padStart(3, '0');
         this.barcode = "a" + expiryDate.year() + dayNumberString + "4a";
-       
         this.barcodeGenerator.generateBarcode(this.barcode, this.expiryBarcodeSvg, 'codabar');
+
+        const expTime = "2359"
+        this.IsbtCode = "&>" + expiryDate.year().toString().slice(1) + dayNumberString + expTime;
+        this.dataMatrixBarcode.setExpiryCode = this.IsbtCode;
 
         // generate text
         this.expiryTspan.textContent = expiryDate.format("DD MMM YYYY");
         this.dateBledTspan.textContent = bledDate.format("DD MMM YYYY");
-
-        // &>0160252359		Expiration date and time. (Year 016, day 025, hour 23, minute 59)
-        const expTime = "2359"
-        this.IsbtCode = "&>" + expiryDate.year().toString().slice(1) + dayNumberString + expTime;
     }
 }

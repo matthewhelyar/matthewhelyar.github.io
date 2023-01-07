@@ -33,7 +33,8 @@ class BarcodeGenerator {
 
         const parent = document.getElementById("blood_unit");
 
-        // concatenate string in one of 2 formats
+        // concatenate string in one of 2 formats. Either RT017-ICCBBA format 10 or 3.
+        // don't know which NHSBT will use. Could also conceivably use format 9.
         let text = "";
         if (phenotype) {
             const numberOfStructures = 5;
