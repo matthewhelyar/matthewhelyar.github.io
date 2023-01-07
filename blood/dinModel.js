@@ -124,9 +124,11 @@ class DinForm {
 }
 
 class DinLabel {
-    constructor(barcodeGenerator) {
+    constructor(barcodeGenerator, dataMatrixBarcode) {
         if (!barcodeGenerator) alert("Barcode Generator undefined");
         this.barcodeGenerator = barcodeGenerator;
+        if (!dataMatrixBarcode) alert("DataMatrix Barcode Undefined");
+        this.dataMatrixBarcode = dataMatrixBarcode;
 
         this.dinSvg = document.getElementById("din_barcode_svg");
         this.smallDinSvg = document.getElementById("din_small_barcode_svg");
@@ -140,10 +142,11 @@ class DinLabel {
     }
 
     apply(dinStr, checkSum, seqStr) {
-        const barcode = "=" + dinStr + (checkSum.checkDigit + 60);
-        const smallBarcode = "&a" + seqStr;
-        this.barcodeGenerator.generateBarcode(barcode, this.dinSvg, 'code128');
-        this.barcodeGenerator.generateBarcode(smallBarcode, this.smallDinSvg, 'code128');
+        this.barcode = "=" + dinStr + (checkSum.checkDigit + 60);
+        this.smallBarcode = "&a" + seqStr;
+        this.barcodeGenerator.generateBarcode(this.barcode, this.dinSvg, 'code128');
+        this.barcodeGenerator.generateBarcode(this.smallBarcode, this.smallDinSvg, 'code128');
+        this.dataMatrixBarcode.setDinCode = this.barcode;
 		
         //this.dinTspan.textContent = `${dinStr.slice(0, 4)} ${dinStr.slice(4, 7)} ${dinStr.slice(7, 10)} ${dinStr.slice(10, 13)}  ${checkSum.checkChar}`;
         this.dinTspan1.textContent = dinStr.slice(0, 4);

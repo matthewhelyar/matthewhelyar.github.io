@@ -102,9 +102,11 @@ class ProductsForm {
 }
 
 class ProductsLabel {
-    constructor(barcodeGenerator) {
+    constructor(barcodeGenerator, dataMatrixBarcode) {
         if (!barcodeGenerator) alert("Barcode Generator undefined");
         this.barcodeGenerator = barcodeGenerator;
+        if (!dataMatrixBarcode) alert("DataMatrix Barcode Undefined");
+        this.dataMatrixBarcode = dataMatrixBarcode;
 
         this.productTextFo = document.getElementById('product_text_fo');
         this.packTextBlock = document.getElementById('packTextBlock');
@@ -138,8 +140,10 @@ class ProductsLabel {
         const selectedProduct = products.find(x => { return x.code === productCode });
         if (selectedProduct == null) return;
 
-        const barcode = "a0" + selectedProduct.code + "3b";
-        this.barcodeGenerator.generateBarcode(barcode, this.productBarcodeSvg, 'codabar');
+        this.barcode = "a0" + selectedProduct.code + "3b";
+        this.IsbtCode = "=<" + selectedProduct.code;
+        this.barcodeGenerator.generateBarcode(this.barcode, this.productBarcodeSvg, 'codabar');
+        this.dataMatrixBarcode.setProductCode = this.IsbtCode;
 
         if (selectedProduct.pack < 1) {
             this.packTextFo.textContent = "";
@@ -159,8 +163,8 @@ class ProductsLabel {
         this.rhcSelect.disabled = (selectedProduct.component.rhPhenVisibility == "hidden");
         this.rheSelect.disabled = (selectedProduct.component.rhPhenVisibility == "hidden");
         this.irradSticker.style.visibility = selectedProduct.irr ? "visible" : "hidden";
-		
-		        this.productTextFo.textContent = selectedProduct.text;
+
+        this.productTextFo.textContent = selectedProduct.text;
 
         // default font settings then shrink to fit if necessary
         this.productTextFo.style.fontSize = "9pt";

@@ -52,9 +52,11 @@ class GroupsForm {
 }
 
 class GroupsLabel {
-    constructor(barcodeGenerator) {
+    constructor(barcodeGenerator, dataMatrixBarcode) {
         if (!barcodeGenerator) alert("Barcode Generator undefined");
         this.barcodeGenerator = barcodeGenerator;
+        if (!dataMatrixBarcode) alert("DataMatrix Barcode Undefined");
+        this.dataMatrixBarcode = dataMatrixBarcode;
 
         this.groupBarcodeSvg = document.getElementById('group_barcode_svg');
         this.cmvBarcodeSvg = document.getElementById('cmv_barcode_svg');
@@ -74,8 +76,9 @@ class GroupsLabel {
         if (!group) return;
         const rhdCode = '0';
         const reservedCode = '0';
-        const barcode = "=%" + group.code + rhdCode + reservedCode;
-        this.barcodeGenerator.generateBarcode(barcode, this.groupBarcodeSvg, 'code128');
+        this.barcode = "=%" + group.code + rhdCode + reservedCode;
+        this.barcodeGenerator.generateBarcode(this.barcode, this.groupBarcodeSvg, 'code128');
+        this.dataMatrixBarcode.setGroupCode = this.barcode;
 
         this.aboTspan.textContent = group.abo;
         this.rhdTspan.textContent = group.rhd.rhdText;
