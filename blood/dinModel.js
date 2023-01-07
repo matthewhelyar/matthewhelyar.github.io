@@ -17,7 +17,7 @@ class DinForm {
         this.submit = document.getElementById("din_go");
 
         const init = (() => {
-            this.fin.value = "S0000";
+            this.fin.value = "G0000";
             this.year.value = dayjs().format('YY');
             this.seq.value = "000000";
 
