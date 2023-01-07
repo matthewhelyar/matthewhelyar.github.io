@@ -27,7 +27,7 @@
 		const e2 = document.getElementById(elementId2);
 		const textElement = document.getElementById(textElementId);
 		if (!e1 || !e2  || !textElement) return;
-		textElement.innerHTML = 3 * parseInt(e2.value) + parseInt(e1.value);
+		textElement.innerHTML = 3 * parseInt(e1.value) + parseInt(e2.value);
 		
 		setOutputText();
 	}

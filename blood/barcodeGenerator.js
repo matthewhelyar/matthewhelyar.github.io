@@ -59,6 +59,7 @@ class BarcodeGenerator {
         let svg = DATAMatrix({
             msg: text,
             dim: 10, // only 10mm because inside blood_unit SVG. if it was outside it would need to be about dim:38
+			         // max size in specification is 13mm square. Typical size in example for blood label is 8mm square.
             pad: 0,
             pal: ["#000", "#fff"],
         });
