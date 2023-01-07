@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>ISBT ST-001 Data Structure 012 - Extended Phenotype code</title>
+
+<script>
+	function enableSelects(checkBox, elementId1, elementId2, textElementId){
+		const e1 = document.getElementById(elementId1);
+		const e2 = document.getElementById(elementId2);
+		const textElement = document.getElementById(textElementId);
+		if (!checkBox || !e1 || !e2 || !textElement) return;
+		e1.disabled = !checkBox.checked;
+		e2.disabled = !checkBox.checked;
+		
+		if (checkBox.checked){
+			setDigit(elementId1, elementId2, textElementId)
+		}
+		else{
+			textElement.innerHTML = 9;
+			setOutputText();
+		}
+	}
+	
+	function setDigit(elementId1, elementId2, textElementId){
+		const e1 = document.getElementById(elementId1);
+		const e2 = document.getElementById(elementId2);
+		const textElement = document.getElementById(textElementId);
+		if (!e1 || !e2  || !textElement) return;
+		textElement.innerHTML = 3 * parseInt(e2.value) + parseInt(e1.value);
+		
+		setOutputText();
+	}
+	
+	function setOutputText()
+	{
+		const outText = document.getElementById('outputText');
+		if (!outText) return;
+		const textElements = ['RhCEText', 'KellText', 'CwMiText', 'MNText', 'SsText', 'UP1Text', 'LuaKpaText', 'LeaLebText', 
+		'FyaFybText', 'JkaJkbText', 'DoaDobText', 'InaCobText', 'DiaVSVText', 'JsaCText', 'cEText', 'eCMVText', 'SpecialTestingText'];
+		
+		let outputString = "";
+		for (const id of textElements){
+			const e = document.getElementById(id);
+			if (!e) {
+				console.log("error, can't find " + id);
+				return;
+			}
+			outputString += e.textContent;
+		}
+		outText.textContent = outputString;
+	}
+</script>
+<style>
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+td {
+	text-align:center;
+}
+</style>
+
+
+<!-- table {
+    border: 1px solid black;
+    padding: 2px 5px 2px 5px;
+}
+
+td {
+    border: 1px solid black;
+    padding: 2px 5px 2px 5px;
+} -->
+
+</head>
+
+<body>
+
+
+
+<p>
+<i>Common Rh antigens may be encoded together as a phenotype (Rh column 1) or as individual Rh antigens (C,c,E,e, columns 14-16). 
+If Rh antigens are encoded individually using positions 14, 15, and/or 16, then the value of column one shall be set to 9 (no information). 
+Conversely, if the phenotype is present in column 1, then the values of the C,c,E,e antigens shall all be set to ni or nt.</i><br/>
+<br/>
+It remains to be seen which one NHSBT will use.<br/>
+<br/>
+RhCE antigens can also already be encoded in the 3rd digit of the group barcode, but that's not used by NHSBT.
+The only Rh phenotype that can't be encoded in column one is Rh null.<br/></p>
+	<form>
+		<table>
+			<tr>
+				<th>Antigen pair</th>
+				<th>Information available</th>
+				<th colspan="2">Antigens</th>
+				<th>Code number</th>
+			</tr>
+			<tr>
+				<td>
+					<label for="RhCE">RhCE</label>
+				</td>
+				<td>
+					<input id="RhCECheckbox" type="checkbox" onchange="enableSelects(this, 'RhC', 'RhE', 'RhCEText');" />
+				</td>
+				<td>
+					<select id="RhC" onchange="setDigit('RhC', 'RhE', 'RhCEText');" disabled >
+						<option value="0">C+ c-</option>
+						<option value="1">C+ c+</option>
+						<option value="2">C- c+</option>
+					</select>
+				</td>
+				<td>
+					<select id="RhE" onchange="setDigit('RhC', 'RhE', 'RhCEText');" disabled >
+						<option value="0">E+ e-</option>
+						<option value="1">E+ e+</option>
+						<option value="2">E- e+</option>
+					</select>
+				</td>
+				<td>
+					<span id="RhCEText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="Kell">K / k</label>
+				</td>
+				<td>
+					<input id="KellCheckbox" type="checkbox" onchange="enableSelects(this, 'K', 'k', 'KellText');" />
+				</td>
+				<td>
+					<select id="K" onchange="setDigit('K', 'k', 'KellText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">K-</option>
+						<option value="2">K+</option>
+					</select>
+				</td>
+				<td>
+					<select id="k" onchange="setDigit('K', 'k', 'KellText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">k-</option>
+						<option value="2">k+</option>
+					</select>
+				</td>
+				<td>
+					<span id="KellText">9</span>
+				</td>
+			</tr>		
+			<tr>
+				<td>
+					<label for="CwMi">C<sup>w</sup> / Mi<sup>a</sup></label>
+				</td>
+				<td>
+					<input id="CwMiCheckbox" type="checkbox" onchange="enableSelects(this, 'Cw', 'Mi', 'CwMiText');" />
+				</td>
+				<td>
+					<select id="Cw" onchange="setDigit('Cw', 'Mi', 'CwMiText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Cw-</option>
+						<option value="2">Cw+</option>
+					</select>
+				</td>
+				<td>
+					<select id="Mi" onchange="setDigit('Cw', 'Mi', 'CwMiText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Mi&#x1D43;-</option>
+						<option value="2">Mi&#x1D43;+</option>
+					</select>
+				</td>
+				<td>
+					<span id="CwMiText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="MN">M / N</label>
+				</td>
+				<td>
+					<input id="MNCheckbox" type="checkbox" onchange="enableSelects(this, 'M', 'N', 'MNText');" />
+				</td>
+				<td>
+					<select id="M" onchange="setDigit('M', 'N', 'MNText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">M-</option>
+						<option value="2">M+</option>
+					</select>
+				</td>
+				<td>
+					<select id="N" onchange="setDigit('M', 'N', 'MNText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">N-</option>
+						<option value="2">N+</option>
+					</select>
+				</td>
+				<td>
+					<span id="MNText">9</span>
+				</td>
+			</tr>			
+			<tr>
+				<td>
+					<label for="Ss">S / s</label>
+				</td>
+				<td>
+					<input id="SsCheckbox" type="checkbox" onchange="enableSelects(this, 'S', 's', 'SsText');" />
+				</td>
+				<td>
+					<select id="S" onchange="setDigit('S', 's', 'SsText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">S-</option>
+						<option value="2">S+</option>
+					</select>
+				</td>
+				<td>
+					<select id="s" onchange="setDigit('S', 's', 'SsText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">s-</option>
+						<option value="2">s+</option>
+					</select>
+				</td>
+				<td>
+					<span id="SsText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="UP1">U / P1</label>
+				</td>
+				<td>
+					<input id="UP1Checkbox" type="checkbox" onchange="enableSelects(this, 'U', 'P1', 'UP1Text');" />
+				</td>
+				<td>
+					<select id="U" onchange="setDigit('U', 'P1', 'UP1Text');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">U-</option>
+						<option value="2">U+</option>
+					</select>
+				</td>
+				<td>
+					<select id="P1" onchange="setDigit('U', 'P1', 'UP1Text');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">P1-</option>
+						<option value="2">P1+</option>
+					</select>
+				</td>
+				<td>
+					<span id="UP1Text">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="LuaKpa">Lu<sup>a</sup> / Kp<sup>a</sup></label>
+				</td>
+				<td>
+					<input id="LuaKpaCheckbox" type="checkbox" onchange="enableSelects(this, 'Lua', 'Kpa', 'LuaKpaText');" />
+				</td>
+				<td>
+					<select id="Lua" onchange="setDigit('Lua', 'Kpa', 'LuaKpaText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Lua-</option>
+						<option value="2">Lua+</option>
+					</select>
+				</td>
+				<td>
+					<select id="Kpa" onchange="setDigit('Lua', 'Kpa', 'LuaKpaText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Kpa-</option>
+						<option value="2">Kpa+</option>
+					</select>
+				</td>
+				<td>
+					<span id="LuaKpaText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="LeaLeb">Le<sup>a</sup> / Le<sup>b</sup></label>
+				</td>
+				<td>
+					<input id="LeaLebCheckbox" type="checkbox" onchange="enableSelects(this, 'Lea', 'Leb', 'LeaLebText');" />
+				</td>
+				<td>
+					<select id="Lea" onchange="setDigit('Lea', 'Leb', 'LeaLebText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Lea-</option>
+						<option value="2">Lea+</option>
+					</select>
+				</td>
+				<td>
+					<select id="Leb" onchange="setDigit('Lea', 'Leb', 'LeaLebText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Leb-</option>
+						<option value="2">Leb+</option>
+					</select>
+				</td>
+				<td>
+					<span id="LeaLebText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="FyaFyb">Fy<sup>a</sup> / Fy<sup>b</sup></label>
+				</td>
+				<td>
+					<input id="FyaFybCheckbox" type="checkbox" onchange="enableSelects(this, 'Fya', 'Fyb', 'FyaFybText');" />
+				</td>
+				<td>
+					<select id="Fya" onchange="setDigit('Fya', 'Fyb', 'FyaFybText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Fya-</option>
+						<option value="2">Fya+</option>
+					</select>
+				</td>
+				<td>
+					<select id="Fyb" onchange="setDigit('Fya', 'Fyb', 'FyaFybText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Fyb-</option>
+						<option value="2">Fyb+</option>
+					</select>
+				</td>
+				<td>
+					<span id="FyaFybText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="JkaJkb">Jk<sup>a</sup> / Jk<sup>b</sup></label>
+				</td>
+				<td>
+					<input id="JkaJkbCheckbox" type="checkbox" onchange="enableSelects(this, 'Jka', 'Jkb', 'JkaJkbText');" />
+				</td>
+				<td>
+					<select id="Jka" onchange="setDigit('Jka', 'Jkb', 'JkaJkbText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Jka-</option>
+						<option value="2">Jka+</option>
+					</select>
+				</td>
+				<td>
+					<select id="Jkb" onchange="setDigit('Jka', 'Jkb', 'JkaJkbText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Jkb-</option>
+						<option value="2">Jkb+</option>
+					</select>
+				</td>
+				<td>
+					<span id="JkaJkbText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="DoaDob">Do<sup>a</sup> / Do<sup>b</sup></label>
+				</td>
+				<td>
+					<input id="DoaDobCheckbox" type="checkbox" onchange="enableSelects(this, 'Doa', 'Dob', 'DoaDobText');" />
+				</td>
+				<td>
+					<select id="Doa" onchange="setDigit('Doa', 'Dob', 'DoaDobText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Doa-</option>
+						<option value="2">Doa+</option>
+					</select>
+				</td>
+				<td>
+					<select id="Dob" onchange="setDigit('Doa', 'Dob', 'DoaDobText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Dob-</option>
+						<option value="2">Dob+</option>
+					</select>
+				</td>
+				<td>
+					<span id="DoaDobText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="InaCob">In<sup>a</sup> / Co<sup>b</sup></label>
+				</td>
+				<td>
+					<input id="InaCobCheckbox" type="checkbox" onchange="enableSelects(this, 'Ina', 'Cob', 'InaCobText');" />
+				</td>
+				<td>
+					<select id="Ina" onchange="setDigit('Ina', 'Cob', 'InaCobText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Ina-</option>
+						<option value="2">Ina+</option>
+					</select>
+				</td>
+				<td>
+					<select id="Cob" onchange="setDigit('Ina', 'Cob', 'InaCobText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Cob-</option>
+						<option value="2">Cob+</option>
+					</select>
+				</td>
+				<td>
+					<span id="InaCobText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="DiaVSV">Di<sup>a</sup> / VS/V</label>
+				</td>
+				<td>
+					<input id="DiaVSVCheckbox" type="checkbox" onchange="enableSelects(this, 'Dia', 'VSV', 'DiaVSVText');" />
+				</td>
+				<td>
+					<select id="Dia" onchange="setDigit('Dia', 'VSV', 'DiaVSVText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Dia-</option>
+						<option value="2">Dia+</option>
+					</select>
+				</td>
+				<td>
+					<select id="VSV" onchange="setDigit('Dia', 'VSV', 'DiaVSVText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">VS/V-</option>
+						<option value="2">VS/V+</option>
+					</select>
+				</td>
+				<td>
+					<span id="DiaVSVText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="JsaC">Ja<sup>a</sup> / C</label>
+				</td>
+				<td>
+					<input id="JsaCCheckbox" type="checkbox" onchange="enableSelects(this, 'Jsa', 'C', 'JsaCText');" />
+				</td>
+				<td>
+					<select id="Jsa" onchange="setDigit('Jsa', 'C', 'JsaCText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">Jsa-</option>
+						<option value="2">Jsa+</option>
+					</select>
+				</td>
+				<td>
+					<select id="C" onchange="setDigit('Jsa', 'C', 'JsaCText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">C-</option>
+						<option value="2">C+</option>
+					</select>
+				</td>
+				<td>
+					<span id="JsaCText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="cE">c / E</label>
+				</td>
+				<td>
+					<input id="cECheckbox" type="checkbox" onchange="enableSelects(this, 'c', 'E', 'cEText');" />
+				</td>
+				<td>
+					<select id="c" onchange="setDigit('c', 'E', 'cEText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">c-</option>
+						<option value="2">c+</option>
+					</select>
+				</td>
+				<td>
+					<select id="E" onchange="setDigit('c', 'E', 'cEText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">E-</option>
+						<option value="2">E+</option>
+					</select>
+				</td>
+				<td>
+					<span id="cEText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="eCMV">e / CMV</label>
+				</td>
+				<td>
+					<input id="eCMVCheckbox" type="checkbox" onchange="enableSelects(this, 'e', 'CMV', 'eCMVText');" />
+				</td>
+				<td>
+					<select id="e" onchange="setDigit('e', 'CMV', 'eCMVText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">e-</option>
+						<option value="2">e+</option>
+					</select>
+				</td>
+				<td>
+					<select id="CMV" onchange="setDigit('e', 'CMV', 'eCMVText');" disabled >
+						<option value="0">not tested</option>
+						<option value="1">CMV-</option>
+						<option value="2">CMV+</option>
+					</select>
+				</td>
+				<td>
+					<span id="eCMVText">9</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label for="SpecialTesting">Special Testing</br>(negative for)</label>
+				</td>
+				<td>
+					<!-- <input id="SpecialTestingCheckbox" type="checkbox" onchange="" /> -->
+				</td>
+				<td colspan="2" >
+					<select id="SpecialTesting" onchange="document.getElementById('SpecialTestingText').innerHTML=this.value; setOutputText();" >
+						<option value="00">information elsewhere</option>
+						<option value="01">Ena</option>
+						<option value="02">‘N’</option>
+						<option value="03">Vw</option>
+						<option value="04">Mur*</option>
+						<option value="05">Hut</option>
+						<option value="06">Hil</option>
+						<option value="07">P</option>
+						<option value="08">PP1Pk</option>
+						<option value="09">hrS</option>
+						<option value="10">hrB</option>
+						<option value="11">f</option>
+						<option value="12">Ce</option>
+						<option value="13">G</option>
+						<option value="14">Hr0</option>
+						<option value="15">CE</option>
+						<option value="16">cE</option>
+						<option value="17">Cx</option>
+						<option value="18">Ew</option>
+						<option value="19">Dw</option>
+						<option value="20">hrH</option>
+						<option value="21">Goa</option>
+						<option value="22">Rh32</option>
+						<option value="23">Rh33</option>
+						<option value="24">Tar</option>
+						<option value="25">Kpb</option>
+						<option value="26">Kpc</option>
+						<option value="27">Jsb</option>
+						<option value="28">Ula</option>
+						<option value="29">K11</option>
+						<option value="30">K12</option>
+						<option value="31">K13</option>
+						<option value="32">K14</option>
+						<option value="33">K17</option>
+						<option value="34">K18</option>
+						<option value="35">K19</option>
+						<option value="36">K22</option>
+						<option value="37">K23</option>
+						<option value="38">K24</option>
+						<option value="39">Lub</option>
+						<option value="40">Lu3</option>
+						<option value="41">Lu4</option>
+						<option value="42">Lu5</option>
+						<option value="43">Lu6</option>
+						<option value="44">Lu7</option>
+						<option value="45">Lu8</option>
+						<option value="46">Lu11</option>
+						<option value="47">Lu12</option>
+						<option value="48">Lu13</option>
+						<option value="49">Lu20</option>
+						<option value="50">Aua</option>
+						<option value="51">Aub</option>
+						<option value="52">Fy4</option>
+						<option value="53">Fy5</option>
+						<option value="54">Fy6</option>
+						<option value="55">Dib</option>
+						<option value="56">Sda</option>
+						<option value="57">Wrb</option>
+						<option value="58">Ytb</option>
+						<option value="59">Xga</option>
+						<option value="60">Sc1</option>
+						<option value="61">Sc2</option>
+						<option value="62">Sc3</option>
+						<option value="63">Joa</option>
+						<option value="64" disabled>removed</option>
+						<option value="65">Hy</option>
+						<option value="66">Gya</option>
+						<option value="67">Co3</option>
+						<option value="68">LWa</option>
+						<option value="69">LWb</option>
+						<option value="70">Kx</option>
+						<option value="71">Ge2</option>
+						<option value="72">Ge3</option>
+						<option value="73">Wb</option>
+						<option value="74">Lsa</option>
+						<option value="75">Ana</option>
+						<option value="76">Dha</option>
+						<option value="77">Cra</option>
+						<option value="78">IFC</option>
+						<option value="79">Kna</option>
+						<option value="80">Inb</option>
+						<option value="81">Csa</option>
+						<option value="82">I</option>
+						<option value="83">Era</option>
+						<option value="84">Vel</option>
+						<option value="85">Lan</option>
+						<option value="86">Ata</option>
+						<option value="87">Jra</option>
+						<option value="88">Oka</option>
+						<option value="89">Wra</option>
+						<option value="90">Ge4</option>
+						<option value="91" disabled>reserved for future use</option>
+						<option value="92" disabled>reserved for future use</option>
+						<option value="93" disabled>reserved for future use</option>
+						<option value="94" disabled>reserved for future use</option>
+						<option value="95">Nationally specified</option>
+						<option value="96">Hemoglobin S negative</option>
+						<option value="97">parvovirus B19 antibody present</option>
+						<option value="98">IgA deficient</option>
+						<option value="99" selected>no information provided</option>
+													
+					</select>
+				</td>
+				<td>
+					<span id="SpecialTestingText">99</span>
+				</td>
+			</tr>
+		</table>
+	</form>
+	
+	<p id="outputText" />
+</body>
