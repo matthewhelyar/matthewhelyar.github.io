@@ -59,11 +59,16 @@ class DatesLabel {
 
         // generate barcode
         const dayNumberString = String(getDayNumber(expiryDate)).padStart(3, '0');
-        const barcode = "a" + expiryDate.year() + dayNumberString + "4a";
-        this.barcodeGenerator.generateBarcode(barcode, this.expiryBarcodeSvg, 'codabar');
+        this.barcode = "a" + expiryDate.year() + dayNumberString + "4a";
+       
+        this.barcodeGenerator.generateBarcode(this.barcode, this.expiryBarcodeSvg, 'codabar');
 
         // generate text
         this.expiryTspan.textContent = expiryDate.format("DD MMM YYYY");
         this.dateBledTspan.textContent = bledDate.format("DD MMM YYYY");
+
+        // &>0160252359		Expiration date and time. (Year 016, day 025, hour 23, minute 59)
+        const expTime = "2359"
+        this.IsbtCode = "&>" + expiryDate.year().toString().slice(1) + dayNumberString + expTime;
     }
 }

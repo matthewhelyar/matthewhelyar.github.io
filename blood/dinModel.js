@@ -140,10 +140,10 @@ class DinLabel {
     }
 
     apply(dinStr, checkSum, seqStr) {
-        const barcode = "=" + dinStr + (checkSum.checkDigit + 60);
-        const smallBarcode = "&a" + seqStr;
-        this.barcodeGenerator.generateBarcode(barcode, this.dinSvg, 'code128');
-        this.barcodeGenerator.generateBarcode(smallBarcode, this.smallDinSvg, 'code128');
+        this.barcode = "=" + dinStr + (checkSum.checkDigit + 60);
+        this.smallBarcode = "&a" + seqStr;
+        this.barcodeGenerator.generateBarcode(this.barcode, this.dinSvg, 'code128');
+        this.barcodeGenerator.generateBarcode(this.smallBarcode, this.smallDinSvg, 'code128');
 		
         //this.dinTspan.textContent = `${dinStr.slice(0, 4)} ${dinStr.slice(4, 7)} ${dinStr.slice(7, 10)} ${dinStr.slice(10, 13)}  ${checkSum.checkChar}`;
         this.dinTspan1.textContent = dinStr.slice(0, 4);

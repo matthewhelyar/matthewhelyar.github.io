@@ -24,6 +24,46 @@ class BarcodeGenerator {
         svg.setAttribute('y', y);
         svg.setAttribute('width', w);
         svg.setAttribute('height', h);
+
+        svg.setAttribute('title', value);
+    }
+
+    generateDataMatrix(din, group, product, expiry, phenotype) {
+        if (!din || !group || !product || !expiry) return;
+
+        const parent = document.getElementById("blood_unit");
+
+        // concatenate string in one of 2 formats
+        let text = "";
+        if (phenotype) {
+            const numberOfStructures = 5;
+            const messageCode = 10;
+            const leader = "=+" + String(numberOfStructures).padStart(2, '0') + String(messageCode).padStart(3, '0');
+            text = leader + din + group + product + expiry + phenotype;
+        }
+        else {
+            const numberOfStructures = 4;
+            const messageCode = 3;
+            const leader = "=+" + String(numberOfStructures).padStart(2, '0') + String(messageCode).padStart(3, '0');
+            text = leader + din + group + product + expiry;
+        }
+        //console.log(text);
+
+        // remove old element with this id
+        const id = "dmSvg"
+        let oldSvg = document.getElementById(id);
+        if (oldSvg) oldSvg.remove();
+
+        // make a new svg element and append it to parent.
+        let svg = DATAMatrix({
+            msg: text,
+            dim: 10, // only 10mm because inside blood_unit SVG. if it was outside it would need to be about dim:38
+            pad: 0,
+            pal: ["#000", "#fff"],
+        });
+        svg.setAttribute("id", id);
+        svg.setAttribute('title', text);
+        parent.appendChild(svg);
     }
 }
 

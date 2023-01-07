@@ -74,8 +74,8 @@ class GroupsLabel {
         if (!group) return;
         const rhdCode = '0';
         const reservedCode = '0';
-        const barcode = "=%" + group.code + rhdCode + reservedCode;
-        this.barcodeGenerator.generateBarcode(barcode, this.groupBarcodeSvg, 'code128');
+        this.barcode = "=%" + group.code + rhdCode + reservedCode;
+        this.barcodeGenerator.generateBarcode(this.barcode, this.groupBarcodeSvg, 'code128');
 
         this.aboTspan.textContent = group.abo;
         this.rhdTspan.textContent = group.rhd.rhdText;

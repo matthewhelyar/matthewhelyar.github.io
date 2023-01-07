@@ -24,4 +24,7 @@ function startup() {
     const components = [redCells, platelets, ffp, cryo, granulocytes];
     const productLabel = new ProductsLabel(barcodeGenerator);
     const productForm = new ProductsForm(productLabel, components, groupLabel, datesForm);
+
+    barcodeGenerator.generateDataMatrix(dinLabel.barcode, groupLabel.barcode, productLabel.IsbtCode, datesLabel.IsbtCode);
+    //barcodeGenerator.generateDataMatrix(dinLabel.barcode, groupLabel.barcode, productLabel.IsbtCode, datesLabel.IsbtCode, "=\999999999999999999");
 }
