@@ -4,7 +4,7 @@ class DataMatrixBarcode {
         this.barcodeGenerator = barcodeGenerator;
 
         this.barcodeParent = document.getElementById("blood_unit");
-        //this.phenotypeCode = "=\\999999999999999999"; // one of the \ is an escape character.
+        this.phenotypeCode = "=\\999999999999999999"; // one of the \ is an escape character.
     }
 
     set setDinCode(str) {
