@@ -1,43 +1,15 @@
 <!DOCTYPE html>
 
-<!--
-Ideas:
-- DIN fields skip to next one as they fill
-- DIN year linked to bled date
-- allow editing things by double clicking right on the SVG
-- improve variable text block widths for different fonts on different platforms (linux, windows, mobile etc)
-- refactor groups.js and products.js into classes.
--->
 <html>
 <head>
     <link rel="icon" href="data:,">
-	
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Blood Component Simulator</title>
-	
 	<meta charset="utf-8">
 	<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<!-- <link href="https://fonts.googleapis.com/css2?family=PT+Sans&display=swap" rel="stylesheet"> -->
-	<!-- <link href="https://fonts.googleapis.com/css2?family=PT+Sans+Narrow&display=swap" rel="stylesheet"> -->
-	<!-- <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> -->
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="StyleSheet.css" type="text/css" />
-
-	
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-    <script src="./datamatrix.min.js"></script>
-    <script src="./dataMatrixBarcodeModel.js"></script>
-    <script src="./groups.js"></script>
-    <script src="./products.js"></script>
-    <script src="./errorHandler.js"></script>
-    <script src="./barcodeGenerator.js"></script>
-    <script src="./dinModel.js"></script>
-    <script src="./groupsModel.js"></script>
-    <script src="./productsModel.js"></script>
-    <script src="./bledExpiryModel.js"></script>
-    <script src="./script.js"></script>
 </head>
 
 <body>
@@ -350,5 +322,6 @@ Ideas:
             </td>
         </tr>
     </table>
+    <script src="./dist/main.js" type="text/javascript"></script>
 </body>
 </html>

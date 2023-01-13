@@ -1,0 +1,6 @@
+Ideas:
+- DIN fields skip to next one as they fill
+- DIN year linked to bled date
+- allow editing things by double clicking right on the SVG
+- improve variable text block widths for different fonts on different platforms (linux, windows, mobile etc)
+- refactor groups.js and products.js into classes.

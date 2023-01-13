@@ -1,42 +1,48 @@
-// everything to do with DIN form and DIN on SVG. ? split into 2 different classes
+import dayjs from 'dayjs';
+import { BarcodeGenerator } from './barcodeGenerator';
+import { DataMatrixBarcode } from './dataMatrixBarcodeModel';
+import { ErrorHandler } from './errorHandler';
 
-class DinForm {
-    constructor(errorHandler, dinLabel) {
-        // DI
+export class DinForm {
+    error: ErrorHandler;
+    dinLabel: DinLabel;
+    fin: HTMLInputElement;
+    year: HTMLInputElement;
+    seq: HTMLInputElement;
+    cd: HTMLInputElement;
+    submit: HTMLButtonElement;
+
+    constructor(errorHandler: ErrorHandler, dinLabel: DinLabel) {
         if (!errorHandler) alert("Error handler undefined");
         this.error = errorHandler;
 
         if (!dinLabel) alert("DIN label undefined");
         this.dinLabel = dinLabel;
 
-        // RAII
-        this.fin = document.getElementById("din_fin_in");
-        this.year = document.getElementById("din_year_in");
-        this.seq = document.getElementById("din_seq_in");
-        this.cd = document.getElementById("din_cd_in");
-        this.submit = document.getElementById("din_go");
+        this.fin = document.querySelector("#din_fin_in")!;
+        this.year = document.querySelector("#din_year_in")!;
+        this.seq = document.querySelector("#din_seq_in")!;
+        this.cd = document.querySelector("#din_cd_in")!;
+        this.submit = document.querySelector("#din_go")!;
 
-        const init = (() => {
-            this.fin.value = "G0000";
-            this.year.value = dayjs().format('YY');
-            this.seq.value = "000000";
+        this.fin.value = "G0000";
+        this.year.value = dayjs().format('YY');
+        this.seq.value = "000000";
 
-            this.fin.addEventListener('change', this.generateDin.bind(this));
-            this.year.addEventListener('change', this.generateDin.bind(this));
-            this.seq.addEventListener('change', this.generateDin.bind(this));
-            this.submit.addEventListener('click', this.generateDin.bind(this));
+        this.fin.addEventListener('change', this.generateDin.bind(this));
+        this.year.addEventListener('change', this.generateDin.bind(this));
+        this.seq.addEventListener('change', this.generateDin.bind(this));
+        this.submit.addEventListener('click', this.generateDin.bind(this));
 
-            this.generateDin();
-        })(); // IIFE
+        this.generateDin();
     }
 
-    formatMasked(textSource) {
+    formatMasked(textSource: HTMLInputElement) {
         // get form data in upper case without spaces.
-        const regexSpace = /\s/g;
-        return textSource.value.replace(regexSpace, '').toUpperCase();
+        return textSource.value.replace(/\s/g, '').toUpperCase();
     }
 
-    validateInputs(finStr, yearStr, seqStr) {
+    validateInputs(finStr: string, yearStr: string, seqStr: string) {
         this.error.clearError(this.fin);
         this.error.clearError(this.year);
         this.error.clearError(this.seq);
@@ -50,15 +56,15 @@ class DinForm {
             this.error.setError(this.fin, "The first 3 digits of FIN can only contain A-N, P-Z or 0-9.");
             errorSet = true;
         };
-        if (isNaN(finStr.slice(3))) {
+        if (/[^0-9]/g.test(finStr.slice(3))) {
             this.error.setError(this.fin, "The last 2 digits of FIN can only contain numbers.");
             errorSet = true;
         };
-        if (yearStr.length != 2 || isNaN(yearStr) || yearStr < 0 || yearStr > 99) {
+        if (yearStr.length != 2 || /[^0-9]/g.test(yearStr)) {
             this.error.setError(this.year, "Year string wrong. Must be a 2 digit number between 00 and 99.");
             errorSet = true;
         };
-        if (seqStr.length != 6 || isNaN(seqStr) || yearStr < 0 || yearStr > 999999) {
+        if (seqStr.length != 6 || /[^0-9]/g.test(seqStr)) {
             this.error.setError(this.seq, "Sequence number string wrong. Must be a 6 digit number between 000000 and 999999.");
             errorSet = true;
         };
@@ -74,7 +80,7 @@ class DinForm {
         return dinStr
     }
 
-    calculateChecksum(dinStr) {
+    calculateChecksum(dinStr: string) {
         let dinArray = dinStr.split("");
 
         // calculate checksum, both eye readable and numerical
@@ -92,10 +98,10 @@ class DinForm {
             sum += weightedValue;
         }
         // modulo to get value between 0 and 36
-        const checkDigit = (38 - (sum % 37)) % 37;
+        const checkDigit: number = (38 - (sum % 37)) % 37;
 
         // convert back from value to character
-        const checkChar = charArray[checkDigit];
+        const checkChar: string = charArray[checkDigit];
         return { checkDigit, checkChar };
     }
 
@@ -123,31 +129,44 @@ class DinForm {
     }
 }
 
-class DinLabel {
-    constructor(barcodeGenerator, dataMatrixBarcode) {
+export class DinLabel {
+    barcodeGenerator: BarcodeGenerator;
+    dataMatrixBarcode: DataMatrixBarcode;
+    dinSvg: HTMLElement;
+    smallDinSvg: HTMLElement;
+    dinTspan: HTMLElement;
+    dinTspan1: HTMLElement;
+    dinTspan2: HTMLElement;
+    dinTspan3: HTMLElement;
+    dinTspan4: HTMLElement;
+    dinTspan5: HTMLElement;
+    barcode: string = "";
+    smallBarcode: string = "";
+
+    constructor(barcodeGenerator: BarcodeGenerator, dataMatrixBarcode: DataMatrixBarcode) {
         if (!barcodeGenerator) alert("Barcode Generator undefined");
         this.barcodeGenerator = barcodeGenerator;
         if (!dataMatrixBarcode) alert("DataMatrix Barcode Undefined");
         this.dataMatrixBarcode = dataMatrixBarcode;
 
-        this.dinSvg = document.getElementById("din_barcode_svg");
-        this.smallDinSvg = document.getElementById("din_small_barcode_svg");
-        this.dinTspan = document.getElementById("din_eye_readable");
-        this.dinTspan1 = document.getElementById("din_eye_readable_1");
-        this.dinTspan2 = document.getElementById("din_eye_readable_2");
-        this.dinTspan3 = document.getElementById("din_eye_readable_3");
-        this.dinTspan4 = document.getElementById("din_eye_readable_4");
-        this.dinTspan5 = document.getElementById("din_eye_readable_5");
-        //this.cdBox = document.getElementById("checkdigitBox"); // not currently used.
+        this.dinSvg = document.querySelector("#din_barcode_svg")!;
+        this.smallDinSvg = document.querySelector("#din_small_barcode_svg")!;
+        this.dinTspan = document.querySelector("#din_eye_readable")!;
+        this.dinTspan1 = document.querySelector("#din_eye_readable_1")!;
+        this.dinTspan2 = document.querySelector("#din_eye_readable_2")!;
+        this.dinTspan3 = document.querySelector("#din_eye_readable_3")!;
+        this.dinTspan4 = document.querySelector("#din_eye_readable_4")!;
+        this.dinTspan5 = document.querySelector("#din_eye_readable_5")!;
+        //this.cdBox = document.querySelector("#checkdigitBox"); // not currently used.
     }
 
-    apply(dinStr, checkSum, seqStr) {
+    apply(dinStr: string, checkSum: { checkDigit: number, checkChar: string }, seqStr: string) {
         this.barcode = "=" + dinStr + (checkSum.checkDigit + 60);
         this.smallBarcode = "&a" + seqStr;
         this.barcodeGenerator.generateBarcode(this.barcode, this.dinSvg, 'code128');
         this.barcodeGenerator.generateBarcode(this.smallBarcode, this.smallDinSvg, 'code128');
         this.dataMatrixBarcode.setDinCode = this.barcode;
-		
+
         //this.dinTspan.textContent = `${dinStr.slice(0, 4)} ${dinStr.slice(4, 7)} ${dinStr.slice(7, 10)} ${dinStr.slice(10, 13)}  ${checkSum.checkChar}`;
         this.dinTspan1.textContent = dinStr.slice(0, 4);
         this.dinTspan2.textContent = dinStr.slice(4, 7);

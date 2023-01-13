@@ -1,25 +1,33 @@
-class RhD {
-    constructor(cssClass, rhdText, smallDText) {
+export class RhD {
+    cssClass: string;
+    rhdText: string;
+    smallDText: string;
+
+    constructor(cssClass: string, rhdText: string, smallDText: string) {
         this.cssClass = cssClass;
         this.rhdText = rhdText;
         this.smallDText = smallDText;
     }
 }
 
-const rhdPos = new RhD("pos", "Rh D POSITIVE", "+");
-const rhdNeg = new RhD("neg", "Rh D NEGATIVE", "\u2013");  // en dash (–), not -.
+export class Group {
+    abo: string;
+    rhd: RhD;
+    text: string;
+    code: string;
 
+    constructor(abo: string, rhd: RhD, text: string, code: string) {
+        this.abo = abo;
+        this.rhd = rhd;
+        this.text = text;
+        this.code = code;
+    }
+};
 
-//class Group {
-//    constructor(abo, rhd, text, code) {
-//        this.abo = abo;
-//        this.rhd = rhd;
-//        this.text = text;
-//        this.code = code;
-//    }
-//};
+export const rhdPos: RhD = new RhD("pos", "Rh D POSITIVE", "+");
+export const rhdNeg: RhD = new RhD("neg", "Rh D NEGATIVE", "\u2013");  // en dash (–), not -.
 
-const groups = [
+export const groups: Group[] = [
     {
         "abo": "O",
         "rhd": rhdPos,

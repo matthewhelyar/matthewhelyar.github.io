@@ -1,5 +1,23 @@
-class ProductsForm {
-    constructor(productLabel, components, groupLabel, datesForm) {
+import { BarcodeGenerator } from './barcodeGenerator';
+import { DataMatrixBarcode } from './dataMatrixBarcodeModel';
+import { DatesForm } from './bledExpiryModel';
+import { GroupsLabel } from './groupsModel';
+import { Component, products } from './products'
+
+export class ProductsForm {
+    productLabel: ProductsLabel;
+    groupLabel: GroupsLabel;
+    components: Component[];
+    datesForm: DatesForm;
+    componentSelect: HTMLSelectElement;
+    irradiatedIn: HTMLInputElement;
+    specialIn: HTMLInputElement;
+    availableIn: HTMLInputElement;
+    productSelect: HTMLSelectElement;
+    cmvIn: HTMLInputElement;
+    hbsIn: HTMLInputElement;
+
+    constructor(productLabel: ProductsLabel, components: Component[], groupLabel: GroupsLabel, datesForm: DatesForm) {
         if (!productLabel) alert("Product Label Undefined");
         if (!groupLabel) alert("Product Label Undefined");
         if (!datesForm) alert("Dates Form Undefined");
@@ -8,28 +26,26 @@ class ProductsForm {
         this.components = components;
         this.datesForm = datesForm;
 
-        this.componentSelect = document.getElementById("product_type_select");
-        this.irradiatedIn = document.getElementById("irradiated_in");
-        this.specialIn = document.getElementById("special_in");
-        this.availableIn = document.getElementById("available_in");
+        this.componentSelect = document.querySelector("#product_type_select")!;
+        this.irradiatedIn = document.querySelector("#irradiated_in")!;
+        this.specialIn = document.querySelector("#special_in")!;
+        this.availableIn = document.querySelector("#available_in")!;
 
-        this.productSelect = document.getElementById("product_select");
-        this.cmvIn = document.getElementById('cmv_in');
-        this.hbsIn = document.getElementById('hbs_in');
+        this.productSelect = document.querySelector("#product_select")!;
+        this.cmvIn = document.querySelector('#cmv_in')!;
+        this.hbsIn = document.querySelector('#hbs_in')!;
 
-        const init = (() => {
-            for (let c of this.components) {
-                this.componentSelect.add(new Option(c.text, c.name), undefined);
-            }
-            this.componentSelect.addEventListener("change", this.productFiltersChanged.bind(this));
-            this.irradiatedIn.addEventListener("change", this.productFiltersChanged.bind(this));
-            this.specialIn.addEventListener("change", this.productFiltersChanged.bind(this));
-            this.availableIn.addEventListener("change", this.productFiltersChanged.bind(this));
-            this.productSelect.addEventListener("change", this.selectedProductChanged.bind(this));
+        for (let c of this.components) {
+            this.componentSelect.add(new Option(c.text, c.name), undefined);
+        }
+        this.componentSelect.addEventListener("change", this.productFiltersChanged.bind(this));
+        this.irradiatedIn.addEventListener("change", this.productFiltersChanged.bind(this));
+        this.specialIn.addEventListener("change", this.productFiltersChanged.bind(this));
+        this.availableIn.addEventListener("change", this.productFiltersChanged.bind(this));
+        this.productSelect.addEventListener("change", this.selectedProductChanged.bind(this));
 
-            this.updateProductsSelect();
-            this.productFiltersChanged();
-        })();
+        this.updateProductsSelect();
+        this.productFiltersChanged();
     }
 
     updateProductsSelect() {
@@ -65,7 +81,6 @@ class ProductsForm {
     }
 
     productFiltersChanged() {
-        //console.log("productFiltersChanged()" + dayjs());
         // update DOM elements of the product form based on product type
         const selectedComponent = this.components.find(x => { return x.name === this.componentSelect.value });
 
@@ -101,30 +116,49 @@ class ProductsForm {
     }
 }
 
-class ProductsLabel {
-    constructor(barcodeGenerator, dataMatrixBarcode) {
+export class ProductsLabel {
+    barcodeGenerator: BarcodeGenerator;
+    dataMatrixBarcode: DataMatrixBarcode;
+    productTextFo: HTMLElement;
+    packTextBlock: HTMLElement;
+    packTextFo: HTMLElement;
+    productTextFoParent: HTMLElement;
+    storageTextFo: HTMLElement;
+    linearGradientFluidUrl1: HTMLElement;
+    linearGradientFluidUrl2: HTMLElement;
+    volumeTextFo: HTMLElement;
+    anticoagulantText: HTMLElement;
+    rhPhenGroup: HTMLElement;
+    rhcSelect: HTMLSelectElement;
+    rheSelect: HTMLSelectElement;
+    irradSticker: HTMLElement;
+    productBarcodeSvg: HTMLElement;
+    barcode: string = "";
+    IsbtCode: string = "";
+
+    constructor(barcodeGenerator: BarcodeGenerator, dataMatrixBarcode: DataMatrixBarcode) {
         if (!barcodeGenerator) alert("Barcode Generator undefined");
         this.barcodeGenerator = barcodeGenerator;
         if (!dataMatrixBarcode) alert("DataMatrix Barcode Undefined");
         this.dataMatrixBarcode = dataMatrixBarcode;
 
-        this.productTextFo = document.getElementById('product_text_fo');
-        this.packTextBlock = document.getElementById('packTextBlock');
-        this.packTextFo = document.getElementById('pack_text_fo');
-        this.productTextFoParent = document.getElementById('product_text_fo_parent');
-        this.storageTextFo = document.getElementById('storage_text_fo');
-        this.linearGradientFluidUrl1 = document.getElementById('linearGradientFluidUrl1');
-        this.linearGradientFluidUrl2 = document.getElementById('linearGradientFluidUrl2');
-        this.volumeTextFo = document.getElementById('volume_text_fo');
-        this.anticoagulantText = document.getElementById('anticoagulant_info');
-        this.rhPhenGroup = document.getElementById('rh_phen_group');
-        this.rhcSelect = document.getElementById('rhc_select');
-        this.rheSelect = document.getElementById('rhe_select');
-        this.irradSticker = document.getElementById('irradiated_sticker');
-        this.productBarcodeSvg = document.getElementById('product_barcode_svg');
+        this.productTextFo = document.querySelector('#product_text_fo')!;
+        this.packTextBlock = document.querySelector('#packTextBlock')!;
+        this.packTextFo = document.querySelector('#pack_text_fo')!;
+        this.productTextFoParent = document.querySelector('#product_text_fo_parent')!;
+        this.storageTextFo = document.querySelector('#storage_text_fo')!;
+        this.linearGradientFluidUrl1 = document.querySelector('#linearGradientFluidUrl1')!;
+        this.linearGradientFluidUrl2 = document.querySelector('#linearGradientFluidUrl2')!;
+        this.volumeTextFo = document.querySelector('#volume_text_fo')!;
+        this.anticoagulantText = document.querySelector('#anticoagulant_info')!;
+        this.rhPhenGroup = document.querySelector('#rh_phen_group')!;
+        this.rhcSelect = document.querySelector('#rhc_select')!;
+        this.rheSelect = document.querySelector('#rhe_select')!;
+        this.irradSticker = document.querySelector('#irradiated_sticker')!;
+        this.productBarcodeSvg = document.querySelector('#product_barcode_svg')!;
     }
 
-    shrinkLetterSpacingToFitParent(textElement, parent) {
+    shrinkLetterSpacingToFitParent(textElement: HTMLElement, parent: HTMLElement) {
         if (!textElement || !parent) return;
 
         const minimumSpacing = -1.5;
@@ -134,8 +168,8 @@ class ProductsLabel {
         }
     }
 
-    generateProductLabel(productCode) {
-        if (productCode == null || productCode == "") return;
+    generateProductLabel(productCode: string) {
+        if (productCode == "") return;
 
         const selectedProduct = products.find(x => { return x.code === productCode });
         if (selectedProduct == null) return;
