@@ -103,7 +103,7 @@ export function Codabar(B) {
 		sy = 1,
 		er = 0,
 		// thick:thin ratio valid from 2.25:1 - 3:1.
-		ratio = Math.min(Math.max(parseInt(b.ratio), 2.25), 3.0) || 3;
+		ratio = Math.min(Math.max(parseFloat(b.ratio), 2.25), 3.0) || 3;
 
 	// validate input
 	if (!msg || 'string' !== typeof msg) {
