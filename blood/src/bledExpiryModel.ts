@@ -52,7 +52,7 @@ export class DatesLabel {
     dataMatrixBarcode: DataMatrixBarcode;
     expiryTspan: HTMLElement;
     dateBledTspan: HTMLElement;
-    expiryBarcodeSvg: HTMLElement;
+    //expiryBarcodeSvg: HTMLElement;
     barcode: string = "";
     IsbtCode: string = "";
 
@@ -64,7 +64,7 @@ export class DatesLabel {
 
         this.expiryTspan = document.querySelector('#expiry_tspan')!;
         this.dateBledTspan = document.querySelector('#date_bled_tspan')!;
-        this.expiryBarcodeSvg = document.querySelector("#expiry_barcode_svg")!;
+        //this.expiryBarcodeSvg = document.querySelector("#expiry_barcode_svg")!;
     }
 
     generateExpiryLabel(expiryDate: dayjs.Dayjs, bledDate: dayjs.Dayjs) {
@@ -78,7 +78,7 @@ export class DatesLabel {
         // generate barcodes
         const dayNumberString = String(getDayNumber(expiryDate)).padStart(3, '0');
         this.barcode = "a" + expiryDate.year() + dayNumberString + "4a";
-        this.barcodeGenerator.generateBarcode(this.barcode, this.expiryBarcodeSvg, 'codabar');
+        this.barcodeGenerator.generateBarcode(this.barcode, document.querySelector("#expiry_barcode_svg")!, 'codabar');
 
         const expTime = "2359"
         this.IsbtCode = "&>" + expiryDate.year().toString().slice(1) + dayNumberString + expTime;

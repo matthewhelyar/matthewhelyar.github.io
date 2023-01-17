@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "dayjs": "^1.11.7",
-    "jsbarcode": "^3.11.5"
+    "dayjs": "^1.11.7"
   },
   "devDependencies": {
     "ts-loader": "^9.4.2",

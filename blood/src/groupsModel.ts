@@ -64,8 +64,8 @@ export class GroupsForm {
 export class GroupsLabel {
     barcodeGenerator: BarcodeGenerator;
     dataMatrixBarcode: DataMatrixBarcode;
-    groupBarcodeSvg: HTMLElement;
-    cmvBarcodeSvg: HTMLElement;
+    //groupBarcodeSvg: HTMLElement;
+    //cmvBarcodeSvg: HTMLElement;
     D: HTMLElement;
     C: HTMLElement;
     c: HTMLElement;
@@ -84,8 +84,8 @@ export class GroupsLabel {
         if (!dataMatrixBarcode) alert("DataMatrix Barcode Undefined");
         this.dataMatrixBarcode = dataMatrixBarcode;
 
-        this.groupBarcodeSvg = document.querySelector('#group_barcode_svg')!;
-        this.cmvBarcodeSvg = document.querySelector('#cmv_barcode_svg')!;
+        //this.groupBarcodeSvg = document.querySelector('#group_barcode_svg')!;
+        //this.cmvBarcodeSvg = document.querySelector('#cmv_barcode_svg')!;
         this.D = document.querySelector('#D_type_tspan')!;
         this.C = document.querySelector('#C_type_tspan')!;
         this.c = document.querySelector('#c_type_tspan')!;
@@ -103,7 +103,7 @@ export class GroupsLabel {
         const rhdCode = '0';
         const reservedCode = '0';
         this.barcode = "=%" + group.code + rhdCode + reservedCode;
-        this.barcodeGenerator.generateBarcode(this.barcode, this.groupBarcodeSvg, 'code128');
+        this.barcodeGenerator.generateBarcode(this.barcode, document.querySelector('#group_barcode_svg')!, 'code128');
         this.dataMatrixBarcode.setGroupCode = this.barcode;
 
         this.aboTspan.textContent = group.abo;
@@ -127,7 +127,8 @@ export class GroupsLabel {
 
         // apply to SVG
         this.hbsCmvTspan.textContent = newText;
-        this.cmvBarcodeSvg.style.visibility = (cmvChecked) ? "visible" : "hidden";
+        const cmvBarcodeSvg: HTMLElement = document.querySelector('#cmv_barcode_svg')!;
+        cmvBarcodeSvg.style.visibility = (cmvChecked) ? "visible" : "hidden";
     }
 
     updateRhceLabel(rhcValue: string, rheValue: string) {

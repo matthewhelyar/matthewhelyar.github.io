@@ -132,7 +132,7 @@ export class ProductsLabel {
     rhcSelect: HTMLSelectElement;
     rheSelect: HTMLSelectElement;
     irradSticker: HTMLElement;
-    productBarcodeSvg: HTMLElement;
+    //productBarcodeSvg: HTMLElement;
     barcode: string = "";
     IsbtCode: string = "";
 
@@ -155,7 +155,7 @@ export class ProductsLabel {
         this.rhcSelect = document.querySelector('#rhc_select')!;
         this.rheSelect = document.querySelector('#rhe_select')!;
         this.irradSticker = document.querySelector('#irradiated_sticker')!;
-        this.productBarcodeSvg = document.querySelector('#product_barcode_svg')!;
+        //this.productBarcodeSvg = document.querySelector('#product_barcode_svg')!;
     }
 
     shrinkLetterSpacingToFitParent(textElement: HTMLElement, parent: HTMLElement) {
@@ -176,7 +176,7 @@ export class ProductsLabel {
 
         this.barcode = "a0" + selectedProduct.code + "3b";
         this.IsbtCode = "=<" + selectedProduct.code;
-        this.barcodeGenerator.generateBarcode(this.barcode, this.productBarcodeSvg, 'codabar');
+        this.barcodeGenerator.generateBarcode(this.barcode, document.querySelector('#product_barcode_svg')!, 'codabar');
         this.dataMatrixBarcode.setProductCode = this.IsbtCode;
 
         if (selectedProduct.pack < 1) {
