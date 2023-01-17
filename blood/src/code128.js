@@ -250,7 +250,7 @@ export function Code128(B) {
 
 	// encodes message as an array of 1 and 0 for a bar/space pattern.
 	function encode(o) {
-		// 1. split into exclusive A, exclusive B, numbers, and A^B!C (AB overlap, not C).
+		// 1. split into exclusive A, exclusive B, numbers, and A&B!C (AB overlap, not C).
 		const splitMsg = o.match(/[0-9]+|[\x00-\x1F]+|[\x60-\x7F]+|[\x20-\x2F\x3A-\x5F]+/g);
 
 		// 2. test each to see which encodings are possible. (differnt tests to exclusive)
