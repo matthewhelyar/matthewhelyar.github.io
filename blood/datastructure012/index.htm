@@ -79,14 +79,24 @@ td {
 
 
 <p>
-<i>Common Rh antigens may be encoded together as a phenotype (Rh column 1) or as individual Rh antigens (C,c,E,e, columns 14-16). 
+<i>"Common Rh antigens may be encoded together as a phenotype (Rh column 1) or as individual Rh antigens (C,c,E,e, columns 14-16). 
 If Rh antigens are encoded individually using positions 14, 15, and/or 16, then the value of column one shall be set to 9 (no information). 
-Conversely, if the phenotype is present in column 1, then the values of the C,c,E,e antigens shall all be set to ni or nt.</i><br/>
-<br/>
-It remains to be seen which one NHSBT will use.<br/>
-<br/>
-RhCE antigens can also already be encoded in the 3rd digit of the group barcode, but that's not used by NHSBT.
-The only Rh phenotype that can't be encoded in column one is Rh null.<br/></p>
+Conversely, if the phenotype is present in column 1, then the values of the C,c,E,e antigens shall all be set to ni or nt."</i><br/>
+ - ISBT 128 Standard Technical Specification v6.1.0
+</p>
+<p>
+<i>"Note that Rh antigens must be encoded individually using positions 14, 15, and/or 16. 
+In compliance to the ISBT128 Standard Technical Specification - version 5.10.0; Column one shall always be set to 9. 
+It is considered that this information is relevant to granulocyte, platelet and red cell components and will be included with all components whether or not testing has been carried out for each antigen/allele."</i><br/>
+- UKBTS Specification for the Future Labelling of Blood Components Prepared in the United Kingdom Version 3.4 September 2021<br/>
+</p>
+<p>
+RhCE antigens can also already be encoded in the 3rd digit of the group barcode, but that's not used by UKBTS. 
+<i>"UK Guidelines currently specifies a limited application of the ‘gg’ values for this data structure."</i><br/>
+- UKBTS Specification for the Future Labelling of Blood Components Prepared in the United Kingdom Version 3.4 September 2021<br/>
+</p>
+<p>
+(The only Rh phenotype that can't be encoded in column one is Rh null.)<br/></p>
 	<form>
 		<table>
 			<tr>
@@ -100,7 +110,7 @@ The only Rh phenotype that can't be encoded in column one is Rh null.<br/></p>
 					<label for="RhCE">RhCE</label>
 				</td>
 				<td>
-					<input id="RhCECheckbox" type="checkbox" onchange="enableSelects(this, 'RhC', 'RhE', 'RhCEText');" />
+					<input id="RhCECheckbox" type="checkbox" onchange="enableSelects(this, 'RhC', 'RhE', 'RhCEText');" disabled />
 				</td>
 				<td>
 					<select id="RhC" onchange="setDigit('RhC', 'RhE', 'RhCEText');" disabled >

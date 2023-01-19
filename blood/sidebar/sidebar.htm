@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Sidebar testing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        @media screen and (max-width: 455px) {
+            .h3 {
+                font-size: 16px;
+            }
+        }
+
+        @page {
+            size: A4 portrait; /* auto is the initial value */
+            margin: 0mm; /* this affects the margin in the printer settings */
+        }
+
+        @media print {
+            /*.centerOnPrintedPage {
+                display: flex;
+                align-self: center;
+                align-items: center;
+                justify-content: center;
+                vertical-align: middle;
+                width: 100vw;
+                height: 99vh;
+            }*/
+
+            .centerOnPrintedPageAbsolute {
+                /* this just centers horizontally and drops 20mm for a margin. */
+                position: absolute;
+                left: 50%;
+                top: 23mm;
+                transform: translate(-50%, 0%);
+                /* would make it 50% vertical, but always wants to spread over 2 pages */
+                /*top: 50%; transform: translate(-50%, -50%); */
+            }
+
+            .noPrint {
+                display: none;
+                width: 0;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                background-color: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body style="background-color:lightgrey; color:black;">
+    <div class="noPrint">
+        <div class="w3-sidebar w3-dark-grey w3-card-4 w3-animate-left" style="display: block;" id="mySidebar">
+            <div class="w3-bar-block">
+                <a class="w3-bar-item w3-button" href="javascript:void(0)" style="font-weight:700" id="sidebarHeading">EDIT <span style="float:right;" id="closeSidebar">×</span></a>
+
+                <hr style="margin:5px 5px 5px 15px;" />
+
+                <div class="w3-dropdown-click">
+                    <a class="w3-button" onclick="toggleDropdown(this.parentNode);">DIN <i class="fa fa-caret-down" style="float:right;"></i></a>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-grey w3-animate-left" style="display:none;">
+                        <!--
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Facility ID</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Year</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Sequence No</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Checkdigit</a>
+                        -->
+                        <div>
+                            <label style="display:inline-block; padding:3px 3px 3px 6px;" for="fin">Facility ID: </label>
+                            <input id="fin" type="text" value="G000 0" size="7"
+                                   style="float: right; padding: 0 5px; margin: 0 5px; text-align: right; border: 0px; background-color: lightgrey; font-size: 12pt; font-family: Courier New, Courier, monospace">
+                        </div>
+                        <div>
+                            <label style="display:inline-block; padding:3px 3px 3px 6px;" for="year">Year: </label>
+                            <input id="year" type="text" value="23" size="7"
+                                   style="float: right; padding: 0 5px; margin: 0 5px; text-align: right; border: 0px; background-color: lightgrey; font-size: 12pt; font-family: Courier New, Courier, monospace">
+                        </div>
+                        <div>
+                            <label style="display:inline-block; padding:3px 3px 3px 6px;" for="seq">Sequence No: </label>
+                            <input id="seq" type="text" value="000 000" size="7"
+                                   style="float: right; padding:0 5px; margin: 0 5px; text-align: right; border:0px; background-color:lightgrey; font-size:12pt; font-family:Courier New, Courier, monospace">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="w3-dropdown-click">
+                    <a class="w3-button" onclick="toggleDropdown(this.parentNode);">Product <i class="fa fa-caret-down" style="float:right;"></i></a>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-grey w3-animate-left" style="display:none;">
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Component type</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Irradiated</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Special</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Currently Available</a>
+                        <hr style="margin:5px;" />
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Product</a>
+                    </div>
+                </div>
+
+                <div class="w3-dropdown-click">
+                    <a class="w3-button" onclick="toggleDropdown(this.parentNode);">Group <i class="fa fa-caret-down" style="float:right;"></i></a>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-grey w3-animate-left" style="display:none;">
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">ABO / Rh D</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Rh C</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Rh E</a>
+                    </div>
+                </div>
+
+                <div class="w3-dropdown-click">
+                    <a class="w3-button" onclick="toggleDropdown(this.parentNode);">General Testing <i class="fa fa-caret-down" style="float:right;"></i></a>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-grey w3-animate-left" style="display:none;">
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">CMV</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">HbS</a>
+                    </div>
+                </div>
+
+                <div class="w3-dropdown-click">
+                    <a class="w3-button" onclick="toggleDropdown(this.parentNode);">Dates <i class="fa fa-caret-down" style="float:right;"></i></a>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-grey w3-animate-left" style="display:none;">
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Collection</a>
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Expiry</a>
+                    </div>
+                </div>
+
+                <div class="w3-dropdown-click">
+                    <a class="w3-button" onclick="toggleDropdown(this.parentNode);">Ext. Phenotypes <i class="fa fa-caret-down" style="float:right;"></i></a>
+                    <div class="w3-dropdown-content w3-bar-block w3-card-4 w3-grey w3-animate-left" style="display:none;">
+                        <a class="w3-bar-item w3-button" href="javascript:void(0)">Ext. Phenotypes</a>
+                    </div>
+                </div>
+
+                <hr style="margin:5px 5px 5px 15px;" />
+                <a class="w3-bar-item w3-button" href="javascript:void(0)">Help</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="noPrint">
+            <span title="open Sidebar" id="openNav" onclick="w3_open()"
+                  class="w3-sidebar w3-button w3-transparent w3-display-topleft w3-card-4 w3-xlarge w3-dark-grey noPrint"
+                  style="display: none; height:100%; width:54px;">☰</span>
+        </div>
+
+        <!-- Center on screen, moving left and right with sidebar expansion. Center absolute on printing -->
+        <div class="centerOnPrintedPageAbsolute" style="text-align:center; padding:5px">
+            <img src="../TransitionLabel.svg" />
+            <!-- Replace <img> with inline <svg> element for final version. (N.B. <img> svg doesn't act the same as <svg>') e.g. -->
+            <!--<svg width="138.62802mm" height="246.4087mm" viewBox="0 0 138.62803 246.4087" style="background-color:red; border:5px solid black;" />-->
+        </div>
+
+        <!-- Struggling to make this center. Keeps wanting to be left and top aligned and be moved over by sidebar even though sidebar collapsed. -->
+        <!--<div class="centerOnPrintedPage" width="100%">
+            <div title="scrolling Content" style="display: flex; flex: 1; overflow: auto; flex-direction: column; height: 99vh; text-align:center;">
+                N.B. CAN'T USE CROSS-FRAME SCRIPTING TO EDIT THE CONTENTS OF AN IFRAME. BROWSERS BLOCK IT AS IT IS POTENTIALLY MALICIOUS.
+                FINAL VERSION WILL STILL HAVE TO EMBED SVG IN THIS HTML DOCUMENT
+                <iframe id="contentFrame" src="../TransitionLabel.svg" style="flex-grow: 1; border: none; margin: 0; padding: 0; overflow:auto;"></iframe>
+            </div>
+        </div>-->
+
+    </div>
+
+    <script>
+        // set sidebar and main widths. Can't do in css because style needs to be defined here for interaction
+        (function sidebarInit() {
+            const sidebarWidth = "20%";
+            const sidebarMinWidth = "230px";
+            const sidebarMaxWidth = "400px";
+            document.getElementById("main").style.marginLeft = sidebarWidth;
+            document.getElementById("mySidebar").style.width = sidebarWidth;
+            document.getElementById("mySidebar").style.minWidth = sidebarMinWidth;
+            document.getElementById("mySidebar").style.maxWidth = sidebarMaxWidth;
+
+            // start closed
+            //w3_close();
+
+            // set up sidebar closing actions
+            document.getElementById("mySidebar").addEventListener("click", (e) => {
+                const t = e.target.getAttribute("id");
+                if (t == "mySidebar" || t == "sidebarHeading" || t == "closeSidebar")
+                    w3_close();
+            });
+        })();
+
+        function toggleDropdown(dropdownButton, hideOtherDropdowns = false) {
+            const dropdown = dropdownButton.querySelector(":scope > .w3-dropdown-content");
+            if (!dropdown) return
+            dropdown.style.display = (dropdown.style.display == "none") ? "block" : "none";
+            if (hideOtherDropdowns) {
+                const allDropdowns = dropdownButton.parentNode.querySelectorAll(".w3-dropdown-content");
+                for (let x of allDropdowns)
+                    if (x != dropdown) x.style.display = "none";
+            }
+        }
+
+        function w3_open() {
+            const sidebar = document.getElementById("mySidebar");
+            sidebar.style.display = "block";
+            document.getElementById("openNav").style.display = 'none';
+            document.getElementById("main").style.marginLeft = sidebar.style.width;
+        }
+        function w3_close() {
+            const openNav = document.getElementById("openNav");
+            openNav.style.display = "inline-block";
+            document.getElementById("mySidebar").style.display = "none";
+            document.getElementById("main").style.marginLeft = openNav.style.width;
+        }
+    </script>
+
+</body>
+</html>
