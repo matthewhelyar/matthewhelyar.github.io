@@ -57,7 +57,7 @@
 </head>
 <body style="background-color:lightgrey; color:black;">
     <div class="noPrint">
-        <div class="w3-sidebar w3-dark-grey w3-card-4 w3-animate-left" style="display: block;" id="mySidebar">
+        <div class="w3-sidebar w3-dark-grey w3-card-4 w3-animate-left" style="display: block; animation-direction:alternate;" id="mySidebar">
             <div class="w3-bar-block">
                 <a class="w3-bar-item w3-button" href="javascript:void(0)" style="font-weight:700" id="sidebarHeading">EDIT <span style="float:right;" id="closeSidebar">×</span></a>
 
@@ -206,9 +206,10 @@
             document.getElementById("main").style.marginLeft = sidebar.style.width;
         }
         function w3_close() {
+            const sidebar = document.getElementById("mySidebar");
             const openNav = document.getElementById("openNav");
             openNav.style.display = "inline-block";
-            document.getElementById("mySidebar").style.display = "none";
+            sidebar.style.display = "none";
             document.getElementById("main").style.marginLeft = openNav.style.width;
         }
     </script>
