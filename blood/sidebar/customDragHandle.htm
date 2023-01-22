@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+		:root {
+			--animation-width: -260px;
+		}
+
+		body {
+			margin: 0;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		#resizeable {
+			--startLeft: 0px;
+			--resizable: true;
+			left: var(--startLeft);
+			width: 300px;
+			min-width: 200px;
+			max-width: 500px;
+			display: block;
+			position: fixed;
+			height: 100%;
+			background-color: lightgrey;
+		}
+
+		#handle {
+			float: right;
+			width: 50px;
+			height: 100%;
+			background-color: darkgrey;
+			z-index: 1;
+			cursor: ew-resize;
+			text-align: center;
+		}
+
+		@keyframes left {
+			from {
+				left: var(--animation-width);
+			}
+
+			to {
+				left: 0;
+			}
+		}
+
+		@keyframes right {
+			from {
+				left: 0;
+			}
+
+			to {
+				left: var(--animation-width);
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div id="resizeable">
+		<div id="handle" onpointerdown="startDrag(this.parentNode);" onclick="toggleMinimize(this.parentNode, this);" ondblclick="toggleMinimize(this.parentNode, this);">
+			<span style="position: absolute; top: 50%; transform-origin: center; transform: translate(-50%, -50%); font-size: 20pt; font-weight: 700; user-select:none;">&#9776;</span>
+		</div>
+		<span>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus, augue in vulputate sollicitudin, mi ipsum ornare justo, sed tempus magna purus sit amet neque.
+			Quisque a posuere magna, non porta ex. Donec sed viverra ex. Proin ullamcorper vitae odio vel lobortis. Morbi tempus, quam et pharetra pellentesque, ante mi rutrum
+			metus, non faucibus tellus enim sed urna. Aenean a sapien lacus. Etiam imperdiet cursus sollicitudin. Pellentesque augue tellus, accumsan eget sapien vel, rhoncus
+			scelerisque felis. Aliquam pharetra, nisl bibendum cursus interdum, felis elit imperdiet justo, a porta nibh ligula sit amet erat. Praesent nibh nisi, pretium eu
+			porta sit amet, aliquet ac leo. Nullam lectus neque, tristique et purus nec, maximus pharetra lacus. Nulla sed turpis urna. Mauris ut tempor erat, sed accumsan arcu.
+			Donec non tellus eget tortor finibus commodo nec ac magna. Vestibulum malesuada tempor lacinia. Sed scelerisque dui volutpat erat consequat, eget placerat libero porttitor.
+		</span>
+	</div>
+
+	<script>
+		// global for drag events.
+		// I don't like globals but I don't think you can pass arguments to
+		// event handlers and have listeners to them added and removed correctly later.
+		let resizeTarget;
+
+		document.addEventListener('pointerup', (e) => { document.removeEventListener('pointermove', dragging); });
+
+		function startDrag(target) {
+			event.preventDefault();
+			if (!target || getComputedStyle(target).getPropertyValue('--resizable') == "false") return;
+
+			// setup start of drag: store starting condition so drag can refer back to it
+			resizeTarget = {
+				element: target,
+				startX: event.pageX,
+				startWidth: parseInt(getComputedStyle(target).getPropertyValue('width'))
+			};
+			document.addEventListener('pointermove', dragging);
+		}
+
+		function dragging(event) {
+			event.preventDefault();
+
+			// calculate new width of drag target based on current and starting mouse position.
+			const widthChange = event.pageX - resizeTarget.startX;
+			let newWidth = resizeTarget.startWidth + widthChange;
+			newWidth = Math.max(newWidth, parseInt(getComputedStyle(resizeTarget.element).getPropertyValue('min-width')));
+			newWidth = Math.min(newWidth, parseInt(getComputedStyle(resizeTarget.element).getPropertyValue('max-width')));
+			resizeTarget.element.style.width = `${newWidth}px`;
+		}
+
+		function toggleMinimize(target, handle) {
+			// only minimize on doubleclick if draggable and singleclick if not..
+			if (getComputedStyle(target).getPropertyValue('--resizable') == "true" && event.type == "click") return;
+			if (getComputedStyle(target).getPropertyValue('--resizable') == "false" && event.type == "dblclick") return;
+
+			// push target to the left so that only handle is showing or return it to its starting position.
+			const maximizedPos = getComputedStyle(target).getPropertyValue('--startLeft');
+			const pos = parseInt(getComputedStyle(target).getPropertyValue('left'));
+			const handleWidth = parseInt(getComputedStyle(handle).getPropertyValue('width'));
+			const targetWidth = parseInt(getComputedStyle(target).getPropertyValue('width'));
+			const minimizedPos = handleWidth - targetWidth;
+			document.documentElement.style.setProperty('--animation-width', `-${targetWidth - handleWidth}px`);
+
+			if (pos != minimizedPos) {
+				target.style.left = `${minimizedPos}px`;
+				target.style.setProperty('--resizable', false);
+				handle.style.cursor = "pointer";
+				target.style.animation = "right 0.2s";
+			}
+			else {
+				target.style.left = maximizedPos;
+				target.style.setProperty('--resizable', true);
+				handle.style.cursor = "ew-resize";
+				target.style.animation = "left 0.2s";
+			}
+		}
+	</script>
+</body>
+</html>
