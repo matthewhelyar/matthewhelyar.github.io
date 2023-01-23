@@ -23,6 +23,10 @@
 			cursor: auto;
 		}
 
+		th {
+			font-weight: 400;
+		}
+
 		.sidebar {
 			display: block;
 			position: fixed;
@@ -35,13 +39,13 @@
 			animation: left 0.2s;
 			overflow: auto;
 			resize: horizontal;
-			min-width: 220px;
+			min-width: 230px;
 			user-select: none;
 		}
 
 		.navOpen {
 			position: sticky;
-			top:0px;
+			top: 0px;
 			z-index: 1;
 			background-color: var(--grey2);
 			color: white;
@@ -175,6 +179,13 @@
 			transition: 0.2s
 		}
 
+		.sidebarDate {
+			font-family: Verdana, Geneva, Tahoma, sans-serif;
+			font-weight: 400;
+			width: initial;
+			display: inline;
+		}
+
 		#phenotypePopup {
 			display: none;
 			position: absolute;
@@ -193,6 +204,10 @@
 		.dragSelect {
 			height: 350px;
 			width: 100%;
+		}
+
+		span.sidebarInput:empty:before {
+			content: "\200b"; /* unicode zero width space character*/
 		}
 
 		@keyframes left {
@@ -284,15 +299,15 @@
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">DIN <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select: none;" for="fin">Facility ID: </label>
+							<label style="display: block; width: 100%; user-select: none;">Facility ID: </label>
 							<input class="sidebarInput" id="fin" type="text" value="G000 0">
 						</div>
 						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select: none;" for="year">Year: </label>
+							<label style="display: block; width: 100%; user-select: none;">Year: </label>
 							<input class="sidebarInput" id="year" type="text" value="23">
 						</div>
 						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;" for="seq">Sequence No: </label>
+							<label style="display: block; width: 100%; user-select:none;">Sequence No: </label>
 							<input class="sidebarInput" id="seq" type="text" value="000 000">
 						</div>
 					</div>
@@ -302,7 +317,7 @@
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Product <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem" onclick="this.children[1].focus()">
-							<label style="display: block; width: 100%; user-select: none;" for="componentType">Component Type: </label>
+							<label style="display: block; width: 100%; user-select: none;">Component Type: </label>
 							<select id="componentType" class="sidebarSelect">
 								<option value="R">Red Cells</option>
 								<option value="P">Platelets</option>
@@ -333,7 +348,7 @@
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Group <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem" onclick="this.children[1].focus()">
-							<label style="display: block; width: 100%; user-select: none;" for="componentType">ABO: </label>
+							<label style="display: block; width: 100%; user-select: none;">ABO: </label>
 							<select id="componentType" class="sidebarSelect">
 								<option value="O">O</option>
 								<option value="A">A</option>
@@ -343,8 +358,8 @@
 						</div>
 
 						<div class="dropdownItem" onclick="this.children[1].focus()">
-							<label style="display: block; width: 100%; user-select: none;" for="componentType">Rh: </label>
-							<table style="width:100%; text-align:center;">
+							<label style="display: block; width: 100%; user-select: none;">Rh: </label>
+							<table style="width:100%; margin:0 auto; max-width: 250px; text-align:center;">
 								<tr>
 									<th>D</th>
 									<th>C</th>
@@ -368,15 +383,15 @@
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Ext. Phenotypes <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;" for="seq">Negative for: </label>
+							<label style="display: block; width: 100%; user-select:none;">Negative for: </label>
 							<span class="sidebarInput" id="phNeg" style="text-align:left;" />
 						</div>
 						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;" for="seq">Positive for: </label>
+							<label style="display: block; width: 100%; user-select:none;">Positive for: </label>
 							<span class="sidebarInput" id="phPos" style="text-align:left;" />
 						</div>
 						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;" for="seq">Untested: </label>
+							<label style="display: block; width: 100%; user-select:none;">Untested: </label>
 							<span class="sidebarInput" id="phUnk" style="text-align:left;" />
 						</div>
 						<div style="padding-bottom:3px;">
@@ -389,16 +404,60 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">General Testing <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<a class="dropdownItem" href="javascript:void(0)">CMV</a>
-						<a class="dropdownItem" href="javascript:void(0)">HbS</a>
+						<div class="dropdownItem">
+							<table style="margin: 0 auto; width:100%; max-width:250px; text-align:center;">
+								<tr>
+									<th></th>
+									<th>?</th>
+									<th>+</th>
+									<th>-</th>
+								</tr>
+								<tr>
+									<td style="text-align:left;"><label for="CMV">CMV</label></td>
+									<td><input name="CMV" type="radio" value="?" checked /></td>
+									<td><input name="CMV" type="radio" value="+" /></td>
+									<td><input name="CMV" type="radio" value="-" /></td>
+								</tr>
+								<tr>
+									<td style="text-align:left;"><label for="HbS">HbS</label></td>
+									<td><input name="HbS" type="radio" value="?" checked /></td>
+									<td><input name="HbS" type="radio" value="+" /></td>
+									<td><input name="HbS" type="radio" value="-" /></td>
+								</tr>
+								<tr>
+									<td style="text-align:left;"><label for="IgA">IgA</label></td>
+									<td><input name="IgA" type="radio" value="?" checked /></td>
+									<td><input name="IgA" type="radio" value="+" /></td>
+									<td><input name="IgA" type="radio" value="-" /></td>
+								</tr>
+								<tr>
+									<td style="text-align:left;"><label for="HT">HT</label></td>
+									<td><input name="HT" type="radio" value="?" checked /></td>
+									<td><input name="HT" type="radio" value="+" /></td>
+									<td><input name="HT" type="radio" value="-" /></td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
 
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Dates <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<a class="dropdownItem" href="javascript:void(0)">Collection</a>
-						<a class="dropdownItem" href="javascript:void(0)">Expiry</a>
+						<div class="dropdownItem" style="padding-right:20px; ">
+							<label style="display: block; width: 100%; user-select: none;">Collection: </label>
+							<div style="text-align:right; ">
+								<input type="date" id="collectionDate" class="sidebarInput sidebarDate" required=required />
+								<input type="time" id="collectionTime" class="sidebarInput sidebarDate" required=required value="00:00" />
+							</div>
+						</div>
+						<div class="dropdownItem" style="padding-right:20px;">
+							<label style="display: block; width: 100%; user-select: none;">Expiry: </label>
+							<div style="text-align:right; ">
+								<input type="date" id="expiryDate" class="sidebarInput sidebarDate" required=required />
+								<input type="time" id="expiryTime" class="sidebarInput sidebarDate" required=required value="23:59" />
+							</div>
+						</div>
 					</div>
 				</div>
 
