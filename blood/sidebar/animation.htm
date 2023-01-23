@@ -1,6 +1,10 @@
 ﻿<!DOCTYPE HTML>
 <html>
 <head>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
+
 	<style>
 		:root {
 			--animation-width: -260px;
@@ -8,12 +12,14 @@
 			--grey2: #777;
 			--grey3: #9e9e9e;
 			--grey4: #ccc;
+			--accent: #C00; /* #0060DF; =  default checkbox blue */
 		}
 
 		body {
 			margin: 0;
 			background-color: lightgrey;
-			font-family: Arial, Helvetica, sans-serif;
+			/*font-family: Arial, Helvetica, sans-serif;*/
+			font-family: 'Roboto', sans-serif;
 		}
 
 		hr {
@@ -27,6 +33,10 @@
 			font-weight: 400;
 		}
 
+		input {
+			accent-color: var(--accent);
+		}
+
 		.sidebar {
 			display: block;
 			position: fixed;
@@ -35,7 +45,8 @@
 			color: white;
 			border: none;
 			box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
-			font-family: Verdana, Geneva, Tahoma, sans-serif;
+			/*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
+			font-family: 'Roboto', sans-serif;
 			animation: left 0.2s;
 			overflow: auto;
 			resize: horizontal;
@@ -70,6 +81,7 @@
 
 		.sidebarButton {
 			color: white;
+			background-color: transparent;
 			display: block;
 			font-size: 11pt;
 			line-height: 1.5;
@@ -80,7 +92,6 @@
 		}
 
 		.sidebarButton:hover {
-			background-color: var(--grey4);
 			color: black;
 			transition: 0.2s;
 		}
@@ -141,19 +152,19 @@
 			margin: 0 2px;
 			border-top: none;
 			border-left: none;
-			border-bottom: 2px solid var(--grey1);
-			border-right: 2px solid var(--grey1);
+			border-bottom: 2px solid white;
+			border-right: 2px solid white;
 			text-align: right;
 			background-color: transparent;
 			font-size: 11pt;
-			font-weight: 700;
-			font-family: Courier New, Courier, monospace;
+			font-weight: 400;
+			/*font-family: Courier New, Courier, monospace;*/
+			font-family: 'Roboto Mono', monospace;
 			user-select: text;
 		}
 
 		.sidebarInput:focus {
-			border-bottom: 2px solid white;
-			border-right: 2px solid white;
+			border-color: var(--accent);
 			outline: none;
 			transition: 0.2s
 		}
@@ -165,22 +176,23 @@
 			padding: 2px;
 			border-top: none;
 			border-left: none;
-			border-bottom: 2px solid var(--grey1);
-			border-right: 2px solid var(--grey1);
+			border-bottom: 2px solid white;
+			border-right: 2px solid white;
 			text-align: right;
 			background-color: transparent;
 			font-size: 11pt;
+			font-family: 'Roboto', sans-serif;
 		}
 
 		.sidebarSelect:focus {
-			border-bottom: 2px solid white;
-			border-right: 2px solid white;
+			border-color: var(--accent);
 			outline: none;
 			transition: 0.2s
 		}
 
 		.sidebarDate {
-			font-family: Verdana, Geneva, Tahoma, sans-serif;
+			/*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
+			font-family: 'Roboto', sans-serif;
 			font-weight: 400;
 			width: initial;
 			display: inline;
@@ -204,6 +216,13 @@
 		.dragSelect {
 			height: 350px;
 			width: 100%;
+			border: 5px solid;
+			border-radius: 4px;
+			overflow: auto;
+		}
+
+		.draggableOption, .draggableOption:checked {
+			background-color: transparent;
 		}
 
 		span.sidebarInput:empty:before {
@@ -298,17 +317,23 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">DIN <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select: none;">Facility ID: </label>
-							<input class="sidebarInput" id="fin" type="text" value="G000 0">
+						<div class="dropdownItem" style="padding-right:20px;">
+							<label style="display: block; width: 100%; user-select: none;">
+								Facility ID:
+								<input class="sidebarInput" id="fin" type="text" value="G000 0">
+							</label>
 						</div>
-						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select: none;">Year: </label>
-							<input class="sidebarInput" id="year" type="text" value="23">
+						<div class="dropdownItem" style="padding-right:20px;">
+							<label style="display: block; width: 100%; user-select: none;">
+								Year:
+								<input class="sidebarInput" id="year" type="text" value="23">
+							</label>
 						</div>
-						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;">Sequence No: </label>
-							<input class="sidebarInput" id="seq" type="text" value="000 000">
+						<div class="dropdownItem" style="padding-right:20px;">
+							<label style="display: block; width: 100%; user-select:none;">
+								Sequence No:
+								<input class="sidebarInput" id="seq" type="text" value="000 000">
+							</label>
 						</div>
 					</div>
 				</div>
@@ -316,27 +341,38 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Product <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem" onclick="this.children[1].focus()">
-							<label style="display: block; width: 100%; user-select: none;">Component Type: </label>
-							<select id="componentType" class="sidebarSelect">
-								<option value="R">Red Cells</option>
-								<option value="P">Platelets</option>
-								<option value="F">Fresh Frozen Plasma</option>
-								<option value="C">Cryoprecipitate</option>
-								<option value="G">Granulocytes</option>
-							</select>
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select: none;" for="componentType">
+								Component Type:
+								<select id="componentType" class="sidebarSelect">
+									<option value="R">Red Cells</option>
+									<option value="P">Platelets</option>
+									<option value="F">Fresh Frozen Plasma</option>
+									<option value="C">Cryoprecipitate</option>
+									<option value="G">Granulocytes</option>
+								</select>
+							</label>
 						</div>
 
-						<div class="dropdownItem" onclick="this.children[0].children[0].click()">
-							<label style="display: block; width: 100%; user-select:none;">Irradiated: <input style="float:right;" id="available" type="checkbox"></label>
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select:none;">
+								Irradiated:
+								<input style="float:right;" id="irradiated" type="checkbox">
+							</label>
 						</div>
 
-						<div class="dropdownItem" onclick="this.children[0].children[0].click()">
-							<label style="display: block; width: 100%; user-select:none;">Special: <input style="float:right;" id="available" type="checkbox"></label>
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select:none;">
+								Special:
+								<input style="float:right;" id="special" type="checkbox">
+							</label>
 						</div>
 
-						<div class="dropdownItem" onclick="this.children[0].children[0].click()">
-							<label style="display: block; width: 100%; user-select:none;">Available: <input style="float:right;" id="available" type="checkbox"></label>
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select:none;">
+								Available:
+								<input style="float:right;" id="available" type="checkbox">
+							</label>
 						</div>
 
 						<hr />
@@ -347,17 +383,19 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Group <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem" onclick="this.children[1].focus()">
-							<label style="display: block; width: 100%; user-select: none;">ABO: </label>
-							<select id="componentType" class="sidebarSelect">
-								<option value="O">O</option>
-								<option value="A">A</option>
-								<option value="B">B</option>
-								<option value="AB">AB</option>
-							</select>
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select: none;">
+								ABO:
+								<select id="componentType" class="sidebarSelect">
+									<option value="O">O</option>
+									<option value="A">A</option>
+									<option value="B">B</option>
+									<option value="AB">AB</option>
+								</select>
+							</label>
 						</div>
 
-						<div class="dropdownItem" onclick="this.children[1].focus()">
+						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;">Rh: </label>
 							<table style="width:100%; margin:0 auto; max-width: 250px; text-align:center;">
 								<tr>
@@ -368,38 +406,53 @@
 									<th style="text-decoration:overline;">e</th>
 								</tr>
 								<tr>
-									<td><input id="RhD" type="checkbox"></td>
-									<td><input id="RhC" type="checkbox"></td>
-									<td><input id="RhE" type="checkbox"></td>
-									<td><input id="Rhc" type="checkbox" checked></td>
-									<td><input id="Rhe" type="checkbox" checked></td>
+									<td><input id="RhD" onchange="rhChanged();" type="checkbox"></td>
+									<td><input id="RhC" onchange="rhChanged();" type="checkbox"></td>
+									<td><input id="RhE" onchange="rhChanged();" type="checkbox"></td>
+									<td><input id="Rhc" onchange="rhChanged();" type="checkbox" checked></td>
+									<td><input id="Rhe" onchange="rhChanged();" type="checkbox" checked></td>
 								</tr>
 							</table>
 						</div>
+
+						<div class="dropdownDiv" style="padding:0;">
+							<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Possible haplotype(s): <span class="caretDown" /></a>
+							<div class="dropdownContents" style="display:none; box-shadow:none;">
+								<div class="dropdownItem" onclick="this.children[0].focus()">
+									<span class="sidebarInput" id="phenotypeList" style="text-align:right; white-space:pre;" />
+								</div>
+							</div>
+						</div>
+
 					</div>
 				</div>
 
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Ext. Phenotypes <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;">Negative for: </label>
-							<span class="sidebarInput" id="phNeg" style="text-align:left;" />
+						<div class="dropdownItem" style="padding-right:20px;">
+							<label style="display: block; width: 100%; user-select:none;">
+								Negative for:
+								<span class="sidebarInput" id="phNeg" style="text-align:left;" />
+							</label>
 						</div>
-						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;">Positive for: </label>
-							<span class="sidebarInput" id="phPos" style="text-align:left;" />
+						<div class="dropdownItem" style="padding-right:20px;">
+							<label style="display: block; width: 100%; user-select:none;">
+								Positive for:
+								<span class="sidebarInput" id="phPos" style="text-align:left;" />
+							</label>
 						</div>
-						<div class="dropdownItem" onclick="this.children[1].focus()" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;">Untested: </label>
-							<span class="sidebarInput" id="phUnk" style="text-align:left;" />
+						<div class="dropdownItem" style="padding-right:20px;">
+							<label style="display: block; width: 100%; user-select:none;">
+								Untested:
+								<span class="sidebarInput" id="phUnk" style="text-align:left;" />
+							</label>
 						</div>
 						<div style="padding-bottom:3px;">
 							<a class="sidebarButton sidebarItemButton" onclick="openPhenotypesForm();">Change</a>
 						</div>
 					</div>
 				</div>
-
 
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">General Testing <span class="caretDown" /></a>
@@ -413,25 +466,25 @@
 									<th>-</th>
 								</tr>
 								<tr>
-									<td style="text-align:left;"><label for="CMV">CMV</label></td>
+									<td style="text-align:left;"><label>CMV</label></td>
 									<td><input name="CMV" type="radio" value="?" checked /></td>
 									<td><input name="CMV" type="radio" value="+" /></td>
 									<td><input name="CMV" type="radio" value="-" /></td>
 								</tr>
 								<tr>
-									<td style="text-align:left;"><label for="HbS">HbS</label></td>
+									<td style="text-align:left;"><labe>HbS</labe></td>
 									<td><input name="HbS" type="radio" value="?" checked /></td>
 									<td><input name="HbS" type="radio" value="+" /></td>
 									<td><input name="HbS" type="radio" value="-" /></td>
 								</tr>
 								<tr>
-									<td style="text-align:left;"><label for="IgA">IgA</label></td>
+									<td style="text-align:left;"><label>IgA</label></td>
 									<td><input name="IgA" type="radio" value="?" checked /></td>
 									<td><input name="IgA" type="radio" value="+" /></td>
 									<td><input name="IgA" type="radio" value="-" /></td>
 								</tr>
 								<tr>
-									<td style="text-align:left;"><label for="HT">HT</label></td>
+									<td style="text-align:left;"><label>HT</label></td>
 									<td><input name="HT" type="radio" value="?" checked /></td>
 									<td><input name="HT" type="radio" value="+" /></td>
 									<td><input name="HT" type="radio" value="-" /></td>
@@ -445,14 +498,14 @@
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Dates <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem" style="padding-right:20px; ">
-							<label style="display: block; width: 100%; user-select: none;">Collection: </label>
+							<label style="display: block; width: 100%; user-select: none;" for="collectionDate">Collection: </label>
 							<div style="text-align:right; ">
 								<input type="date" id="collectionDate" class="sidebarInput sidebarDate" required=required />
 								<input type="time" id="collectionTime" class="sidebarInput sidebarDate" required=required value="00:00" />
 							</div>
 						</div>
 						<div class="dropdownItem" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select: none;">Expiry: </label>
+							<label style="display: block; width: 100%; user-select: none;" for="expiryDate">Expiry: </label>
 							<div style="text-align:right; ">
 								<input type="date" id="expiryDate" class="sidebarInput sidebarDate" required=required />
 								<input type="time" id="expiryTime" class="sidebarInput sidebarDate" required=required value="23:59" />
@@ -484,21 +537,18 @@
 					</tr>
 					<tr>
 						<td style="width:33%">
-							<select class="dragSelect" size="2" id="phenUnk"
-									onfocus="clearSelect('phenNeg'); clearSelect('phenPos');" />
+							<select class="dragSelect" size="2" id="phenUnk" onfocusout="clearSelect(this.id);" style="background-color: #fff; border-color: #fff;" />
 						</td>
 						<td style="width:33%">
-							<select class="dragSelect" size="2" id="phenNeg"
-									onfocus="clearSelect('phenUnk'); clearSelect('phenPos');" style="background-color:#cfc;" />
+							<select class="dragSelect" size="2" id="phenNeg" onfocusout="clearSelect(this.id);" style="background-color: #cfc; border-color: #cfc; scrollbar-color: #9aff9a #bdffbd; " />
 						</td>
 						<td style="width:33%">
-							<select class="dragSelect" size="2" id="phenPos"
-									onfocus="clearSelect('phenUnk'); clearSelect('phenNeg');" style="background-color:#fcc;" />
+							<select class="dragSelect" size="2" id="phenPos" onfocusout="clearSelect(this.id);" style="background-color: #fcc; border-color: #fcc; scrollbar-color: #ff9a9a #ffbdbd; " />
 						</td>
 					</tr>
 				</table>
 				<div style="height:100%; text-align:right;">
-					<button style="width:100px;" type="reset" onclick="resetPhenotypesForm();">Cancel</button>
+					<button style="width:100px; margin:12px;" type="reset" onclick="resetPhenotypesForm();">Cancel</button>
 					<button style="width:100px;" type="button" onclick="submitPhenotypeForm();">Accept</button>
 				</div>
 			</form>
@@ -530,10 +580,10 @@
 
 			for (let d of document.querySelectorAll(".dragSelect")) {
 				d.addEventListener('drop', dropSelect);
-				d.addEventListener('dragenter', (e) => { e.preventDefault(); });
 				d.addEventListener('dragover', (e) => { e.preventDefault(); });
-				d.addEventListener('dragleave', (e) => { });
 			}
+
+			rhChanged();
 		})();
 
 		function dragStart(e) {
@@ -566,6 +616,147 @@
 
 			select.add(draggable, select.options[i]);
 
+			clearSelect(select.id);
+		}
+
+		function rhChanged() {
+			//const RhPosPhens = [['R\u2080', 0.0257], ['R\u2081', 0.4204], ['R\u2082', 0.1411], ['RZ', 0.0024]];
+			const RhPosPhens = [['R0', 0.0257], ['R1', 0.4204], ['R2', 0.1411], ['RZ', 0.0024]];
+			//const RhNegPhens = [['r', 0.3886], ['r\u2032', 0.0098], ['r\u2033', 0.0119], ['ry', 0.0005]];
+			const RhNegPhens = [['r', 0.3886], ['r\'', 0.0098], ['r\"', 0.0119], ['ry', 0.0005]];
+
+			function round(num, dp) {
+				const f = Math.pow(10, dp);
+				return Math.round(num * f) / f;
+			};
+
+			function generateRh(D, a, b, result) {
+				let arr = [a, b].sort((a, b) => {
+					// order should be 1,2,3,0
+					if (a == 0) return 1;
+					if (b == 0) return -1;
+					if (a == b) return 0;
+					return (a > b) ? 1 : -1;
+				});
+
+				let str = "";
+				let freq = 0;
+				if (D) {
+					// try DD,
+					str = `${RhPosPhens[arr[0]][0]}${RhPosPhens[arr[1]][0]}`;
+					freq = RhPosPhens[arr[0]][1] * RhPosPhens[arr[1]][1];
+					if (!result.some(x => x.str == str))
+						result.push({ str: str, freq: freq });
+					//Dd,
+					str = `${RhPosPhens[arr[0]][0]}${RhNegPhens[arr[1]][0]}`;
+					freq = RhPosPhens[arr[0]][1] * RhNegPhens[arr[1]][1];
+					if (!result.some(x => x.str == str))
+						result.push({ str: str, freq: freq });
+					//dD
+					str = `${RhPosPhens[arr[1]][0]}${RhNegPhens[arr[0]][0]}`;
+					freq = RhPosPhens[arr[1]][1] * RhNegPhens[arr[0]][1];
+					if (!result.some(x => x.str == str))
+						result.push({ str: str, freq: freq });
+				} else {
+					// try dd
+					str = `${RhNegPhens[arr[0]][0]}${RhNegPhens[arr[1]][0]}`;
+					freq = RhNegPhens[arr[0]][1] * RhNegPhens[arr[1]][1];
+					if (!result.some(x => x.str == str))
+						result.push({ str: str, freq: freq });
+				}
+			}
+
+			// calculate possible R notations just for fun
+			const checked = {
+				D: document.querySelector("#RhD").checked,
+				C: document.querySelector("#RhC").checked,
+				E: document.querySelector("#RhE").checked,
+				c: document.querySelector("#Rhc").checked,
+				e: document.querySelector("#Rhe").checked
+			};
+
+			let result = [];
+
+			if ((!checked.C && !checked.c) || (!checked.E && !checked.e)) {
+				result = [{ str: 'Rh<sub>null</sub>', freq: 1 }];
+			} else {
+				// 2 different ways to combine pairs of C/!c and E/!e.
+				let score1 = { a: 0, b: 0 },
+					score2 = { a: 0, b: 0 };
+				if (checked.C) { score1.a += 1; score2.a += 1; }
+				if (checked.E) { score1.a += 2; score2.b += 2; }
+				if (!checked.c) { score1.b += 1; score2.b += 1; }
+				if (!checked.e) { score1.b += 2; score2.a += 2; }
+
+				if ((score1.a == score2.a && score1.b == score2.b) ||
+					(score1.a == score2.b && score1.b == score2.a)) {
+					generateRh(checked.D, score1.a, score1.b, result);
+
+				} else {
+					generateRh(checked.D, score1.a, score1.b, result);
+					generateRh(checked.D, score2.a, score2.b, result);
+				}
+			}
+
+			// sort result by frequency
+			result = result.sort((a, b) => {
+				if (a.freq < b.freq) return 1;
+				if (a.freq > b.freq) return -1;
+				if (a.freq == b.freq) return 0;
+			});
+
+			// convert frequency in population to percentage chance of each possible haplotype
+			let freqSum = result.reduce((sum, x) => sum + x.freq, 0);
+			let multiplier = 100 / freqSum;
+
+			// write back to sidebar.
+			const phenSpan = document.querySelector('#phenotypeList');
+			phenSpan.innerHTML = "";
+			for (let r of result) {
+				r.str = r.str.padEnd(4, ' ');
+				r.str = r.str.replaceAll('0', '<sub>0</sub>');
+				r.str = r.str.replaceAll('1', '<sub>1</sub>');
+				r.str = r.str.replaceAll('2', '<sub>2</sub>');
+				r.str = r.str.replaceAll('Z', '<sub>Z</sub>');
+				r.str = r.str.replaceAll('y', '<sup>y</sup>');
+				const percentage = round(r.freq * multiplier, 2).toFixed(2).padStart(6, ' ') + "%";
+				phenSpan.innerHTML += `${r.str} : ${percentage}<br />`;
+			}
+
+			// Phen	sum			possible haplotypes
+			//					DD		Dd		dD		dd
+			//--------------------------------------------------
+			//ccee	0 = 0 + 0	R0R0	R0r				rr
+			//Ccee	1 = 0 + 1	R0R1	R1r		R0r'	rr'
+			//CCee	2 = 1 + 1	R1R1	R1r'			r'r'
+			//ccEe	2 = 2 + 0	R0R2	R2r		R0r"	rr"
+			//CcEe	3 = 1 + 2	R1R2	R2r'	R1r"	r'r"
+			//CcEe	3 = 3 + 0	R0Rz	Rzr		R0ry	rry
+			//ccEE	4 = 2 + 2	R2R2	R2r"			r"r"
+			//CCEe	4 = 1 + 3	R1Rz	Rzr'	R1ry	r'ry
+			//CcEE	5 = 2 + 3	R2Rz	Rzr"	R2ry	r"ry
+			//CCEE	6 = 3 + 3	RzRz	Rzry			ryry
+
+			//// simple cases where they are the same
+			//// homozygous RhCE cases are simple, 3 options based on D.					haplotype
+			//if (score1 == 0 && score2 == 0) { } //	ccee	R0R0 / R0r / rr				sums to 0 (0+0)
+			//if (score1 == 1 && score2 == 1) { } //	CCee	R1R1 / R1r' / r'r'			sums to 2 (1+1)
+			//if (score1 == 2 && score2 == 2) { } //	ccEE	R2R2 / R2r' / r"r"			sums to 4 (2+2)
+			//if (score1 == 3 && score2 == 3) { } //	CCEE	RzRz / Rzry / ryry			sums to 6 (3+3)
+
+			//// 1x homozygous, 1x heterozygous, 4 options
+			//if (score1 == 1 && score2 == 0) { } //	Ccee	R1R0 / R1r / R0r' / r'r		sums to 1 (1+0)
+			//if (score1 == 2 && score2 == 0) { } //	ccEe	R2R0 / R2r / R0r" / r"r		sums to 2 (2+0)
+			//if (score1 == 3 && score2 == 1) { } //	CCEe	R1Rz / R1ry / Rzr' / r'ry	sums to 4 (1+3)
+			//if (score1 == 3 && score2 == 2) { } //	CcEE	R2Rz / R2ry / Rzr" / r"ry	sums to 5 (2+3)
+
+			//// both aleles heterozygous, 8 options
+			//if (score1 == 3 && score2 == 0) { } //	CcEe	R1R2 / R1r" / R2r' / r'r" /	sums to 3 (2+1) or
+			//											CcEe	R0Rz / R0ry / Rzr / rry		sums to 3 (3+0)
+
+			// Rh Null (0,3) = null for both
+			// (0,3), (2,3), (2,1), (0,1) = null for C
+			// (0,3), (1,3), (1,2), (0,2) = null for E
 		}
 
 		function writePhenotypeToSidebar(sidebarElementId, array) {
@@ -643,13 +834,13 @@
 				return;
 
 			const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
-			const sidebarWidth = parseInt(sidebar.style.width);
-			const handleWidth = parseInt(document.querySelector("#navOpenDiv").style.width);
+			const sidebarWidth = parseInt(getComputedStyle(sidebar).getPropertyValue('width'));
+			const handleWidth = parseInt(getComputedStyle(document.querySelector("#navOpenDiv")).getPropertyValue('width'));
 			const finalWidth = sidebarWidth - handleWidth - scrollbarWidth;
 			document.documentElement.style.setProperty('--animation-width', `-${finalWidth}px`);
 
 
-			if (sidebar.style.left == "0px") {
+			if (getComputedStyle(sidebar).getPropertyValue('left') == "0px") {
 				sidebar.style.animation = "right 0.2s";
 				sidebar.style.left = `-${finalWidth}px`;
 				sidebar.style.resize = "none";
@@ -664,7 +855,7 @@
 		function toggleDropdown(dropdownDiv, hideOtherDropdowns = false) {
 			const dropdown = dropdownDiv.querySelector(":scope > .dropdownContents");
 			if (!dropdown) return;
-			dropdown.style.display = (dropdown.style.display == "none") ? "block" : "none";
+			dropdown.style.display = (getComputedStyle(dropdown).getPropertyValue('display') == "none") ? "block" : "none";
 		}
 
 		function getSelectValues(select) {
