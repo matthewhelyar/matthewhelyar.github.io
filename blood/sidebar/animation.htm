@@ -583,13 +583,16 @@
 			if (t != "navOpenDiv" && t != "navOpen" && t != "sidebarHeading")
 				return;
 
-			const w = parseInt(sidebar.style.width);
-			const s = parseInt(document.querySelector("#navOpenDiv").style.width);
-			document.documentElement.style.setProperty('--animation-width', `-${w - s}px`);
+			const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
+			const sidebarWidth = parseInt(sidebar.style.width);
+			const handleWidth = parseInt(document.querySelector("#navOpenDiv").style.width);
+			const finalWidth = sidebarWidth - handleWidth - scrollbarWidth;
+			document.documentElement.style.setProperty('--animation-width', `-${finalWidth}px`);
+
 
 			if (sidebar.style.left == "0px") {
 				sidebar.style.animation = "right 0.2s";
-				sidebar.style.left = `-${w - s}px`;
+				sidebar.style.left = `-${finalWidth}px`;
 				sidebar.style.resize = "none";
 			}
 			else {
