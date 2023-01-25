@@ -1,0 +1,291 @@
+:root {
+	--animation-width: -260px;
+	--grey1: #616161;
+	--grey2: #777;
+	--grey3: #9e9e9e;
+	--grey4: #ccc;
+	--accent: #C00; /* #0060DF; =  default checkbox blue */
+}
+
+body {
+	margin: 0;
+	background-color: lightgrey;
+	/*font-family: Arial, Helvetica, sans-serif;*/
+	font-family: 'Roboto', sans-serif;
+}
+
+hr {
+	margin: 5px;
+	border: 0;
+	border-top: 1px solid white;
+	cursor: auto;
+}
+
+th {
+	font-weight: 400;
+}
+
+input {
+	accent-color: var(--accent);
+}
+
+.sidebar {
+	display: block;
+	position: fixed;
+	height: 100%;
+	background-color: var(--grey1);
+	color: white;
+	border: none;
+	box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
+	/*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
+	font-family: 'Roboto', sans-serif;
+	animation: left 0.2s;
+	overflow: auto;
+	resize: horizontal;
+	min-width: 230px;
+	user-select: none;
+}
+
+.navOpen {
+	position: sticky;
+	top: 0px;
+	z-index: 1;
+	background-color: var(--grey2);
+	color: white;
+	float: right;
+	height: 100%;
+	cursor: pointer;
+	text-align: center;
+	vertical-align: middle;
+	box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
+	user-select: none;
+}
+
+.navOpen:hover {
+	background-color: var(--grey4);
+	color: black;
+	transition: 0.2s;
+}
+
+.sidebarContents {
+	margin-right: 40px;
+}
+
+.sidebarButton {
+	color: white;
+	background-color: transparent;
+	display: block;
+	font-size: 11pt;
+	line-height: 1.5;
+	text-decoration: none;
+	padding: 3px 6px;
+	cursor: pointer;
+	user-select: none;
+}
+
+.sidebarButton:hover {
+	color: black;
+	transition: 0.2s;
+}
+
+.sidebarItemButton {
+	border: 2px solid var(--grey1);
+	margin: 3px 12px;
+	text-align: center;
+}
+
+.caretDown {
+	float: right;
+	font-size: 8pt;
+	padding: 3px 10px;
+}
+
+.caretDown::after {
+	content: "\25BC";
+}
+
+.dropdownDiv {
+	padding: 0 0 0 10px;
+}
+
+.dropdownDiv:hover {
+	background-color: var(--grey4);
+	color: black;
+	transition: 0.2s;
+}
+
+.dropdownContents {
+	position: relative;
+	background-color: var(--grey3);
+	color: black;
+	box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
+	animation: left 0.2s;
+}
+
+.dropdownItem {
+	display: block;
+	font-size: 11pt;
+	line-height: 1.5;
+	text-decoration: none;
+	color: black;
+	padding: 3px 12px;
+}
+
+.dropdownItem:hover {
+	background-color: var(--grey4);
+	transition: 0.2s;
+}
+
+.sidebarInput {
+	display: block;
+	/*float: right;*/
+	width: 100%;
+	padding: 2px;
+	margin: 0 2px;
+	border-top: none;
+	border-left: none;
+	border-bottom: 2px solid white;
+	border-right: 2px solid white;
+	text-align: right;
+	background-color: transparent;
+	font-size: 11pt;
+	font-weight: 400;
+	/*font-family: Courier New, Courier, monospace;*/
+	font-family: 'Roboto Mono', monospace;
+	user-select: text;
+}
+
+.sidebarInput:focus {
+	border-color: var(--accent);
+	outline: none;
+	transition: 0.2s
+}
+
+.sidebarSelect {
+	display: block;
+	/*float: right;*/
+	width: 100%;
+	padding: 2px;
+	border-top: none;
+	border-left: none;
+	border-bottom: 2px solid white;
+	border-right: 2px solid white;
+	text-align: right;
+	background-color: transparent;
+	font-size: 11pt;
+	font-family: 'Roboto', sans-serif;
+}
+
+.sidebarSelect:focus {
+	border-color: var(--accent);
+	outline: none;
+	transition: 0.2s
+}
+
+.sidebarDate {
+	/*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	width: initial;
+	display: inline;
+}
+
+#phenotypePopup {
+	display: none;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 50%;
+	height: 500px;
+	background-color: var(--grey1);
+	border-radius: 10px;
+	animation: fadeIn 0.25s;
+	border: 5px solid var(--grey2);
+	color: white;
+}
+
+.dragSelect {
+	height: 350px;
+	width: 100%;
+	border: 5px solid;
+	border-radius: 4px;
+	overflow: auto;
+}
+
+.draggableOption, .draggableOption:checked {
+	background-color: transparent;
+}
+
+span.sidebarInput:empty:before {
+	content: "\200b"; /* unicode zero width space character*/
+}
+
+@keyframes left {
+	from {
+		left: var(--animation-width);
+	}
+
+	to {
+		left: 0;
+	}
+}
+
+@keyframes right {
+	from {
+		left: 0;
+	}
+
+	to {
+		left: var(--animation-width);
+	}
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0
+	}
+
+	100% {
+		opacity: 1
+	}
+}
+
+@keyframes zoomIn {
+	from {
+		transform: scale(0);
+	}
+
+	to {
+		transform: scale(1);
+	}
+}
+
+@page {
+	size: A4 portrait;
+	margin: 0mm;
+}
+
+@media print {
+	.centerOnPrintedPageAbsolute {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.noPrint {
+		display: none;
+		width: 0;
+		margin: 0;
+		padding: 0;
+	}
+
+	body {
+		background-color: none;
+	}
+
+	.main {
+		margin-left: 0;
+	}
+}
