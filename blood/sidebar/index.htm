@@ -5,14 +5,9 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="sidebar.css" type="text/css" />
 	<link rel="stylesheet" href="./tristateBox/tristateBox.css" type="text/css" />
+	<link rel="stylesheet" href="sidebar.css" type="text/css" />
 	<script src="./tristateBox/tristateBox.js"></script>
-	<style>
-		.tristateBox, input[type=radio], input[type=checkbox] {
-			transform: scale(1.25);
-		}
-	</style>
 </head>
 <body>
 	<div class="noPrint">
@@ -24,7 +19,7 @@
 
 			<div id="sidebarHeadingDiv" style="padding: 5px 10px 0 15px; margin-right:40px; cursor:default; user-select:none;">
 				<span id="sidebarHeading" style="font-weight: 400; font-size:14pt;">EDIT</span>
-				<hr style="margin:0;" />
+				<hr style="margin:5px 0;" />
 			</div>
 
 			<div class="sidebarContents">
@@ -56,7 +51,8 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Product <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem">
+
+						<!--<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;" for="componentType">
 								Component Type:
 								<select id="componentType" class="sidebarSelect">
@@ -65,6 +61,40 @@
 									<option value="F">Fresh Frozen Plasma</option>
 									<option value="C">Cryoprecipitate</option>
 									<option value="G">Granulocytes</option>
+								</select>
+							</label>
+						</div>-->
+
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select: none;" for="componentType">
+								Component Type:
+								<select id="componentType" class="sidebarSelect">
+									<option value="">Red Cells</option>
+									<option value="">Red Cells - IUT</option>
+									<option value="">Red Cells - Neonatal Exchange</option>
+									<option value="">Red Cells - Washed</option>
+									<option value="">Red Cells - Frozen (automated wash)</option>
+									<option value="">Red Cells - Frozen (manual wash)</option>
+									<option value="">Red Cells - Autologous</option>
+									<option value="">Platelets - Pooled</option>
+									<option value="">Platelets - Apheresis</option>
+									<option value="">Platelets - Washed</option>
+									<option value="">Platelets - IUT</option>
+									<option value="">Fresh Frozen Plasma</option>
+									<option value="">Cryoprecipitate</option>
+									<option value="">Granulocytes - pooled</option>
+									<option value="">Granulocytes - buffy coats</option>
+								</select>
+							</label>
+						</div>
+
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select: none;" for="componentType">
+								Size:
+								<select id="componentType" class="sidebarSelect">
+									<option value="AD">Adult</option>
+									<option value="Neo">Neonatal</option>
+									<option value="LVT">Neonatal large volume</option>
 								</select>
 							</label>
 						</div>
@@ -76,22 +106,29 @@
 							</label>
 						</div>
 
-						<div class="dropdownItem">
+						<!--<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select:none;">
 								Special:
 								<input style="float:right;" id="special" type="checkbox">
 							</label>
-						</div>
+						</div>-->
+						<!--<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select:none;">
+								Routinely available:
+								<input style="float:right;" id="available" type="checkbox">
+							</label>
+						</div>-->
+
+						<hr style="margin: 6px 12px; height: 3px; border-top: 2px solid black; border-bottom: 2px solid black;" />
 
 						<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select:none;">
-								Available:
-								<input style="float:right;" id="available" type="checkbox">
+							<label style="display: block; width: 100%; user-select: none;" for="componentType">
+								Select final product:
+								<select id="finalProduct" class="sidebarSelect">
+								</select>
 							</label>
 						</div>
 
-						<hr />
-						<a class="dropdownItem" href="javascript:void(0)">Product</a>
 					</div>
 				</div>
 
@@ -125,7 +162,7 @@
 									<th style="width:0;">AB</th>
 								</tr>
 								<tr>
-									<td><input name="ABOradio" type="radio" value="O" checked/></td>
+									<td><input name="ABOradio" type="radio" value="O" checked /></td>
 									<td></td>
 									<td><input name="ABOradio" type="radio" value="A" /></td>
 									<td></td>
@@ -251,25 +288,25 @@
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span style="display: block; width: 100%; user-select:none;">
 								CMV:
-								<div class="tristateBox indeterminate" style="float:right;"></div>
+								<div class="tristateBox indeterminate" style="float: right; top: 1px"></div>
 							</span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span style="display: block; width: 100%; user-select:none;">
 								HbS:
-								<div class="tristateBox indeterminate" style="float:right;"></div>
+								<div class="tristateBox indeterminate" style="float: right; top: 1px"></div>
 							</span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span style="display: block; width: 100%; user-select:none;">
 								IgA:
-								<div class="tristateBox indeterminate" style="float:right;"></div>
+								<div class="tristateBox indeterminate" style="float: right; top: 1px"></div>
 							</span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span style="display: block; width: 100%; user-select:none;">
 								HT:
-								<div class="tristateBox indeterminate" style="float:right;"></div>
+								<div class="tristateBox indeterminate" style="float: right; top: 1px"></div>
 							</span>
 						</div>
 					</div>
@@ -278,14 +315,14 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Dates <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem" style="padding-right:20px; ">
+						<div class="dropdownItem" style="padding-right:12px; ">
 							<label style="display: block; width: 100%; user-select: none;" for="collectionDate">Collection: </label>
 							<div style="text-align:right; ">
 								<input type="date" id="collectionDate" class="sidebarInput sidebarDate" required=required />
 								<input type="time" id="collectionTime" class="sidebarInput sidebarDate" required=required value="00:00" />
 							</div>
 						</div>
-						<div class="dropdownItem" style="padding-right:20px;">
+						<div class="dropdownItem" style="padding-right:12px;">
 							<label style="display: block; width: 100%; user-select: none;" for="expiryDate">Expiry: </label>
 							<div style="text-align:right; ">
 								<input type="date" id="expiryDate" class="sidebarInput sidebarDate" required=required />
