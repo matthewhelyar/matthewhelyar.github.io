@@ -1,3 +1,6 @@
+// globals
+let tristateBoxes = [];
+
 // phenotype popup form
 
 let phenotypes = { unk: ['M', 'N', 'S', 's', 'K', 'k', 'Lea', 'Leb', 'Fya', 'Fyb', 'Jka', 'Jkb', 'Cw', 'Mia', 'U', 'P1', 'Lua', 'Kpa', 'Doa', 'Dob', 'Ina', 'Cob', 'Dia', 'VS/V', 'Jsa'], pos: [], neg: [] };
@@ -122,7 +125,103 @@ function clearSelect(selectId) {
 
 // Rh picker
 
+function tristateRhChanged() {
+
+	function round(num, dp) {
+		const f = Math.pow(10, dp);
+		return Math.round(num * f) / f;
+	};
+
+	function generateAllHaplotypes() {
+		// generate all haplotypes as an array of {str, freq}
+		//const RhPosPhens = [['R\u2080', 0.0257], ['R\u2081', 0.4204], ['R\u2082', 0.1411], ['RZ', 0.0024]];
+		const RhPosPhens = [['R0', 'cDe', 0.0257], ['R1', 'CDe', 0.4204], ['R2', 'cDE', 0.1411], ['RZ', 'CDE', 0.0024]];
+		//const RhNegPhens = [['r', 0.3886], ['r\u2032', 0.0098], ['r\u2033', 0.0119], ['ry', 0.0005]];
+		const RhNegPhens = [['r', 'cde', 0.3886], ['r\'', 'Cde', 0.0098], ['r\"', 'cdE', 0.0119], ['ry', 'CdE', 0.0005]];
+
+
+		function generatePartial(result, arr1, arr2) {
+			for (let i = 0; i < arr1.length; i++) {
+				for (let j = (arr1 == arr2) ? i : 0; j < arr2.length; j++) {
+					// to get order of 1,2,3,0
+					let i_ = (i + 1) % arr1.length;
+					let j_ = (j + 1) % arr2.length;
+					const str = arr1[i_][0] + arr2[j_][0];
+					const cdeStr = (arr1[i_][1] + "/" + arr2[j_][1]).toString();
+					const freq = arr1[i_][2] * arr2[j_][2];
+					if (!result.some(x => x.str == str))
+						result.push({ str: str, cdeStr: cdeStr, freq: freq });
+				}
+			}
+		}
+		let result = [];
+		generatePartial(result, RhPosPhens, RhPosPhens);
+		generatePartial(result, RhPosPhens, RhNegPhens);
+		generatePartial(result, RhNegPhens, RhNegPhens);
+		return result;
+	}
+
+	function filterDown(arr, boxState, searchLetter) {
+		if (boxState == 'checked')
+			return arr.filter((x) => { return x.cdeStr.includes(searchLetter); });
+		else if (boxState == 'unchecked')
+			return arr.filter((x) => { return !x.cdeStr.includes(searchLetter); });
+		return arr;
+	}
+
+	const rhBoxes = {
+		D: tristateBoxes.find((b) => { return b.box.id == 'RhD'; }),
+		C: tristateBoxes.find((b) => { return b.box.id == 'RhC'; }),
+		E: tristateBoxes.find((b) => { return b.box.id == 'RhE'; }),
+		c: tristateBoxes.find((b) => { return b.box.id == 'Rhc'; }),
+		e: tristateBoxes.find((b) => { return b.box.id == 'Rhe'; }),
+	};
+
+	let haplotypes = [];
+
+	if ((rhBoxes.C.state == 'unchecked' && rhBoxes.c.state == 'unchecked') ||
+		(rhBoxes.E.state == 'unchecked' && rhBoxes.e.state == 'unchecked')) {
+		haplotypes = [{ str: 'Rh<sub>null</sub>', cdeStr: '', freq: 1 }];
+	}
+	else {
+		haplotypes = generateAllHaplotypes();
+		haplotypes = filterDown(haplotypes, rhBoxes.D.state, 'D');
+		haplotypes = filterDown(haplotypes, rhBoxes.C.state, 'C');
+		haplotypes = filterDown(haplotypes, rhBoxes.E.state, 'E');
+		haplotypes = filterDown(haplotypes, rhBoxes.c.state, 'c');
+		haplotypes = filterDown(haplotypes, rhBoxes.e.state, 'e');
+	}
+
+	// sort result by frequency
+	haplotypes = haplotypes.sort((a, b) => {
+		if (a.freq < b.freq) return 1;
+		if (a.freq > b.freq) return -1;
+		if (a.freq == b.freq) return 0;
+	});
+
+	// convert frequency in population to percentage chance of each possible haplotype
+	let freqSum = haplotypes.reduce((sum, x) => sum + x.freq, 0);
+	let multiplier = 100 / freqSum;
+
+	// write back to sidebar.
+	const phenSpan = document.querySelector('#phenotypeList');
+	phenSpan.innerHTML = "";
+	for (let h of haplotypes) {
+		h.str = h.str.padEnd(4, ' ');
+		h.str = h.str.replaceAll('0', '<sub>0</sub>');
+		h.str = h.str.replaceAll('1', '<sub>1</sub>');
+		h.str = h.str.replaceAll('2', '<sub>2</sub>');
+		h.str = h.str.replaceAll('Z', '<sub>Z</sub>');
+		h.str = h.str.replaceAll('y', '<sup>y</sup>');
+		const percentage = round(h.freq * multiplier, 5).toFixed(5).padStart(9, ' ') + "%";
+		phenSpan.innerHTML += `${h.str} : ${percentage}<br />`;
+	}
+}
+
 function rhChanged() {
+	// this works for checkboxes, but not for tristateBoxes.
+	// left it in anyway because I use the score algorithm in my head at work.
+
 	//const RhPosPhens = [['R\u2080', 0.0257], ['R\u2081', 0.4204], ['R\u2082', 0.1411], ['RZ', 0.0024]];
 	const RhPosPhens = [['R0', 0.0257], ['R1', 0.4204], ['R2', 0.1411], ['RZ', 0.0024]];
 	//const RhNegPhens = [['r', 0.3886], ['r\u2032', 0.0098], ['r\u2033', 0.0119], ['ry', 0.0005]];
@@ -297,6 +396,17 @@ function toggleDropdown(dropdownDiv, hideOtherDropdowns = false) {
 // init
 
 (function init() {
+	// set up tristateBoxes.
+	document.querySelectorAll('.tristateBox').forEach((box) => {
+		tristateBoxes.push(new TristateBox(box));
+	});
+
+	tristateBoxes.find((b) => { return b.box.id == 'RhD'; }).postChangeCallback = tristateRhChanged;
+	tristateBoxes.find((b) => { return b.box.id == 'RhC'; }).postChangeCallback = tristateRhChanged;
+	tristateBoxes.find((b) => { return b.box.id == 'RhE'; }).postChangeCallback = tristateRhChanged;
+	tristateBoxes.find((b) => { return b.box.id == 'Rhc'; }).postChangeCallback = tristateRhChanged;
+	tristateBoxes.find((b) => { return b.box.id == 'Rhe'; }).postChangeCallback = tristateRhChanged;
+
 	writePhenotypeToSidebar('phUnk', phenotypes.unk);
 	writePhenotypeToSidebar('phPos', phenotypes.pos);
 	writePhenotypeToSidebar('phNeg', phenotypes.neg);
@@ -310,5 +420,5 @@ function toggleDropdown(dropdownDiv, hideOtherDropdowns = false) {
 		d.addEventListener('dragover', (e) => { e.preventDefault(); });
 	}
 
-	rhChanged();
+	tristateRhChanged();
 })();

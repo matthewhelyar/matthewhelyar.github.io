@@ -4,7 +4,8 @@
 	--grey2: #777;
 	--grey3: #9e9e9e;
 	--grey4: #ccc;
-	--accent: #C00; /* #0060DF; =  default checkbox blue */
+	--accent: #0060DF; /* default checkbox blue */
+	/*--accent: #C00; red */
 }
 
 body {

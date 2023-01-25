@@ -6,6 +6,8 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="sidebar.css" type="text/css" />
+	<link rel="stylesheet" href="./tristateBox/tristateBox.css" type="text/css" />
+	<script src="./tristateBox/tristateBox.js"></script>
 </head>
 <body>
 	<div class="noPrint">
@@ -113,12 +115,19 @@
 									<th style="text-decoration:overline;">c</th>
 									<th style="text-decoration:overline;">e</th>
 								</tr>
-								<tr>
+								<!--<tr>
 									<td><input id="RhD" onchange="rhChanged();" type="checkbox"></td>
 									<td><input id="RhC" onchange="rhChanged();" type="checkbox"></td>
 									<td><input id="RhE" onchange="rhChanged();" type="checkbox"></td>
 									<td><input id="Rhc" onchange="rhChanged();" type="checkbox" checked></td>
 									<td><input id="Rhe" onchange="rhChanged();" type="checkbox" checked></td>
+								</tr>-->
+								<tr>
+									<td><div id="RhD" class="tristateBox unchecked" ></div></td>
+									<td><div id="RhC" class="tristateBox unchecked" ></div></td>
+									<td><div id="RhE" class="tristateBox unchecked" ></div></td>
+									<td><div id="Rhc" class="tristateBox checked" ></div></td>
+									<td><div id="Rhe" class="tristateBox checked" ></div></td>
 								</tr>
 							</table>
 						</div>
@@ -198,6 +207,30 @@
 									<td><input name="HT" type="radio" value="-" /></td>
 								</tr>
 							</table>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span style="display: block; width: 100%; user-select:none;">
+								CMV:
+								<div class="tristateBox indeterminate" style="float:right;"></div>
+							</span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span style="display: block; width: 100%; user-select:none;">
+								HbS:
+								<div class="tristateBox indeterminate" style="float:right;"></div>
+							</span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span style="display: block; width: 100%; user-select:none;">
+								IgA:
+								<div class="tristateBox indeterminate" style="float:right;"></div>
+							</span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span style="display: block; width: 100%; user-select:none;">
+								HT:
+								<div class="tristateBox indeterminate" style="float:right;"></div>
+							</span>
 						</div>
 					</div>
 				</div>
