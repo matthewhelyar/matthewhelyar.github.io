@@ -1,23 +1,6 @@
-
+// phenotype popup form
 
 let phenotypes = { unk: ['M', 'N', 'S', 's', 'K', 'k', 'Lea', 'Leb', 'Fya', 'Fyb', 'Jka', 'Jkb', 'Cw', 'Mia', 'U', 'P1', 'Lua', 'Kpa', 'Doa', 'Dob', 'Ina', 'Cob', 'Dia', 'VS/V', 'Jsa'], pos: [], neg: [] };
-
-(function init() {
-	writePhenotypeToSidebar('phUnk', phenotypes.unk);
-	writePhenotypeToSidebar('phPos', phenotypes.pos);
-	writePhenotypeToSidebar('phNeg', phenotypes.neg);
-
-	for (let d of document.querySelectorAll(".draggableOption")) {
-		d.addEventListener('dragstart', dragStart);
-	}
-
-	for (let d of document.querySelectorAll(".dragSelect")) {
-		d.addEventListener('drop', dropSelect);
-		d.addEventListener('dragover', (e) => { e.preventDefault(); });
-	}
-
-	rhChanged();
-})();
 
 function dragStart(e) {
 	e.dataTransfer.setData('text/plain', e.target.id);
@@ -51,6 +34,93 @@ function dropSelect(e) {
 
 	clearSelect(select.id);
 }
+
+function savePhenotypeFromForm(selectId, array) {
+	for (let p of document.getElementById(selectId).options)
+		array.push(p.value);
+}
+
+function submitPhenotypeForm() {
+	phenotypes = { unk: [], pos: [], neg: [] };
+	savePhenotypeFromForm('phenUnk', phenotypes.unk);
+	savePhenotypeFromForm('phenPos', phenotypes.pos);
+	savePhenotypeFromForm('phenNeg', phenotypes.neg);
+
+	writePhenotypeToSidebar('phUnk', phenotypes.unk);
+	writePhenotypeToSidebar('phPos', phenotypes.pos);
+	writePhenotypeToSidebar('phNeg', phenotypes.neg);
+
+	document.getElementById("phenotypePopup").style.display = "none";
+}
+
+function alphabeticCaseSort(x, y) {
+	// sort alphabetically accounting for case.
+	if (x === y) return 0;
+	if (x.toUpperCase() == y.toUpperCase) {
+		if (x < y) return -1;
+		if (x > y) return 1;
+	}
+	if (x.toUpperCase() < y.toUpperCase()) return -1;
+	if (x.toUpperCase() > y.toUpperCase()) return 1;
+	return 0;
+}
+
+function resetPhenotypesForm() {
+	function writeToForm(selectId, array) {
+		let select = document.getElementById(selectId);
+		select.options.length = 0;
+		array = array.sort(alphabeticCaseSort);
+		for (let o of array) {
+			let option = document.createElement('option');
+			option.id = "phenOption_" + o;
+			option.text = o;
+			option.classList.add("draggableOption");
+			option.draggable = "true";
+			option.addEventListener('dragstart', dragStart);
+			select.appendChild(option);
+		}
+	}
+
+	writeToForm('phenUnk', phenotypes.unk);
+	writeToForm('phenPos', phenotypes.pos);
+	writeToForm('phenNeg', phenotypes.neg);
+
+	document.getElementById("phenotypePopup").style.display = "none";
+}
+
+function openPhenotypesForm() {
+	if (getComputedStyle(document.getElementById("phenotypePopup")).getPropertyValue('display') != "none") return;
+	resetPhenotypesForm();
+	document.getElementById("phenotypePopup").style.display = "block";
+}
+
+function writePhenotypeToSidebar(sidebarElementId, array) {
+	const el = document.getElementById(sidebarElementId);
+	el.textContent = "";
+	for (let i = 0; i < array.length; i++) {
+		el.textContent += array[i];
+		if (i != array.length - 1)
+			el.textContent += ", ";
+	}
+}
+
+function getSelectValues(select) {
+	if (!select || !select.options) return;
+	let result = [];
+	for (let opt of select.options)
+		if (opt.selected)
+			result.push(opt.value);
+	return result;
+}
+
+function clearSelect(selectId) {
+	const select = document.getElementById(selectId);
+	if (!select || !select.options) return;
+	for (let opt of select.options)
+		opt.selected = false;
+}
+
+// Rh picker
 
 function rhChanged() {
 	//const RhPosPhens = [['R\u2080', 0.0257], ['R\u2081', 0.4204], ['R\u2082', 0.1411], ['RZ', 0.0024]];
@@ -192,74 +262,7 @@ function rhChanged() {
 	// (0,3), (1,3), (1,2), (0,2) = null for E
 }
 
-function writePhenotypeToSidebar(sidebarElementId, array) {
-	const el = document.getElementById(sidebarElementId);
-	el.textContent = "";
-	for (let i = 0; i < array.length; i++) {
-		el.textContent += array[i];
-		if (i != array.length - 1)
-			el.textContent += ", ";
-	}
-}
-
-function savePhenotypeFromForm(selectId, array) {
-	for (let p of document.getElementById(selectId).options)
-		array.push(p.value);
-}
-
-function submitPhenotypeForm() {
-	phenotypes = { unk: [], pos: [], neg: [] };
-	savePhenotypeFromForm('phenUnk', phenotypes.unk);
-	savePhenotypeFromForm('phenPos', phenotypes.pos);
-	savePhenotypeFromForm('phenNeg', phenotypes.neg);
-
-	writePhenotypeToSidebar('phUnk', phenotypes.unk);
-	writePhenotypeToSidebar('phPos', phenotypes.pos);
-	writePhenotypeToSidebar('phNeg', phenotypes.neg);
-
-	document.getElementById("phenotypePopup").style.display = "none";
-}
-
-function alphabeticCaseSort(x, y) {
-	// sort alphabetically accounting for case.
-	if (x === y) return 0;
-	if (x.toUpperCase() == y.toUpperCase) {
-		if (x < y) return -1;
-		if (x > y) return 1;
-	}
-	if (x.toUpperCase() < y.toUpperCase()) return -1;
-	if (x.toUpperCase() > y.toUpperCase()) return 1;
-	return 0;
-}
-
-function resetPhenotypesForm() {
-	function writeToForm(selectId, array) {
-		let select = document.getElementById(selectId);
-		select.options.length = 0;
-		array = array.sort(alphabeticCaseSort);
-		for (let o of array) {
-			let option = document.createElement('option');
-			option.id = "phenOption_" + o;
-			option.text = o;
-			option.classList.add("draggableOption");
-			option.draggable = "true";
-			option.addEventListener('dragstart', dragStart);
-			select.appendChild(option);
-		}
-	}
-
-	writeToForm('phenUnk', phenotypes.unk);
-	writeToForm('phenPos', phenotypes.pos);
-	writeToForm('phenNeg', phenotypes.neg);
-
-	document.getElementById("phenotypePopup").style.display = "none";
-}
-
-function openPhenotypesForm() {
-	if (getComputedStyle(document.getElementById("phenotypePopup")).getPropertyValue('display') != "none") return;
-	resetPhenotypesForm();
-	document.getElementById("phenotypePopup").style.display = "block";
-}
+// sidebar minimize and dropdowns
 
 function toggleSidebar(sidebar) {
 	const t = event.target.getAttribute("id");
@@ -291,18 +294,21 @@ function toggleDropdown(dropdownDiv, hideOtherDropdowns = false) {
 	dropdown.style.display = (getComputedStyle(dropdown).getPropertyValue('display') == "none") ? "block" : "none";
 }
 
-function getSelectValues(select) {
-	if (!select || !select.options) return;
-	let result = [];
-	for (let opt of select.options)
-		if (opt.selected)
-			result.push(opt.value);
-	return result;
-}
+// init
 
-function clearSelect(selectId) {
-	const select = document.getElementById(selectId);
-	if (!select || !select.options) return;
-	for (let opt of select.options)
-		opt.selected = false;
-}
+(function init() {
+	writePhenotypeToSidebar('phUnk', phenotypes.unk);
+	writePhenotypeToSidebar('phPos', phenotypes.pos);
+	writePhenotypeToSidebar('phNeg', phenotypes.neg);
+
+	for (let d of document.querySelectorAll(".draggableOption")) {
+		d.addEventListener('dragstart', dragStart);
+	}
+
+	for (let d of document.querySelectorAll(".dragSelect")) {
+		d.addEventListener('drop', dropSelect);
+		d.addEventListener('dragover', (e) => { e.preventDefault(); });
+	}
+
+	rhChanged();
+})();
