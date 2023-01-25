@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tristate Checkbox</title>
+	<link rel="stylesheet" href="./tristateBox.css" type="text/css" />
+	<script src="./tristateBox.js" type="text/javascript"></script>
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+		}
+	</style>
+</head>
+<body>
+	<span>The purpose of this file is to make a tristate checkbox to avoid using radio boxes.</span>
+
+	<div style="border:1px solid black;">
+		<div id="box1" class="tristateBox unchecked"></div> -&nbsp;
+		<div id="box2" class="tristateBox checked"></div> +&nbsp;
+		<div id="box3" class="tristateBox indeterminate"></div> ?&nbsp;
+		<div id="box4" class="tristateBox disabled"></div>  &nbsp;
+		<input type="checkbox" />&nbsp;
+		<input type="checkbox" />&nbsp;
+		<input type="checkbox" />&nbsp;
+		<input type="checkbox" />&nbsp;
+	</div>
+
+	<script>
+		// set up all tristateBoxes
+		let boxes = [];
+		document.querySelectorAll('.tristateBox').forEach((box) => {
+			boxes.push(new TristateBox(box));
+		});
+
+		boxes[3].enable();
+		boxes[3].disable();
+
+		//demo of adding event listeners to all boxes
+		for (let b of boxes) {
+			if (b.isEnabled) b.addEventListener('click', () => { console.log(`box ${b.box.id} changed state to ${b.state}`); });
+		}
+
+		// example of 1 box.
+		//const box1 = new TristateBox(document.querySelector('#Box1'));
+		//box1.addEventListener('click', () => { console.log("boo")});
+	</script>
+</body>
+</html>

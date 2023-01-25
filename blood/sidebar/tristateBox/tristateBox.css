@@ -1,0 +1,47 @@
+.tristateBox {
+	position: relative;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	width: 10px;
+	height: 10px;
+	margin: 3px 4px;
+	padding: 0;
+	top: -2px;
+	border: 2px solid #0060DF;
+	border-radius: 2px;
+	background-color: #0060DF;
+	color: white;
+	font: 10px sans-serif;
+	overflow: hidden;
+	user-select: none;
+}
+
+.tristateBox:hover {
+	background-color: #2374FF;
+	border-color: #2374FF;
+}
+
+.tristateBox.disabled, .tristateBox.disabled:hover {
+	background-color: #8F8F9D;
+	border-color: #8F8F9D;
+}
+
+.tristateBox.checked:after {
+	content: "+";
+	/*font-size: 15px;*/
+	/*content: "\271A";*/
+	user-select: none;
+}
+
+.tristateBox.unchecked:after {
+	/*content: "-";*/
+	/*content: "\2014";*/
+	content: "\2013";
+	user-select: none;
+}
+
+.tristateBox.indeterminate:after {
+	content: "?";
+	user-select: none;
+}
