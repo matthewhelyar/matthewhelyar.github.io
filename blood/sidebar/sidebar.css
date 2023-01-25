@@ -40,6 +40,7 @@ input {
 	box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
 	/*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
 	font-family: 'Roboto', sans-serif;
+	font-size: 12pt;
 	animation: left 0.2s;
 	overflow: auto;
 	resize: horizontal;
@@ -75,7 +76,7 @@ input {
 	color: white;
 	background-color: transparent;
 	display: block;
-	font-size: 11pt;
+	/*font-size: 12pt;*/
 	line-height: 1.5;
 	text-decoration: none;
 	padding: 3px 6px;
@@ -93,6 +94,7 @@ input {
 	margin: 3px 12px;
 	text-align: center;
 }
+
 .sidebarItemButton:hover {
 	background-color: var(--grey4);
 }
@@ -104,9 +106,11 @@ input {
 
 .caretDown::after {
 	content: "\2304";
-	display: inline-block;
+	display: block;
 	transform: scaleX(150%);
 	font-size: 11pt;
+	position: relative;
+	top: -3px;
 }
 
 .dropdownDiv {
@@ -129,7 +133,7 @@ input {
 
 .dropdownItem {
 	display: block;
-	font-size: 11pt;
+	/*font-size: 12pt;*/
 	line-height: 1.5;
 	text-decoration: none;
 	color: black;
@@ -143,8 +147,6 @@ input {
 
 .sidebarInput {
 	display: block;
-	/*float: right;*/
-	width: 100%;
 	padding: 2px;
 	margin: 2px;
 	border-top: none;
@@ -153,11 +155,14 @@ input {
 	border-right: 2px solid white;
 	text-align: right;
 	background-color: transparent;
-	font-size: 11pt;
+	font-size: 12pt;
 	font-weight: 400;
-	/*font-family: Courier New, Courier, monospace;*/
 	font-family: 'Roboto Mono', monospace;
 	user-select: text;
+}
+
+input[type=text].sidebarInput {
+	width: 100%;
 }
 
 .sidebarInput:focus {
@@ -168,7 +173,6 @@ input {
 
 .sidebarSelect {
 	display: block;
-	/*float: right;*/
 	width: 100%;
 	padding: 2px;
 	margin: 2px 0;
@@ -178,8 +182,21 @@ input {
 	border-right: 2px solid white;
 	text-align: right;
 	background-color: transparent;
-	font-size: 11pt;
+	font-size: 12pt;
 	font-family: 'Roboto', sans-serif;
+}
+
+.checkboxLabel {
+	display: block;
+	width: 100%;
+	user-select: none;
+	margin: 3px 0;
+}
+
+.floatingCheckbox {
+	position: relative;
+	float: right;
+	top: 2px
 }
 
 .sidebarSelect:focus {

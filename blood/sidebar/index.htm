@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div class="noPrint">
-		<div id="sidebar" class="sidebar" style="left: 0px; width: 340px;">
+		<div id="sidebar" class="sidebar" style="left: 0px; width: 375px;">
 
 			<div id="navOpenDiv" class="navOpen" style="width: 40px;" onclick="toggleSidebar(this.parentNode)">
 				<span id="navOpen" style="font-size: 20pt; font-weight: 700; position: absolute; top: 50%; transform-origin:center; transform: translate(-50%, -50%);">&#9776;</span><!-- ☰˂˃˄˅‹› -->
@@ -40,7 +40,7 @@
 							</label>
 						</div>
 						<div class="dropdownItem" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;">
+							<label class="checkboxLabel">
 								Sequence No:
 								<input class="sidebarInput" id="seq" type="text" value="000 000">
 							</label>
@@ -100,22 +100,22 @@
 						</div>
 
 						<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select:none;">
+							<label class="checkboxLabel">
 								Irradiated:
-								<input style="float:right;" id="irradiated" type="checkbox">
+								<input id="irradiated" type="checkbox" class="floatingCheckbox">
 							</label>
 						</div>
 
 						<!--<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select:none;">
+							<label class="checkboxLabel">
 								Special:
-								<input style="float:right;" id="special" type="checkbox">
+								<input class="floatingCheckbox"  id="special" type="checkbox">
 							</label>
 						</div>-->
 						<!--<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select:none;">
+							<label class="checkboxLabel">
 								Routinely available:
-								<input style="float:right;" id="available" type="checkbox">
+								<input class="floatingCheckbox"  id="available" type="checkbox">
 							</label>
 						</div>-->
 
@@ -196,15 +196,15 @@
 									<td><input id="Rhe" onchange="rhChanged();" type="checkbox" checked></td>
 								</tr>-->
 								<tr>
-									<td><div id="RhD" class="tristateBox unchecked"></div></td>
+									<td><span id="RhD" class="tristateBox unchecked"></span></td>
 									<td></td>
-									<td><div id="RhC" class="tristateBox unchecked"></div></td>
+									<td><span id="RhC" class="tristateBox unchecked"></span></td>
 									<td></td>
-									<td><div id="RhE" class="tristateBox unchecked"></div></td>
+									<td><span id="RhE" class="tristateBox unchecked"></span></td>
 									<td></td>
-									<td><div id="Rhc" class="tristateBox checked"></div></td>
+									<td><span id="Rhc" class="tristateBox checked"></span></td>
 									<td></td>
-									<td><div id="Rhe" class="tristateBox checked"></div></td>
+									<td><span id="Rhe" class="tristateBox checked"></span></td>
 								</tr>
 							</table>
 						</div>
@@ -224,20 +224,20 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Red Cell Antigens <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;">
+						<div class="dropdownItem">
+							<label class="checkboxLabel">
 								Negative for:
 								<span class="sidebarInput" id="phNeg" style="text-align:left;" />
 							</label>
 						</div>
-						<div class="dropdownItem" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;">
+						<div class="dropdownItem">
+							<label class="checkboxLabel">
 								Positive for:
 								<span class="sidebarInput" id="phPos" style="text-align:left;" />
 							</label>
 						</div>
-						<div class="dropdownItem" style="padding-right:20px;">
-							<label style="display: block; width: 100%; user-select:none;">
+						<div class="dropdownItem">
+							<label class="checkboxLabel">
 								Untested:
 								<span class="sidebarInput" id="phUnk" style="text-align:left;" />
 							</label>
@@ -286,27 +286,27 @@
 							</table>
 						</div>-->
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
-							<span style="display: block; width: 100%; user-select:none;">
+							<span class="checkboxLabel">
 								CMV:
-								<div class="tristateBox indeterminate" style="float: right; top: 1px"></div>
+								<span class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
-							<span style="display: block; width: 100%; user-select:none;">
+							<span class="checkboxLabel">
 								HbS:
-								<div class="tristateBox indeterminate" style="float: right; top: 1px"></div>
+								<span class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
-							<span style="display: block; width: 100%; user-select:none;">
+							<span class="checkboxLabel">
 								IgA:
-								<div class="tristateBox indeterminate" style="float: right; top: 1px"></div>
+								<span class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
-							<span style="display: block; width: 100%; user-select:none;">
+							<span class="checkboxLabel">
 								HT:
-								<div class="tristateBox indeterminate" style="float: right; top: 1px"></div>
+								<span class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
 						</div>
 					</div>
@@ -315,14 +315,14 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Dates <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem" style="padding-right:12px; ">
+						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;" for="collectionDate">Collection: </label>
 							<div style="text-align:right; ">
 								<input type="date" id="collectionDate" class="sidebarInput sidebarDate" required=required />
 								<input type="time" id="collectionTime" class="sidebarInput sidebarDate" required=required value="00:00" />
 							</div>
 						</div>
-						<div class="dropdownItem" style="padding-right:12px;">
+						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;" for="expiryDate">Expiry: </label>
 							<div style="text-align:right; ">
 								<input type="date" id="expiryDate" class="sidebarInput sidebarDate" required=required />

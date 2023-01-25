@@ -14,10 +14,10 @@
 	<span>The purpose of this file is to make a tristate checkbox to avoid using radio boxes.</span>
 
 	<div style="border:1px solid black;">
-		<div id="box1" class="tristateBox unchecked"></div> -&nbsp;
-		<div id="box2" class="tristateBox checked"></div> +&nbsp;
-		<div id="box3" class="tristateBox indeterminate"></div> ?&nbsp;
-		<div id="box4" class="tristateBox disabled"></div>  &nbsp;
+		<span id="box1" class="tristateBox unchecked"></span> -&nbsp;
+		<span id="box2" class="tristateBox checked"></span> +&nbsp;
+		<span id="box3" class="tristateBox indeterminate"></span> ?&nbsp;
+		<span id="box4" class="tristateBox disabled"></span>  &nbsp;
 		<input type="checkbox" />&nbsp;
 		<input type="checkbox" />&nbsp;
 		<input type="checkbox" />&nbsp;
@@ -39,9 +39,9 @@
 			if (b.isEnabled) b.addEventListener('click', () => { console.log(`box ${b.box.id} changed state to ${b.state}`); });
 		}
 
-		// example of 1 box.
-		//const box1 = new TristateBox(document.querySelector('#Box1'));
-		//box1.addEventListener('click', () => { console.log("boo")});
+			// example of 1 box.
+			//const box1 = new TristateBox(document.querySelector('#Box1'));
+			//box1.addEventListener('click', () => { console.log("boo")});
 	</script>
 </body>
 </html>

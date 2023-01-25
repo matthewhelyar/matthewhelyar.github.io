@@ -1,7 +1,7 @@
 /* Tristate Checkbox by M. Helyar 2023
  * 
  * To use:
- * Add <div class="tristateBox"></div> to HTML.
+ * Add <span class="tristateBox"></span> to HTML.
  * Add classes 'unchecked', 'checked', 'indeterminate' and 'disabled' to HTML to set default.
  * make a new TristateBox and pass in that element. e.g. let obj = new TristateBox(document.querySelector('.tristateBox'));
  * 
