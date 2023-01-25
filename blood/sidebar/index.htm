@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div class="noPrint">
-		<div id="sidebar" class="sidebar" style="left: 0px; width: 300px;">
+		<div id="sidebar" class="sidebar" style="left: 0px; width: 340px;">
 
 			<div id="navOpenDiv" class="navOpen" style="width: 40px;" onclick="toggleSidebar(this.parentNode)">
 				<span id="navOpen" style="font-size: 20pt; font-weight: 700; position: absolute; top: 50%; transform-origin:center; transform: translate(-50%, -50%);">&#9776;</span><!-- ☰˂˃˄˅‹› -->
@@ -328,6 +328,22 @@
 								<input type="date" id="expiryDate" class="sidebarInput sidebarDate" required=required />
 								<input type="time" id="expiryTime" class="sidebarInput sidebarDate" required=required value="23:59" />
 							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="dropdownDiv">
+					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Label style <span class="caretDown" /></a>
+					<div class="dropdownContents" style="display:none;">
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select: none;">
+								Label style:
+								<select id="componentType" class="sidebarSelect">
+									<option>Current</option>
+									<option>Transition</option>
+									<option>Future</option>
+								</select>
+							</label>
 						</div>
 					</div>
 				</div>

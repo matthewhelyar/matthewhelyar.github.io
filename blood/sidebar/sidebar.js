@@ -129,11 +129,6 @@ const allHaplotypes = generateAllHaplotypes();
 
 function generateAllHaplotypes() {
 	// generate all haplotypes as an array of {str, freq}
-	//const RhPosPhens = [['R\u2080', 0.0257], ['R\u2081', 0.4204], ['R\u2082', 0.1411], ['RZ', 0.0024]];
-	const RhPosPhens = [['R0', 'cDe', 0.0257], ['R1', 'CDe', 0.4204], ['R2', 'cDE', 0.1411], ['RZ', 'CDE', 0.0024]];
-	//const RhNegPhens = [['r', 0.3886], ['r\u2032', 0.0098], ['r\u2033', 0.0119], ['ry', 0.0005]];
-	const RhNegPhens = [['r', 'cde', 0.3886], ['r\'', 'Cde', 0.0098], ['r\"', 'cdE', 0.0119], ['ry', 'CdE', 0.0005]];
-
 
 	function generatePartial(result, arr1, arr2) {
 		for (let i = 0; i < arr1.length; i++) {
@@ -149,13 +144,16 @@ function generateAllHaplotypes() {
 			}
 		}
 	}
+
+	const RhPosPhens = [['R0', 'cDe', 0.0257], ['R1', 'CDe', 0.4204], ['R2', 'cDE', 0.1411], ['RZ', 'CDE', 0.0024]];
+	const RhNegPhens = [['r', 'cde', 0.3886], ['r\'', 'Cde', 0.0098], ['r\"', 'cdE', 0.0119], ['ry', 'CdE', 0.0005]];
+
 	let result = [];
 	generatePartial(result, RhPosPhens, RhPosPhens);
 	generatePartial(result, RhPosPhens, RhNegPhens);
 	generatePartial(result, RhNegPhens, RhNegPhens);
 	return result;
 }
-
 
 function tristateRhChanged() {
 
@@ -164,7 +162,7 @@ function tristateRhChanged() {
 		return Math.round(num * f) / f;
 	};
 
-	
+
 	function filterDown(arr, boxState, searchLetter) {
 		if (boxState == 'checked')
 			return arr.filter((x) => { return x.cdeStr.includes(searchLetter); });
@@ -397,6 +395,18 @@ function toggleDropdown(dropdownDiv, hideOtherDropdowns = false) {
 	dropdown.style.display = (getComputedStyle(dropdown).getPropertyValue('display') == "none") ? "block" : "none";
 }
 
+function toggleRhDropdown(dropdownDiv, noAlwaysVisibleLines = 1) {
+	// always show first line of Rh phenotype list. To use change Rh phenotype div as follows:
+	// <a class="sidebarButton" onclick="toggleRhDropdown(this.parentNode, 1);">Possible haplotype(s): <span class="caretDown" /></a>
+	// <div class="dropdownContents" style="display:block; box-shadow:none; height: 2em; overflow: hidden;">
+
+	// not used because looks a bit ugly and sometimes messes up the sizes of the subscript characters.
+
+	const dropdown = dropdownDiv.querySelector(":scope > .dropdownContents");
+	if (!dropdown) return;
+	console.log(getComputedStyle(dropdown).getPropertyValue('height'));
+	dropdown.style.height = (dropdown.style.height  == "auto") ? `${0.5 + 1.5 * noAlwaysVisibleLines}em` : "auto";
+}
 // init
 
 (function init() {
