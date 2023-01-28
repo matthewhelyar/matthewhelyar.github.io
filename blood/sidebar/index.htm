@@ -12,7 +12,7 @@
 	<div class="noPrint">
 		<div id="sidebar" class="sidebar" style="left: 0px; width: 375px;">
 
-			<div id="navOpenDiv" class="navOpen" style="width: 40px;" onclick="toggleSidebar(this.parentNode)">
+			<div id="navOpenDiv" class="navOpen" style="width: 40px;">
 				<span id="navOpen" style="font-size: 20pt; font-weight: 700; position: absolute; top: 50%; transform-origin:center; transform: translate(-50%, -50%);">&#9776;</span><!-- ☰˂˃˄˅‹› -->
 			</div>
 
@@ -24,7 +24,7 @@
 			<div class="sidebarContents">
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">DIN <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">DIN <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem" style="padding-right:20px;">
 							<label style="display: block; width: 100%; user-select: none;">
@@ -48,7 +48,7 @@
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Product <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Product <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 
 						<!--<div class="dropdownItem">
@@ -88,9 +88,9 @@
 						</div>
 
 						<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select: none;" for="componentType">
+							<label style="display: block; width: 100%; user-select: none;" for="componentSize">
 								Size:
-								<select id="componentType" class="sidebarSelect">
+								<select id="componentSize" class="sidebarSelect">
 									<option value="AD">Adult</option>
 									<option value="Neo">Neonatal</option>
 									<option value="LVT">Neonatal large volume</option>
@@ -121,7 +121,7 @@
 						<hr style="margin: 6px 12px; height: 3px; border-top: 2px solid black; border-bottom: 2px solid black;" />
 
 						<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select: none;" for="componentType">
+							<label style="display: block; width: 100%; user-select: none;" for="finalProduct">
 								Select final product:
 								<select id="finalProduct" class="sidebarSelect">
 								</select>
@@ -132,7 +132,7 @@
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Group <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Group <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<!--<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;">
@@ -209,7 +209,7 @@
 						</div>
 
 						<div class="dropdownDiv" style="padding:0;">
-							<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Possible genotypes: <span class="caretDown" /></a>
+							<a class="sidebarButton dropdownButton">Possible genotypes: <span class="caretDown" /></a>
 							<div class="dropdownContents" style="display:none; box-shadow:none;">
 								<div class="dropdownItem" onclick="this.children[0].focus()">
 									<span class="sidebarInput" id="genotypeList" style="text-align:right; white-space:pre;" />
@@ -221,7 +221,7 @@
 				</div>
 
 				<div class="dropdownDiv" id="phenotypeDisplay">
-					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Red Cell Antigens <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Red Cell Antigens <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem">
 							<label class="checkboxLabel">
@@ -248,7 +248,7 @@
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">General Testing <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">General Testing <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<!--<div class="dropdownItem">
 							<table style="margin: 0 auto; width:100%; max-width:250px; text-align:center;">
@@ -312,7 +312,7 @@
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Dates <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Dates <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;" for="collectionDate">Collection: </label>
@@ -332,7 +332,7 @@
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Label style <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Label style <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;">
@@ -400,6 +400,7 @@
 	<script src="./tristateBox/tristateBox.js" type="text/javascript"></script>
 	<script src="./RhForm.js" type="text/javascript"></script>
 	<script src="./PhenotypePopupForm.js" type="text/javascript"></script>
-	<script src="./sidebar.js" type="text/javascript"></script>
+	<script src="./Sidebar.js" type="text/javascript"></script>
+	<script src="./main.js" type="text/javascript"></script>
 </body>
 </html>
