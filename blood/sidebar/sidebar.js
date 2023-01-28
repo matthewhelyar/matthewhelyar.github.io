@@ -14,6 +14,12 @@ class Sidebar {
 			tristateBoxes.find((b) => { return b.box.id == 'Rhe'; }),
 			document.querySelector('#genotypeList')
 		);
+
+		this.dinForm = new DinForm2(
+			sidebarDiv.querySelector('#fin'),
+			sidebarDiv.querySelector('#year'),
+			sidebarDiv.querySelector('#seq')
+		);
 	}
 
 	toggleDropdown(dropdownDiv) {

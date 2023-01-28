@@ -29,6 +29,11 @@ input {
 	accent-color: var(--accent);
 }
 
+input.error {
+	background-color: lightcoral;
+	border-color: red;
+}
+
 #phenotypeList sub, #phenotypeList sup {
 	font-size: 10pt;
 }
