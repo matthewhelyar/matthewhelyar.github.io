@@ -29,6 +29,10 @@ input {
 	accent-color: var(--accent);
 }
 
+#phenotypeList sub, #phenotypeList sup {
+	font-size: 10pt;
+}
+
 .sidebar {
 	display: block;
 	position: fixed;
