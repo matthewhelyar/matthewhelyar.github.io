@@ -7,7 +7,6 @@
 	<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Mono&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="./tristateBox/tristateBox.css" type="text/css" />
 	<link rel="stylesheet" href="sidebar.css" type="text/css" />
-	<script src="./tristateBox/tristateBox.js"></script>
 </head>
 <body>
 	<div class="noPrint">
@@ -221,7 +220,7 @@
 					</div>
 				</div>
 
-				<div class="dropdownDiv">
+				<div class="dropdownDiv" id="phenotypeDisplay">
 					<a class="sidebarButton" onclick="toggleDropdown(this.parentNode);">Red Cell Antigens <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem">
@@ -243,7 +242,7 @@
 							</label>
 						</div>
 						<div style="padding-bottom:3px;">
-							<a class="sidebarButton sidebarItemButton" onclick="openPhenotypesForm();">Change</a>
+							<a class="sidebarButton sidebarItemButton" id="openPhenotypesFormButton">Change</a>
 						</div>
 					</div>
 				</div>
@@ -371,19 +370,19 @@
 					</tr>
 					<tr>
 						<td style="width:33%">
-							<select class="dragSelect" size="2" id="phenUnk" onfocusout="clearSelect(this.id);" style="background-color: #fff; border-color: #fff;" />
+							<select class="dragSelect" size="2" id="phenUnk" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fff; border-color: #fff;" />
 						</td>
 						<td style="width:33%">
-							<select class="dragSelect" size="2" id="phenNeg" onfocusout="clearSelect(this.id);" style="background-color: #cfc; border-color: #cfc; scrollbar-color: #9aff9a #bdffbd; " />
+							<select class="dragSelect" size="2" id="phenNeg" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #cfc; border-color: #cfc; scrollbar-color: #9aff9a #bdffbd; " />
 						</td>
 						<td style="width:33%">
-							<select class="dragSelect" size="2" id="phenPos" onfocusout="clearSelect(this.id);" style="background-color: #fcc; border-color: #fcc; scrollbar-color: #ff9a9a #ffbdbd; " />
+							<select class="dragSelect" size="2" id="phenPos" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fcc; border-color: #fcc; scrollbar-color: #ff9a9a #ffbdbd; " />
 						</td>
 					</tr>
 				</table>
 				<div style="height:100%; text-align:right;">
-					<button style="width:100px; margin:12px;" type="reset" onclick="resetPhenotypesForm();">Cancel</button>
-					<button style="width:100px;" type="button" onclick="submitPhenotypeForm();">Accept</button>
+					<button style="width:100px; margin:12px;" type="reset" id="phenotypesCancelButton">Cancel</button>
+					<button style="width:100px;" type="button" id="phenotypesSubmitButton">Accept</button>
 				</div>
 			</form>
 		</div>
@@ -398,6 +397,8 @@
 		</div>
 	</div>
 
+	<script src="./tristateBox/tristateBox.js" type="text/javascript"></script>
+	<script src="./PhenotypePopupForm.js" type="text/javascript"></script>
 	<script src="./sidebar.js" type="text/javascript"></script>
 </body>
 </html>

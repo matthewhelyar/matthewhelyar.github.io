@@ -1,127 +1,8 @@
+'use strict';
+
 // globals
 let tristateBoxes = [];
-
-// phenotype popup form
-
-let phenotypes = { unk: ['M', 'N', 'S', 's', 'K', 'k', 'Lea', 'Leb', 'Fya', 'Fyb', 'Jka', 'Jkb', 'Cw', 'Mia', 'U', 'P1', 'Lua', 'Kpa', 'Doa', 'Dob', 'Ina', 'Cob', 'Dia', 'VS/V', 'Jsa'], pos: [], neg: [] };
-
-function dragStart(e) {
-	e.dataTransfer.setData('text/plain', e.target.id);
-}
-
-function dropSelect(e) {
-	const id = e.dataTransfer.getData('text/plain');
-	if (id == "") return;
-
-	const draggable = document.getElementById(id);
-	if (!draggable) return;
-
-	let select;
-	switch (e.target.tagName) {
-		case "SELECT":
-			select = e.target;
-			break;
-		case "OPTION":
-			select = e.target.parentNode;
-			break;
-		default:
-			return;
-	}
-
-	// insert alphabetically
-	let i = 0;
-	while (i < select.options.length && alphabeticCaseSort(draggable.text, select.options[i].text) == 1)
-		i++;
-
-	select.add(draggable, select.options[i]);
-
-	clearSelect(select.id);
-}
-
-function savePhenotypeFromForm(selectId, array) {
-	for (let p of document.getElementById(selectId).options)
-		array.push(p.value);
-}
-
-function submitPhenotypeForm() {
-	phenotypes = { unk: [], pos: [], neg: [] };
-	savePhenotypeFromForm('phenUnk', phenotypes.unk);
-	savePhenotypeFromForm('phenPos', phenotypes.pos);
-	savePhenotypeFromForm('phenNeg', phenotypes.neg);
-
-	writePhenotypeToSidebar('phUnk', phenotypes.unk);
-	writePhenotypeToSidebar('phPos', phenotypes.pos);
-	writePhenotypeToSidebar('phNeg', phenotypes.neg);
-
-	document.getElementById("phenotypePopup").style.display = "none";
-}
-
-function alphabeticCaseSort(x, y) {
-	// sort alphabetically accounting for case.
-	if (x === y) return 0;
-	if (x.toUpperCase() == y.toUpperCase) {
-		if (x < y) return -1;
-		if (x > y) return 1;
-	}
-	if (x.toUpperCase() < y.toUpperCase()) return -1;
-	if (x.toUpperCase() > y.toUpperCase()) return 1;
-	return 0;
-}
-
-function resetPhenotypesForm() {
-	function writeToForm(selectId, array) {
-		let select = document.getElementById(selectId);
-		select.options.length = 0;
-		array = array.sort(alphabeticCaseSort);
-		for (let o of array) {
-			let option = document.createElement('option');
-			option.id = "phenOption_" + o;
-			option.text = o;
-			option.classList.add("draggableOption");
-			option.draggable = "true";
-			option.addEventListener('dragstart', dragStart);
-			select.appendChild(option);
-		}
-	}
-
-	writeToForm('phenUnk', phenotypes.unk);
-	writeToForm('phenPos', phenotypes.pos);
-	writeToForm('phenNeg', phenotypes.neg);
-
-	document.getElementById("phenotypePopup").style.display = "none";
-}
-
-function openPhenotypesForm() {
-	if (getComputedStyle(document.getElementById("phenotypePopup")).getPropertyValue('display') != "none") return;
-	resetPhenotypesForm();
-	document.getElementById("phenotypePopup").style.display = "block";
-}
-
-function writePhenotypeToSidebar(sidebarElementId, array) {
-	const el = document.getElementById(sidebarElementId);
-	el.textContent = "";
-	for (let i = 0; i < array.length; i++) {
-		el.textContent += array[i];
-		if (i != array.length - 1)
-			el.textContent += ", ";
-	}
-}
-
-function getSelectValues(select) {
-	if (!select || !select.options) return;
-	let result = [];
-	for (let opt of select.options)
-		if (opt.selected)
-			result.push(opt.value);
-	return result;
-}
-
-function clearSelect(selectId) {
-	const select = document.getElementById(selectId);
-	if (!select || !select.options) return;
-	for (let opt of select.options)
-		opt.selected = false;
-}
+let phenotypePopupForm;
 
 // Rh picker
 
@@ -389,7 +270,7 @@ function toggleSidebar(sidebar) {
 	}
 }
 
-function toggleDropdown(dropdownDiv, hideOtherDropdowns = false) {
+function toggleDropdown(dropdownDiv) {
 	const dropdown = dropdownDiv.querySelector(":scope > .dropdownContents");
 	if (!dropdown) return;
 	dropdown.style.display = (getComputedStyle(dropdown).getPropertyValue('display') == "none") ? "block" : "none";
@@ -405,7 +286,7 @@ function toggleRhDropdown(dropdownDiv, noAlwaysVisibleLines = 1) {
 	const dropdown = dropdownDiv.querySelector(":scope > .dropdownContents");
 	if (!dropdown) return;
 	console.log(getComputedStyle(dropdown).getPropertyValue('height'));
-	dropdown.style.height = (dropdown.style.height  == "auto") ? `${0.5 + 1.5 * noAlwaysVisibleLines}em` : "auto";
+	dropdown.style.height = (dropdown.style.height == "auto") ? `${0.5 + 1.5 * noAlwaysVisibleLines}em` : "auto";
 }
 // init
 
@@ -421,18 +302,7 @@ function toggleRhDropdown(dropdownDiv, noAlwaysVisibleLines = 1) {
 	tristateBoxes.find((b) => { return b.box.id == 'Rhc'; }).postChangeCallback = tristateRhChanged;
 	tristateBoxes.find((b) => { return b.box.id == 'Rhe'; }).postChangeCallback = tristateRhChanged;
 
-	writePhenotypeToSidebar('phUnk', phenotypes.unk);
-	writePhenotypeToSidebar('phPos', phenotypes.pos);
-	writePhenotypeToSidebar('phNeg', phenotypes.neg);
-
-	for (let d of document.querySelectorAll(".draggableOption")) {
-		d.addEventListener('dragstart', dragStart);
-	}
-
-	for (let d of document.querySelectorAll(".dragSelect")) {
-		d.addEventListener('drop', dropSelect);
-		d.addEventListener('dragover', (e) => { e.preventDefault(); });
-	}
-
 	tristateRhChanged();
+
+	phenotypePopupForm = new PhenotypePopupForm(document.querySelector('#phenotypePopup'), document.querySelector('#phenotypeDisplay'));
 })();
