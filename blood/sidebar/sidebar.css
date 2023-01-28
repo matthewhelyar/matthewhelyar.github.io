@@ -11,7 +11,6 @@
 body {
 	margin: 0;
 	background-color: lightgrey;
-	/*font-family: Arial, Helvetica, sans-serif;*/
 	font-family: 'Roboto', sans-serif;
 }
 
@@ -38,7 +37,6 @@ input {
 	color: white;
 	border: none;
 	box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2),0 4px 20px 0 rgba(0,0,0,0.19);
-	/*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
 	font-family: 'Roboto', sans-serif;
 	font-size: 12pt;
 	animation: left 0.2s;
@@ -76,7 +74,6 @@ input {
 	color: white;
 	background-color: transparent;
 	display: block;
-	/*font-size: 12pt;*/
 	line-height: 1.5;
 	text-decoration: none;
 	padding: 3px 6px;
@@ -133,7 +130,6 @@ input {
 
 .dropdownItem {
 	display: block;
-	/*font-size: 12pt;*/
 	line-height: 1.5;
 	text-decoration: none;
 	color: black;
@@ -206,7 +202,6 @@ input[type=text].sidebarInput {
 }
 
 .sidebarDate {
-	/*font-family: Verdana, Geneva, Tahoma, sans-serif;*/
 	font-family: 'Roboto', sans-serif;
 	font-weight: 400;
 	width: initial;
@@ -241,7 +236,8 @@ input[type=text].sidebarInput {
 }
 
 span.sidebarInput:empty:before {
-	content: "\200b"; /* unicode zero width space character*/
+	/* unicode zero width space character for minimum height of spans that look like read-only text inputs */
+	content: "\200b";
 }
 
 .tristateBox, input[type=radio], input[type=checkbox] {
