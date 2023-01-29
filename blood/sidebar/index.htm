@@ -283,12 +283,6 @@
 						</div>-->
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span class="checkboxLabel">
-								CMV:
-								<span class="tristateBox indeterminate floatingCheckbox"></span>
-							</span>
-						</div>
-						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
-							<span class="checkboxLabel">
 								HbS:
 								<span class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
@@ -307,6 +301,89 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="dropdownDiv">
+					<a class="sidebarButton dropdownButton">Infectious markers <span class="caretDown" /></a>
+					<div class="dropdownContents" style="display:none;">
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HIV-1/2 Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HIV-p24 Antigen:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HIV Genome:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HCV Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HCV Antigen:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HCV Genome:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HBc Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HBs Antigen:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HBV Genome:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HTLV-I/II Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">Syphilis Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">CMV Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">CMV Genome:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">EBV Genome:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">WNV Genome:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">Parvo B19 Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">Parvo B19 Genome:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">Chagas Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+						</div>
+						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+							<span class="checkboxLabel">HEV Genome:<span class="tristateBox unchecked floatingCheckbox"></span></span>
+						</div>
+					</div>
+				</div>
+
+				<div class="dropdownDiv" id="hlaDiv">
+					<a class="sidebarButton dropdownButton">HLA / HPA <span class="caretDown" /></a>
+					<div class="dropdownContents" style="display:none;">
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select: none;" for="componentType">
+								HLA-A:
+								<select id="hlaA" class="sidebarSelect"></select>
+							</label>
+						</div>
+						<div class="dropdownItem">
+							<label style="display: block; width: 100%; user-select: none;" for="componentType">
+								HLA-B:
+								<select id="hlaB" class="sidebarSelect"></select>
+							</label>
+						</div>
+					</div>
+				</div>
+
+
 
 				<div class="dropdownDiv">
 					<a class="sidebarButton dropdownButton">Dates <span class="caretDown" /></a>
@@ -336,8 +413,8 @@
 								Label style:
 								<select id="componentType" class="sidebarSelect">
 									<option>Current</option>
-									<option>Transition</option>
-									<option>Future</option>
+									<option disabled>Transition</option>
+									<option disabled>Future</option>
 								</select>
 							</label>
 						</div>
@@ -400,6 +477,7 @@
 	<script src="./PhenotypePopupForm.js"></script>
 	<script src="./DinForm.js"></script>
 	<script src="./ProductsForm.js"></script>
+	<script src="./HLAForm.js"></script>
 	<script src="./Sidebar.js"></script>
 	<script src="./main.js"></script>
 </body>
