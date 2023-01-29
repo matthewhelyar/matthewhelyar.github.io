@@ -68,21 +68,19 @@
 							<label style="display: block; width: 100%; user-select: none;" for="componentType">
 								Component Type:
 								<select id="componentType" class="sidebarSelect">
-									<option value="">Red Cells</option>
-									<option value="">Red Cells - IUT</option>
-									<option value="">Red Cells - Neonatal Exchange</option>
-									<option value="">Red Cells - Washed</option>
-									<option value="">Red Cells - Frozen (automated wash)</option>
-									<option value="">Red Cells - Frozen (manual wash)</option>
-									<option value="">Red Cells - Autologous</option>
-									<option value="">Platelets - Pooled</option>
-									<option value="">Platelets - Apheresis</option>
-									<option value="">Platelets - Washed</option>
-									<option value="">Platelets - IUT</option>
-									<option value="">Fresh Frozen Plasma</option>
-									<option value="">Cryoprecipitate</option>
-									<option value="">Granulocytes - pooled</option>
-									<option value="">Granulocytes - buffy coats</option>
+									<option selected>Red Cells</option>
+									<option>Red Cells - LVT</option>
+									<option>Red Cells - IUT</option>
+									<option>Red Cells - Neonatal Exchange</option>
+									<option>Red Cells - Washed</option>
+									<option>Red Cells - Frozen</option>
+									<option>Red Cells - Autologous</option>
+									<option>Platelets</option>
+									<option>Platelets - Washed</option>
+									<option>Platelets - IUT</option>
+									<option>Fresh Frozen Plasma</option>
+									<option>Cryoprecipitate</option>
+									<option>Granulocytes</option>
 								</select>
 							</label>
 						</div>
@@ -91,9 +89,8 @@
 							<label style="display: block; width: 100%; user-select: none;" for="componentSize">
 								Size:
 								<select id="componentSize" class="sidebarSelect">
-									<option value="AD">Adult</option>
-									<option value="Neo">Neonatal</option>
-									<option value="LVT">Neonatal large volume</option>
+									<option selected>Adult</option>
+									<option>Neonatal</option>
 								</select>
 							</label>
 						</div>
@@ -397,10 +394,12 @@
 		</div>
 	</div>
 
+	<script src="./products.js"></script>
 	<script src="./tristateBox/tristateBox.js"></script>
 	<script src="./RhForm.js"></script>
 	<script src="./PhenotypePopupForm.js"></script>
-	<script src="./DinForm2.js"></script>
+	<script src="./DinForm.js"></script>
+	<script src="./ProductsForm.js"></script>
 	<script src="./Sidebar.js"></script>
 	<script src="./main.js"></script>
 </body>

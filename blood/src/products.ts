@@ -508,7 +508,7 @@ export const products: Product[] = [
 	},
 	{
 		"component": redCells,
-		"pack": 4,
+		"pack": 5,
 		"irr": true,
 		"special": false,
 		"availability": true,
@@ -999,7 +999,7 @@ export const products: Product[] = [
 		"code": "54232",
 		"volume": 294,
 		"shelfLife": 5,
-		"text": "PLATELETS POOLED IN PLASMA/ADDITIVE MIXTURE"
+		"text": "PLATELETS POOLED IN PLASMA/ADDITIVE MIXTURE LD"
 	},
 	{
 		"component": platelets,
@@ -1010,7 +1010,7 @@ export const products: Product[] = [
 		"code": "54242",
 		"volume": 294,
 		"shelfLife": 5,
-		"text": "PLATELETS POOLED IN PLASMA/ADDITIVE MIX, IRRADIATED"
+		"text": "PLATELETS POOLED IN PLASMA/ADDITIVE MIX LD, IRRADIATED"
 	},
 	{
 		"component": platelets,

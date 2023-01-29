@@ -1,4 +1,4 @@
-class DinForm2 {
+class DinForm {
 	constructor(finInput, yearInput, seqInput) {
 		this.finIn = finInput;
 		this.yearIn = yearInput;

@@ -15,10 +15,17 @@ class Sidebar {
 			document.querySelector('#genotypeList')
 		);
 
-		this.dinForm = new DinForm2(
+		this.dinForm = new DinForm(
 			sidebarDiv.querySelector('#fin'),
 			sidebarDiv.querySelector('#year'),
 			sidebarDiv.querySelector('#seq')
+		);
+
+		this.productForm = new ProductsForm(
+			sidebarDiv.querySelector('#componentType'),
+			sidebarDiv.querySelector('#componentSize'),
+			sidebarDiv.querySelector('#irradiated'),
+			sidebarDiv.querySelector('#finalProduct')
 		);
 	}
 
