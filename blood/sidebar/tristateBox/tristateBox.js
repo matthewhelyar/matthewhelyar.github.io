@@ -7,22 +7,27 @@
  * 
  * You can add Event Listeners to either the DOM element or the javascript object. (N.B. MAY BE RACE CONDITION FOR EVENT HANDLERS)
  * If you want something to happen AFTER the state has changed, pass the function in as callback or set with setPostChangeCallback 
- * You can publicly read state with object.state and compare it with object.states.
+ * You can publicly read state with object.state and compare it with object.states. Problem is can only be one callback, instead of 
+ * multiple event listeners.
+ * 
+ * 
  */
 
 class TristateBox {
-	states = ['unchecked', 'checked', 'indeterminate'];
+	states = ['indeterminate', 'unchecked', 'checked'];
 
 	constructor(tristateBox, callback) {
 		this.box = tristateBox;
 		this.postChangeCallback = callback;
 		this.box.addEventListener('click', this.nextState.bind(this));
-		if (!this.state) {this.box.classList.add(this.states[0]) }
+		if (!this.state) { this.box.classList.add(this.states[0]); }
 	}
 
 	get isEnabled() { return !this.box.classList.contains('disabled'); }
 
 	get state() { return this.states.filter((obj) => { return this.box.classList.contains(obj); })[0]; }
+
+	get stateIndex() { return this.states.indexOf(this.state); }
 
 	setPostChangeCallback(callback) { this.postChangeCallback = callback; };
 

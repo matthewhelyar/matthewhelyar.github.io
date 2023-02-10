@@ -30,8 +30,6 @@ class Sidebar {
 
 		this.hlaForm = new HLAForm(
 			sidebarDiv.querySelector('#hlaDiv'),
-			sidebarDiv.querySelector('#hlaA'),
-			sidebarDiv.querySelector('#hlaB'),
 		);
 	}
 

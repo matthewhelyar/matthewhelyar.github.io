@@ -284,19 +284,19 @@
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span class="checkboxLabel">
 								HbS:
-								<span class="tristateBox indeterminate floatingCheckbox"></span>
+								<span id="HbS" class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span class="checkboxLabel">
 								IgA:
-								<span class="tristateBox indeterminate floatingCheckbox"></span>
+								<span id="IgA" class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span class="checkboxLabel">
 								HT:
-								<span class="tristateBox indeterminate floatingCheckbox"></span>
+								<span id="HT" class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
 						</div>
 					</div>
@@ -339,10 +339,10 @@
 							<span class="checkboxLabel">Syphilis Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
-							<span class="checkboxLabel">CMV Antibody:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+							<span class="checkboxLabel">CMV Antibody:<span id="CMV_Antibody" class="tristateBox indeterminate floatingCheckbox"></span></span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
-							<span class="checkboxLabel">CMV Genome:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
+							<span class="checkboxLabel">CMV Genome:<span id="CMV_Genome" class="tristateBox indeterminate floatingCheckbox"></span></span>
 						</div>
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span class="checkboxLabel">EBV Genome:<span class="tristateBox indeterminate floatingCheckbox"></span></span>
@@ -368,18 +368,6 @@
 				<div class="dropdownDiv" id="hlaDiv">
 					<a class="sidebarButton dropdownButton">HLA / HPA <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select: none;" for="componentType">
-								HLA-A:
-								<select id="hlaA" class="sidebarSelect"></select>
-							</label>
-						</div>
-						<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select: none;" for="componentType">
-								HLA-B:
-								<select id="hlaB" class="sidebarSelect"></select>
-							</label>
-						</div>
 					</div>
 				</div>
 
