@@ -10,7 +10,7 @@ class HLAForm {
 			label.innerHTML = allele.name + ': \n';
 
 			allele.select.classList.add('sidebarSelect');
-			//allele.select.setAttribute('id', allele.name.replace(/\s/g, '_'));
+			allele.select.setAttribute('id', allele.name.replace(/\s/g, '_'));
 
 			allele.options.forEach(x => allele.select.add(new Option(x.text, x.value), undefined));
 
@@ -144,7 +144,11 @@ class HLAForm {
 
 			this.hpaList.forEach(x => {
 				const div = document.createElement('div');
-				div.setAttribute('onclick', "let t = this.children[0].children[0]; if (event.target != t) t.click();");
+				div.addEventListener('click', (event) => {
+					let t = div.children[0].children[0]; //span2
+					if (event.target != t)
+						t.click();
+				});
 				div.classList.add("dropdownItem");
 				this.dropdownDiv.appendChild(div);
 
@@ -154,6 +158,7 @@ class HLAForm {
 				div.appendChild(span1);
 
 				const span2 = document.createElement('span');
+				span2.setAttribute('id', x.name.replace(/\s/g, '_'));
 				span2.classList.add("tristateBox");
 				span2.classList.add("indeterminate");
 				span2.classList.add("floatingCheckbox");
@@ -175,7 +180,6 @@ class HLAForm {
 		this.updateOutput(this, null);
 	}
 
-	// need to put event listeners to this function to iga, cmv and HT boxes.
 	updateOutput(_discard, event) {
 		this.output = '&{';
 		// HLA
@@ -185,7 +189,7 @@ class HLAForm {
 		let sortedHpa = this.hpaList.sort((a, b) => a.pos > b.pos);
 		for (let i = 0; i < sortedHpa.length; i += 2) {
 			let a = sortedHpa[i].box.stateIndex * 3;
-			let b = sortedHpa[i + 1].box.stateIndex;
+			let b = (sortedHpa[i + 1]) ? sortedHpa[i + 1].box.stateIndex : 0;
 			this.output += (a + b).toString();
 		}
 

@@ -28,6 +28,10 @@ class Sidebar {
 			sidebarDiv.querySelector('#finalProduct')
 		);
 
+		this.infectiousMarkersForm = new InfectiousMarkersForm(
+			sidebarDiv.querySelector('#infectiousMarkersDiv'),
+		);
+
 		this.hlaForm = new HLAForm(
 			sidebarDiv.querySelector('#hlaDiv'),
 		);
