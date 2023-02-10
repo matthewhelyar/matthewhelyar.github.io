@@ -1,102 +1,51 @@
 <!DOCTYPE html>
-
 <html>
 <head>
-<title>ISBT ST-001 Data Structure 012 - Extended Phenotype code</title>
-
-<script>
-	function enableSelects(checkBox, elementId1, elementId2, textElementId){
-		const e1 = document.getElementById(elementId1);
-		const e2 = document.getElementById(elementId2);
-		const textElement = document.getElementById(textElementId);
-		if (!checkBox || !e1 || !e2 || !textElement) return;
-		e1.disabled = !checkBox.checked;
-		e2.disabled = !checkBox.checked;
-		
-		if (checkBox.checked){
-			setDigit(elementId1, elementId2, textElementId)
+	<title>ISBT ST-001 Data Structure 012 - Extended Phenotype code</title>
+	<style>
+		body {
+			font-family: Arial, Helvetica, sans-serif;
 		}
-		else{
-			textElement.innerHTML = 9;
-			setOutputText();
+
+		td {
+			text-align: center;
 		}
-	}
-	
-	function setDigit(elementId1, elementId2, textElementId){
-		const e1 = document.getElementById(elementId1);
-		const e2 = document.getElementById(elementId2);
-		const textElement = document.getElementById(textElementId);
-		if (!e1 || !e2  || !textElement) return;
-		textElement.innerHTML = 3 * parseInt(e1.value) + parseInt(e2.value);
-		
-		setOutputText();
-	}
-	
-	function setOutputText()
-	{
-		const outText = document.getElementById('outputText');
-		if (!outText) return;
-		const textElements = ['RhCEText', 'KellText', 'CwMiText', 'MNText', 'SsText', 'UP1Text', 'LuaKpaText', 'LeaLebText', 
-		'FyaFybText', 'JkaJkbText', 'DoaDobText', 'InaCobText', 'DiaVSVText', 'JsaCText', 'cEText', 'eCMVText', 'SpecialTestingText'];
-		
-		let outputString = "";
-		for (const id of textElements){
-			const e = document.getElementById(id);
-			if (!e) {
-				console.log("error, can't find " + id);
-				return;
-			}
-			outputString += e.textContent;
+
+		/*table {
+			border: 1px solid black;
+			padding: 2px 5px 2px 5px;
 		}
-		outText.textContent = outputString;
-	}
-</script>
-<style>
-body {
-	font-family: Arial, Helvetica, sans-serif;
-}
-
-td {
-	text-align:center;
-}
-</style>
-
-
-<!-- table {
-    border: 1px solid black;
-    padding: 2px 5px 2px 5px;
-}
-
-td {
-    border: 1px solid black;
-    padding: 2px 5px 2px 5px;
-} -->
-
+		td {
+			border: 1px solid black;
+			padding: 2px 5px 2px 5px;
+		}*/
+	</style>
 </head>
-
 <body>
-
-
-
-<p>
-<i>"Common Rh antigens may be encoded together as a phenotype (Rh column 1) or as individual Rh antigens (C,c,E,e, columns 14-16). 
-If Rh antigens are encoded individually using positions 14, 15, and/or 16, then the value of column one shall be set to 9 (no information). 
-Conversely, if the phenotype is present in column 1, then the values of the C,c,E,e antigens shall all be set to ni or nt."</i><br/>
- - ISBT 128 Standard Technical Specification v6.1.0
-</p>
-<p>
-<i>"Note that Rh antigens must be encoded individually using positions 14, 15, and/or 16. 
-In compliance to the ISBT128 Standard Technical Specification - version 5.10.0; Column one shall always be set to 9. 
-It is considered that this information is relevant to granulocyte, platelet and red cell components and will be included with all components whether or not testing has been carried out for each antigen/allele."</i><br/>
-- UKBTS Specification for the Future Labelling of Blood Components Prepared in the United Kingdom Version 3.4 September 2021<br/>
-</p>
-<p>
-RhCE antigens can also already be encoded in the 3rd digit of the group barcode, but that's not used by UKBTS. 
-<i>"UK Guidelines currently specifies a limited application of the ‘gg’ values for this data structure."</i><br/>
-- UKBTS Specification for the Future Labelling of Blood Components Prepared in the United Kingdom Version 3.4 September 2021<br/>
-</p>
-<p>
-(The only Rh phenotype that can't be encoded in column one is Rh null.)<br/></p>
+	<p>
+		<i>
+			"Common Rh antigens may be encoded together as a phenotype (Rh column 1) or as individual Rh antigens (C,c,E,e, columns 14-16).
+			If Rh antigens are encoded individually using positions 14, 15, and/or 16, then the value of column one shall be set to 9 (no information).
+			Conversely, if the phenotype is present in column 1, then the values of the C,c,E,e antigens shall all be set to ni or nt."
+		</i><br />
+		- ISBT 128 Standard Technical Specification v6.1.0
+	</p>
+	<p>
+		<i>
+			"Note that Rh antigens must be encoded individually using positions 14, 15, and/or 16.
+			In compliance to the ISBT128 Standard Technical Specification - version 5.10.0; Column one shall always be set to 9.
+			It is considered that this information is relevant to granulocyte, platelet and red cell components and will be included with all components whether or not testing has been carried out for each antigen/allele."
+		</i><br />
+		- UKBTS Specification for the Future Labelling of Blood Components Prepared in the United Kingdom Version 3.4 September 2021<br />
+	</p>
+	<p>
+		RhCE antigens can also already be encoded in the 3rd digit of the group barcode, but that's not used by UKBTS.
+		<i>"UK Guidelines currently specifies a limited application of the ‘gg’ values for this data structure."</i><br />
+		- UKBTS Specification for the Future Labelling of Blood Components Prepared in the United Kingdom Version 3.4 September 2021<br />
+	</p>
+	<p>
+		(The only Rh phenotype that can't be encoded in column one is Rh null.)<br />
+	</p>
 	<form>
 		<table>
 			<tr>
@@ -113,14 +62,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="RhCECheckbox" type="checkbox" onchange="enableSelects(this, 'RhC', 'RhE', 'RhCEText');" disabled />
 				</td>
 				<td>
-					<select id="RhC" onchange="setDigit('RhC', 'RhE', 'RhCEText');" disabled >
+					<select id="RhC" onchange="setDigit('RhC', 'RhE', 'RhCEText');" disabled>
 						<option value="0">C+ c-</option>
 						<option value="1">C+ c+</option>
 						<option value="2">C- c+</option>
 					</select>
 				</td>
 				<td>
-					<select id="RhE" onchange="setDigit('RhC', 'RhE', 'RhCEText');" disabled >
+					<select id="RhE" onchange="setDigit('RhC', 'RhE', 'RhCEText');" disabled>
 						<option value="0">E+ e-</option>
 						<option value="1">E+ e+</option>
 						<option value="2">E- e+</option>
@@ -138,14 +87,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="KellCheckbox" type="checkbox" onchange="enableSelects(this, 'K', 'k', 'KellText');" />
 				</td>
 				<td>
-					<select id="K" onchange="setDigit('K', 'k', 'KellText');" disabled >
+					<select id="K" onchange="setDigit('K', 'k', 'KellText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">K-</option>
 						<option value="2">K+</option>
 					</select>
 				</td>
 				<td>
-					<select id="k" onchange="setDigit('K', 'k', 'KellText');" disabled >
+					<select id="k" onchange="setDigit('K', 'k', 'KellText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">k-</option>
 						<option value="2">k+</option>
@@ -154,7 +103,7 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 				<td>
 					<span id="KellText">9</span>
 				</td>
-			</tr>		
+			</tr>
 			<tr>
 				<td>
 					<label for="CwMi">C<sup>w</sup> / Mi<sup>a</sup></label>
@@ -163,14 +112,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="CwMiCheckbox" type="checkbox" onchange="enableSelects(this, 'Cw', 'Mi', 'CwMiText');" />
 				</td>
 				<td>
-					<select id="Cw" onchange="setDigit('Cw', 'Mi', 'CwMiText');" disabled >
+					<select id="Cw" onchange="setDigit('Cw', 'Mi', 'CwMiText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Cw-</option>
 						<option value="2">Cw+</option>
 					</select>
 				</td>
 				<td>
-					<select id="Mi" onchange="setDigit('Cw', 'Mi', 'CwMiText');" disabled >
+					<select id="Mi" onchange="setDigit('Cw', 'Mi', 'CwMiText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Mi&#x1D43;-</option>
 						<option value="2">Mi&#x1D43;+</option>
@@ -188,14 +137,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="MNCheckbox" type="checkbox" onchange="enableSelects(this, 'M', 'N', 'MNText');" />
 				</td>
 				<td>
-					<select id="M" onchange="setDigit('M', 'N', 'MNText');" disabled >
+					<select id="M" onchange="setDigit('M', 'N', 'MNText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">M-</option>
 						<option value="2">M+</option>
 					</select>
 				</td>
 				<td>
-					<select id="N" onchange="setDigit('M', 'N', 'MNText');" disabled >
+					<select id="N" onchange="setDigit('M', 'N', 'MNText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">N-</option>
 						<option value="2">N+</option>
@@ -204,7 +153,7 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 				<td>
 					<span id="MNText">9</span>
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td>
 					<label for="Ss">S / s</label>
@@ -213,14 +162,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="SsCheckbox" type="checkbox" onchange="enableSelects(this, 'S', 's', 'SsText');" />
 				</td>
 				<td>
-					<select id="S" onchange="setDigit('S', 's', 'SsText');" disabled >
+					<select id="S" onchange="setDigit('S', 's', 'SsText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">S-</option>
 						<option value="2">S+</option>
 					</select>
 				</td>
 				<td>
-					<select id="s" onchange="setDigit('S', 's', 'SsText');" disabled >
+					<select id="s" onchange="setDigit('S', 's', 'SsText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">s-</option>
 						<option value="2">s+</option>
@@ -238,14 +187,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="UP1Checkbox" type="checkbox" onchange="enableSelects(this, 'U', 'P1', 'UP1Text');" />
 				</td>
 				<td>
-					<select id="U" onchange="setDigit('U', 'P1', 'UP1Text');" disabled >
+					<select id="U" onchange="setDigit('U', 'P1', 'UP1Text');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">U-</option>
 						<option value="2">U+</option>
 					</select>
 				</td>
 				<td>
-					<select id="P1" onchange="setDigit('U', 'P1', 'UP1Text');" disabled >
+					<select id="P1" onchange="setDigit('U', 'P1', 'UP1Text');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">P1-</option>
 						<option value="2">P1+</option>
@@ -263,14 +212,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="LuaKpaCheckbox" type="checkbox" onchange="enableSelects(this, 'Lua', 'Kpa', 'LuaKpaText');" />
 				</td>
 				<td>
-					<select id="Lua" onchange="setDigit('Lua', 'Kpa', 'LuaKpaText');" disabled >
+					<select id="Lua" onchange="setDigit('Lua', 'Kpa', 'LuaKpaText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Lua-</option>
 						<option value="2">Lua+</option>
 					</select>
 				</td>
 				<td>
-					<select id="Kpa" onchange="setDigit('Lua', 'Kpa', 'LuaKpaText');" disabled >
+					<select id="Kpa" onchange="setDigit('Lua', 'Kpa', 'LuaKpaText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Kpa-</option>
 						<option value="2">Kpa+</option>
@@ -288,14 +237,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="LeaLebCheckbox" type="checkbox" onchange="enableSelects(this, 'Lea', 'Leb', 'LeaLebText');" />
 				</td>
 				<td>
-					<select id="Lea" onchange="setDigit('Lea', 'Leb', 'LeaLebText');" disabled >
+					<select id="Lea" onchange="setDigit('Lea', 'Leb', 'LeaLebText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Lea-</option>
 						<option value="2">Lea+</option>
 					</select>
 				</td>
 				<td>
-					<select id="Leb" onchange="setDigit('Lea', 'Leb', 'LeaLebText');" disabled >
+					<select id="Leb" onchange="setDigit('Lea', 'Leb', 'LeaLebText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Leb-</option>
 						<option value="2">Leb+</option>
@@ -313,14 +262,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="FyaFybCheckbox" type="checkbox" onchange="enableSelects(this, 'Fya', 'Fyb', 'FyaFybText');" />
 				</td>
 				<td>
-					<select id="Fya" onchange="setDigit('Fya', 'Fyb', 'FyaFybText');" disabled >
+					<select id="Fya" onchange="setDigit('Fya', 'Fyb', 'FyaFybText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Fya-</option>
 						<option value="2">Fya+</option>
 					</select>
 				</td>
 				<td>
-					<select id="Fyb" onchange="setDigit('Fya', 'Fyb', 'FyaFybText');" disabled >
+					<select id="Fyb" onchange="setDigit('Fya', 'Fyb', 'FyaFybText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Fyb-</option>
 						<option value="2">Fyb+</option>
@@ -338,14 +287,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="JkaJkbCheckbox" type="checkbox" onchange="enableSelects(this, 'Jka', 'Jkb', 'JkaJkbText');" />
 				</td>
 				<td>
-					<select id="Jka" onchange="setDigit('Jka', 'Jkb', 'JkaJkbText');" disabled >
+					<select id="Jka" onchange="setDigit('Jka', 'Jkb', 'JkaJkbText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Jka-</option>
 						<option value="2">Jka+</option>
 					</select>
 				</td>
 				<td>
-					<select id="Jkb" onchange="setDigit('Jka', 'Jkb', 'JkaJkbText');" disabled >
+					<select id="Jkb" onchange="setDigit('Jka', 'Jkb', 'JkaJkbText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Jkb-</option>
 						<option value="2">Jkb+</option>
@@ -363,14 +312,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="DoaDobCheckbox" type="checkbox" onchange="enableSelects(this, 'Doa', 'Dob', 'DoaDobText');" />
 				</td>
 				<td>
-					<select id="Doa" onchange="setDigit('Doa', 'Dob', 'DoaDobText');" disabled >
+					<select id="Doa" onchange="setDigit('Doa', 'Dob', 'DoaDobText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Doa-</option>
 						<option value="2">Doa+</option>
 					</select>
 				</td>
 				<td>
-					<select id="Dob" onchange="setDigit('Doa', 'Dob', 'DoaDobText');" disabled >
+					<select id="Dob" onchange="setDigit('Doa', 'Dob', 'DoaDobText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Dob-</option>
 						<option value="2">Dob+</option>
@@ -388,14 +337,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="InaCobCheckbox" type="checkbox" onchange="enableSelects(this, 'Ina', 'Cob', 'InaCobText');" />
 				</td>
 				<td>
-					<select id="Ina" onchange="setDigit('Ina', 'Cob', 'InaCobText');" disabled >
+					<select id="Ina" onchange="setDigit('Ina', 'Cob', 'InaCobText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Ina-</option>
 						<option value="2">Ina+</option>
 					</select>
 				</td>
 				<td>
-					<select id="Cob" onchange="setDigit('Ina', 'Cob', 'InaCobText');" disabled >
+					<select id="Cob" onchange="setDigit('Ina', 'Cob', 'InaCobText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Cob-</option>
 						<option value="2">Cob+</option>
@@ -413,14 +362,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="DiaVSVCheckbox" type="checkbox" onchange="enableSelects(this, 'Dia', 'VSV', 'DiaVSVText');" />
 				</td>
 				<td>
-					<select id="Dia" onchange="setDigit('Dia', 'VSV', 'DiaVSVText');" disabled >
+					<select id="Dia" onchange="setDigit('Dia', 'VSV', 'DiaVSVText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Dia-</option>
 						<option value="2">Dia+</option>
 					</select>
 				</td>
 				<td>
-					<select id="VSV" onchange="setDigit('Dia', 'VSV', 'DiaVSVText');" disabled >
+					<select id="VSV" onchange="setDigit('Dia', 'VSV', 'DiaVSVText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">VS/V-</option>
 						<option value="2">VS/V+</option>
@@ -438,14 +387,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="JsaCCheckbox" type="checkbox" onchange="enableSelects(this, 'Jsa', 'C', 'JsaCText');" />
 				</td>
 				<td>
-					<select id="Jsa" onchange="setDigit('Jsa', 'C', 'JsaCText');" disabled >
+					<select id="Jsa" onchange="setDigit('Jsa', 'C', 'JsaCText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">Jsa-</option>
 						<option value="2">Jsa+</option>
 					</select>
 				</td>
 				<td>
-					<select id="C" onchange="setDigit('Jsa', 'C', 'JsaCText');" disabled >
+					<select id="C" onchange="setDigit('Jsa', 'C', 'JsaCText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">C-</option>
 						<option value="2">C+</option>
@@ -463,14 +412,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="cECheckbox" type="checkbox" onchange="enableSelects(this, 'c', 'E', 'cEText');" />
 				</td>
 				<td>
-					<select id="c" onchange="setDigit('c', 'E', 'cEText');" disabled >
+					<select id="c" onchange="setDigit('c', 'E', 'cEText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">c-</option>
 						<option value="2">c+</option>
 					</select>
 				</td>
 				<td>
-					<select id="E" onchange="setDigit('c', 'E', 'cEText');" disabled >
+					<select id="E" onchange="setDigit('c', 'E', 'cEText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">E-</option>
 						<option value="2">E+</option>
@@ -488,14 +437,14 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 					<input id="eCMVCheckbox" type="checkbox" onchange="enableSelects(this, 'e', 'CMV', 'eCMVText');" />
 				</td>
 				<td>
-					<select id="e" onchange="setDigit('e', 'CMV', 'eCMVText');" disabled >
+					<select id="e" onchange="setDigit('e', 'CMV', 'eCMVText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">e-</option>
 						<option value="2">e+</option>
 					</select>
 				</td>
 				<td>
-					<select id="CMV" onchange="setDigit('e', 'CMV', 'eCMVText');" disabled >
+					<select id="CMV" onchange="setDigit('e', 'CMV', 'eCMVText');" disabled>
 						<option value="0">not tested</option>
 						<option value="1">CMV-</option>
 						<option value="2">CMV+</option>
@@ -512,8 +461,8 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 				<td>
 					<!-- <input id="SpecialTestingCheckbox" type="checkbox" onchange="" /> -->
 				</td>
-				<td colspan="2" >
-					<select id="SpecialTesting" onchange="document.getElementById('SpecialTestingText').innerHTML=this.value; setOutputText();" >
+				<td colspan="2">
+					<select id="SpecialTesting" onchange="document.getElementById('SpecialTestingText').innerHTML=this.value; setOutputText();">
 						<option value="00">information elsewhere</option>
 						<option value="01">Ena</option>
 						<option value="02">‘N’</option>
@@ -614,7 +563,7 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 						<option value="97">parvovirus B19 antibody present</option>
 						<option value="98">IgA deficient</option>
 						<option value="99" selected>no information provided</option>
-													
+
 					</select>
 				</td>
 				<td>
@@ -623,6 +572,54 @@ RhCE antigens can also already be encoded in the 3rd digit of the group barcode,
 			</tr>
 		</table>
 	</form>
-	
+
 	<p id="outputText" />
+
+
+	<script>
+		function enableSelects(checkBox, elementId1, elementId2, textElementId) {
+			const e1 = document.getElementById(elementId1);
+			const e2 = document.getElementById(elementId2);
+			const textElement = document.getElementById(textElementId);
+			if (!checkBox || !e1 || !e2 || !textElement) return;
+			e1.disabled = !checkBox.checked;
+			e2.disabled = !checkBox.checked;
+
+			if (checkBox.checked) {
+				setDigit(elementId1, elementId2, textElementId);
+			}
+			else {
+				textElement.innerHTML = 9;
+				setOutputText();
+			}
+		}
+
+		function setDigit(elementId1, elementId2, textElementId) {
+			const e1 = document.getElementById(elementId1);
+			const e2 = document.getElementById(elementId2);
+			const textElement = document.getElementById(textElementId);
+			if (!e1 || !e2 || !textElement) return;
+			textElement.innerHTML = 3 * parseInt(e1.value) + parseInt(e2.value);
+			setOutputText();
+		}
+
+		(function setOutputText() {
+			const outText = document.getElementById('outputText');
+			if (!outText) return;
+			const textElements = ['RhCEText', 'KellText', 'CwMiText', 'MNText', 'SsText', 'UP1Text', 'LuaKpaText', 'LeaLebText',
+				'FyaFybText', 'JkaJkbText', 'DoaDobText', 'InaCobText', 'DiaVSVText', 'JsaCText', 'cEText', 'eCMVText', 'SpecialTestingText'];
+
+			let outputString = "";
+			for (const id of textElements) {
+				const e = document.getElementById(id);
+				if (!e) {
+					console.log("error, can't find " + id);
+					return;
+				}
+				outputString += e.textContent;
+			}
+			outText.textContent = outputString;
+		})();
+	</script>
 </body>
+</html>
