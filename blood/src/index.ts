@@ -5,7 +5,9 @@ import { DatesForm, DatesLabel } from './bledExpiryModel';
 import { DinForm, DinLabel } from './dinModel';
 import { GroupsForm, GroupsLabel } from './groupsModel';
 import { ProductsForm, ProductsLabel } from './productsModel';
-import { Component, redCells, platelets, ffp, cryo, granulocytes } from './products'
+import { Component, redCells, platelets, ffp, cryo, granulocytes } from './products';
+//import { Code128Barcode } from './lib/Code128Barcode';
+const Code128Barcode = require('./lib/Code128Barcode');
 
 const barcodeGenerator = new BarcodeGenerator();
 
@@ -32,3 +34,6 @@ const datesForm = new DatesForm(datesLabel);
 const components: Component[] = [redCells, platelets, ffp, cryo, granulocytes];
 const productLabel = new ProductsLabel(barcodeGenerator, dataMatrixBarcode);
 const productForm = new ProductsForm(productLabel, components, groupLabel, datesForm);
+
+const testBarcode = new Code128Barcode('test');
+document.querySelector('body')!.appendChild(testBarcode.svg);
