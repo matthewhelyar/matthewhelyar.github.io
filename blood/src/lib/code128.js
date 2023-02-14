@@ -31,31 +31,20 @@
 
 export function Code128(B) {
 
-	// test length of numerical block to see if it's worth it to encode as 128C
-	function chooseC(blockData, isFirstBlock, isLastBlock) {
-		// numeric at least 2 chars long
-		if (blockData.length < 2) return false;
-		// how long does number need to be for it to be worth it to change to 128C.
-		let threshold = 2;
-		// not first item, longer threshold to account for preceding change code
-		if (!isFirstBlock) threshold += 2;
-		// not last item, longer threshold to account for following change code
-		if (!isLastBlock) threshold += 2;
-		//console.log(blockData.length, threshold);
-		return (blockData.length >= threshold);
-	}
-
 	// collapses CBA encoding into either C or AB
+	// returns true if C chosen, false if C rejected.
 	function tryC(array, arrayIndex) {
-		// returns true if C chosen, false if C rejected.
 		const block = array[arrayIndex];
-		const isFirstBlock = (arrayIndex == 0);
-		const isLastBlock = (arrayIndex == array.length - 1);
+		const isFirstBlock = arrayIndex === 0;
+		const isLastBlock = arrayIndex === array.length - 1;
 
+		// test length of numerical block to see if it's worth it to encode as 128C
+		const longEnoughForC = block.data.length >= 2 + (isFirstBlock ? 0 : 2) + (isLastBlock ? 0 : 2);
+	
 		//console.log(block, "trying C...");
-		if (!chooseC(block.data, isFirstBlock, isLastBlock)) {
+		if (!longEnoughForC) {
 			// remove C from enc and try again
-			block.enc = block.enc.replace("C", "");
+			block.enc = block.enc.replace(/C/g, "");
 			//console.log("C rejected, trying: " + n.enc);
 			return false;
 		}
@@ -63,7 +52,7 @@ export function Code128(B) {
 		block.enc = "C";
 		//console.log("C chosen");
 
-		if (block.data.length % 2 == 0)
+		if (block.data.length % 2 === 0)
 			return true;
 
 		if (isFirstBlock && isLastBlock) {
