@@ -51,19 +51,6 @@
 					<a class="sidebarButton dropdownButton">Product <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
 
-						<!--<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select: none;" for="componentType">
-								Component Type:
-								<select id="componentType" class="sidebarSelect">
-									<option value="R">Red Cells</option>
-									<option value="P">Platelets</option>
-									<option value="F">Fresh Frozen Plasma</option>
-									<option value="C">Cryoprecipitate</option>
-									<option value="G">Granulocytes</option>
-								</select>
-							</label>
-						</div>-->
-
 						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;" for="componentType">
 								Component Type:
@@ -101,19 +88,6 @@
 								<input id="irradiated" type="checkbox" class="floatingCheckbox">
 							</label>
 						</div>
-
-						<!--<div class="dropdownItem">
-							<label class="checkboxLabel">
-								Special:
-								<input class="floatingCheckbox"  id="special" type="checkbox">
-							</label>
-						</div>-->
-						<!--<div class="dropdownItem">
-							<label class="checkboxLabel">
-								Routinely available:
-								<input class="floatingCheckbox"  id="available" type="checkbox">
-							</label>
-						</div>-->
 
 						<hr style="margin: 6px 12px; height: 3px; border-top: 2px solid black; border-bottom: 2px solid black;" />
 
@@ -226,8 +200,6 @@
 					</div>
 				</div>
 
-
-
 				<div class="dropdownDiv">
 					<a class="sidebarButton dropdownButton">Dates <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
@@ -272,27 +244,24 @@
 		</div>
 	</div>
 
-	<div id="phenotypePopup">
-		<div style="margin: 10px 20px; user-select:none;">
-			<span style="display: block;  font-weight: 400; font-size:14pt; padding: 0px 10px">Add/Remove Red Cell Antigens</span>
-			<hr style="margin: 10px;" />
-			<span>Drag to move antigens</span>
-			<form>
-				<div style="display:grid; grid-template-columns: 1fr 1fr 1fr; grid-gap:4px; text-align:center; margin:3px;">
-					<span>Unknown:</span>
-					<span>Negative for:</span>
-					<span>Positive for:</span>
-					<select class="dragSelect" size="2" id="phenUnk" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fff; border-color: #fff;"></select>
-					<select class="dragSelect" size="2" id="phenNeg" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #cfc; border-color: #cfc; scrollbar-color: #9aff9a #bdffbd; "></select>
-					<select class="dragSelect" size="2" id="phenPos" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fcc; border-color: #fcc; scrollbar-color: #ff9a9a #ffbdbd; "></select>
-				</div>
-
-				<div style="height:100%; text-align:right;">
-					<button style="width:100px; margin:12px;" type="reset" id="phenotypesCancelButton">Cancel</button>
-					<button style="width:100px;" type="button" id="phenotypesSubmitButton">Accept</button>
-				</div>
-			</form>
-		</div>
+	<div id="phenotypePopup" style="display: none;">
+		<span style="display: block; font-weight: 400; font-size:14pt;">Add/Remove Red Cell Antigens</span>
+		<hr style="margin: 6px 0;">
+		<span>Drag to move antigens</span>
+		<form>
+			<div style="display:grid; grid-template-columns: 1fr 1fr 1fr; grid-gap:6px; text-align:center; padding:3px 0;">
+				<span>Unknown:</span>
+				<span>Negative for:</span>
+				<span>Positive for:</span>
+				<select class="dragSelect" size="2" id="phenUnk" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fff; border-color: #fff;"></select>
+				<select class="dragSelect" size="2" id="phenNeg" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #cfc; border-color: #cfc; scrollbar-color: #9aff9a #bdffbd; "></select>
+				<select class="dragSelect" size="2" id="phenPos" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fcc; border-color: #fcc; scrollbar-color: #ff9a9a #ffbdbd; "></select>
+			</div>
+			<div style="height:100%; text-align:right; padding-top: 6px;">
+				<button type="reset" id="phenotypesCancelButton" style="width:100px; margin-right:6px;">Cancel</button>
+				<button style="width:100px;" type="button" id="phenotypesSubmitButton">Accept</button>
+			</div>
+		</form>
 	</div>
 
 	<div id="main">

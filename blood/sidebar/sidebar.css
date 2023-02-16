@@ -225,12 +225,15 @@ input[type=text].sidebarInput {
 	top: 50%;
 	transform: translate(-50%, -50%);
 	width: 50%;
-	height: 500px;
+	min-width: 300px;
+	max-width: 600px;
 	background-color: var(--grey1);
 	border-radius: 10px;
 	animation: fadeIn 0.25s;
 	border: 5px solid var(--grey2);
 	color: white;
+	padding: 10px;
+	user-select: none;
 }
 
 .dragSelect {
