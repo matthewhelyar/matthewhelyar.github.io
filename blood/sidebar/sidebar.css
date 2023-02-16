@@ -21,10 +21,6 @@ hr {
 	cursor: auto;
 }
 
-th {
-	font-weight: 400;
-}
-
 input {
 	accent-color: var(--accent);
 }

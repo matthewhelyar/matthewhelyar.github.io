@@ -131,80 +131,27 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton dropdownButton">Group <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<!--<div class="dropdownItem">
-							<label style="display: block; width: 100%; user-select: none;">
-								ABO:
-								<select id="componentType" class="sidebarSelect">
-									<option value="O">O</option>
-									<option value="A">A</option>
-									<option value="B">B</option>
-									<option value="AB">AB</option>
-								</select>
-							</label>
-						</div>-->
-
 						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;">
 								ABO:
 							</label>
-							<table style="margin: 0 auto; width:100%; max-width:300px; text-align:center; border-collapse:collapse;">
-								<tr>
-									<th style="width:0;">O</th>
-									<th></th>
-									<th style="width:0;">A</th>
-									<th></th>
-									<th style="width:0;">B</th>
-									<th></th>
-									<th style="width:0;">AB</th>
-								</tr>
-								<tr>
-									<td><input name="ABOradio" type="radio" value="O" checked /></td>
-									<td></td>
-									<td><input name="ABOradio" type="radio" value="A" /></td>
-									<td></td>
-									<td><input name="ABOradio" type="radio" value="B" /></td>
-									<td></td>
-									<td><input name="ABOradio" type="radio" value="AB" /></td>
-								</tr>
-							</table>
-
+							<div style="margin: 0 auto; width: 100%; max-width: 300px; text-align: center; border-collapse: collapse; display: flex; justify-content: space-between">
+								<label>O<br /><input name="ABOradio" type="radio" value="O" checked /></label>
+								<label>A<br /><input name="ABOradio" type="radio" value="A" checked /></label>
+								<label>B<br /><input name="ABOradio" type="radio" value="B" checked /></label>
+								<label>AB<br /><input name="ABOradio" type="radio" value="AB" checked /></label>
+							</div>
 						</div>
-
 						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;">Rh: </label>
-							<table style="width: 100%; margin: 0 auto; max-width: 300px; text-align: center; border-collapse: collapse;">
-								<tr>
-									<th style="width:0;">D</th>
-									<th></th>
-									<th style="width:0;">C</th>
-									<th></th>
-									<th style="width:0;">E</th>
-									<th></th>
-									<th style="width: 0; text-decoration: overline;">c</th>
-									<th></th>
-									<th style="width: 0; text-decoration: overline;">e</th>
-								</tr>
-								<!--<tr>
-									<td><input id="RhD" onchange="rhChanged();" type="checkbox"></td>
-									<td><input id="RhC" onchange="rhChanged();" type="checkbox"></td>
-									<td><input id="RhE" onchange="rhChanged();" type="checkbox"></td>
-									<td><input id="Rhc" onchange="rhChanged();" type="checkbox" checked></td>
-									<td><input id="Rhe" onchange="rhChanged();" type="checkbox" checked></td>
-								</tr>-->
-								<tr>
-									<td><span id="RhD" class="tristateBox unchecked"></span></td>
-									<td></td>
-									<td><span id="RhC" class="tristateBox unchecked"></span></td>
-									<td></td>
-									<td><span id="RhE" class="tristateBox unchecked"></span></td>
-									<td></td>
-									<td><span id="Rhc" class="tristateBox checked"></span></td>
-									<td></td>
-									<td><span id="Rhe" class="tristateBox checked"></span></td>
-								</tr>
-							</table>
+							<div style="margin: 0 auto; width: 100%; max-width: 300px; text-align: center; border-collapse: collapse; display: flex; justify-content: space-between">
+								<label>D<br /><span id="RhD" class="tristateBox unchecked"></span></label>
+								<label>C<br /><span id="RhC" class="tristateBox unchecked"></span></label>
+								<label>E<br /><span id="RhE" class="tristateBox unchecked"></span></label>
+								<label style="text-decoration: overline;">c<br /><span id="Rhc" class="tristateBox checked"></span></label>
+								<label style="text-decoration: overline;">e<br /><span id="Rhe" class="tristateBox checked"></span></label>
+							</div>
 						</div>
-
 						<div class="dropdownDiv" style="padding:0;">
 							<a class="sidebarButton dropdownButton">Possible genotypes: <span class="caretDown" /></a>
 							<div class="dropdownContents" style="display:none; box-shadow:none;">
@@ -213,7 +160,6 @@
 								</div>
 							</div>
 						</div>
-
 					</div>
 				</div>
 
@@ -247,40 +193,6 @@
 				<div class="dropdownDiv">
 					<a class="sidebarButton dropdownButton">General Testing <span class="caretDown" /></a>
 					<div class="dropdownContents" style="display:none;">
-						<!--<div class="dropdownItem">
-							<table style="margin: 0 auto; width:100%; max-width:250px; text-align:center;">
-								<tr>
-									<th></th>
-									<th>?</th>
-									<th>+</th>
-									<th>-</th>
-								</tr>
-								<tr>
-									<td style="text-align:left;"><label>CMV</label></td>
-									<td><input name="CMV" type="radio" value="?" checked /></td>
-									<td><input name="CMV" type="radio" value="+" /></td>
-									<td><input name="CMV" type="radio" value="-" /></td>
-								</tr>
-								<tr>
-									<td style="text-align:left;"><labe>HbS</labe></td>
-									<td><input name="HbS" type="radio" value="?" checked /></td>
-									<td><input name="HbS" type="radio" value="+" /></td>
-									<td><input name="HbS" type="radio" value="-" /></td>
-								</tr>
-								<tr>
-									<td style="text-align:left;"><label>IgA</label></td>
-									<td><input name="IgA" type="radio" value="?" checked /></td>
-									<td><input name="IgA" type="radio" value="+" /></td>
-									<td><input name="IgA" type="radio" value="-" /></td>
-								</tr>
-								<tr>
-									<td style="text-align:left;"><label>HT</label></td>
-									<td><input name="HT" type="radio" value="?" checked /></td>
-									<td><input name="HT" type="radio" value="+" /></td>
-									<td><input name="HT" type="radio" value="-" /></td>
-								</tr>
-							</table>
-						</div>-->
 						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
 							<span class="checkboxLabel">
 								HbS:
@@ -304,7 +216,7 @@
 
 				<div id="infectiousMarkersDiv" class="dropdownDiv">
 					<a class="sidebarButton dropdownButton">Infectious markers <span class="caretDown" /></a>
-					<div class="dropdownContents" style="display:none;">	
+					<div class="dropdownContents" style="display:none;">
 					</div>
 				</div>
 
@@ -360,38 +272,27 @@
 		</div>
 	</div>
 
-
 	<div id="phenotypePopup">
 		<div style="margin: 10px 20px; user-select:none;">
 			<span style="display: block;  font-weight: 400; font-size:14pt; padding: 0px 10px">Add/Remove Red Cell Antigens</span>
 			<hr style="margin: 10px;" />
 			<span>Drag to move antigens</span>
 			<form>
-				<table style="width:100%; height:100%;">
-					<tr>
-						<th>Unknown:</th>
-						<th>Negative for:</th>
-						<th>Positive for:</th>
-					</tr>
-					<tr>
-						<td style="width:33%">
-							<select class="dragSelect" size="2" id="phenUnk" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fff; border-color: #fff;" />
-						</td>
-						<td style="width:33%">
-							<select class="dragSelect" size="2" id="phenNeg" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #cfc; border-color: #cfc; scrollbar-color: #9aff9a #bdffbd; " />
-						</td>
-						<td style="width:33%">
-							<select class="dragSelect" size="2" id="phenPos" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fcc; border-color: #fcc; scrollbar-color: #ff9a9a #ffbdbd; " />
-						</td>
-					</tr>
-				</table>
+				<div style="display:grid; grid-template-columns: 1fr 1fr 1fr; grid-gap:4px; text-align:center; margin:3px;">
+					<span>Unknown:</span>
+					<span>Negative for:</span>
+					<span>Positive for:</span>
+					<select class="dragSelect" size="2" id="phenUnk" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fff; border-color: #fff;"></select>
+					<select class="dragSelect" size="2" id="phenNeg" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #cfc; border-color: #cfc; scrollbar-color: #9aff9a #bdffbd; "></select>
+					<select class="dragSelect" size="2" id="phenPos" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fcc; border-color: #fcc; scrollbar-color: #ff9a9a #ffbdbd; "></select>
+				</div>
+
 				<div style="height:100%; text-align:right;">
 					<button style="width:100px; margin:12px;" type="reset" id="phenotypesCancelButton">Cancel</button>
 					<button style="width:100px;" type="button" id="phenotypesSubmitButton">Accept</button>
 				</div>
 			</form>
 		</div>
-
 	</div>
 
 	<div id="main">
