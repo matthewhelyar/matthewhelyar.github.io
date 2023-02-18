@@ -26,157 +26,237 @@
  *      under MIT license
  *      # barcode.js has no dependencies
  *      Copyright (c) 2020 Constantine
+ * 
+ *  (Yes, I see the irony of taking an intentionally  very compact library and blowing it up into a featureful class)
  */
 
+/*
+Usage: make a new object with either a message or input settings object e.g. {msg: 'Hello, world!', dim: [100,30], pad[10,5], pal: ['black','white'].
+
+Either pass in a SVG to replace the contents of, or don't and use the .svg getter to get a new SVG element out of it.
+
+Input dim will not affect existing svg, only new svg. Every other input will apply to both.
+
+The SVG element itself won't be assigned over, so eventListeners etc on that element won't be broken by changing the contents.
+
+message can be changed by setting .msg = 'new message'. svg element will automatically update.
+
+The full character set of Code128 A,B and C is covered and the shortest barcode string will be generated using all 3 as needed. 
+
+There are no standard equivalent encodable characters for FNC1-4, they exist purely as bytes in barcodes (where they are standard values). 
+I have assigned some "common" unicode characters to be used as inputs for those function bytes. 
+There is no complex functionality associated with the use of these FNC bytes in this barcode, they just where they are put in the barcode.
+I really should allow the user to provide an array of characters to use instead of my chosen ones as they like. Also should do something about 
+the fact that FNC4 is different depending on which encoding is currently in use because curerntly difficult for user to know which FNC4 will work in a given string.
+For DEL and FNC1-4 characters, use the following unicode decimal characters:
+	DEL  = decimal 195 = \u00C3
+	FNC1 = decimal 202 = \u00CA
+	FNC2 = decimal 197 = \u00C5
+	FNC3 = decimal 196 = \u00C4
+	FNC4 = decimal 200 / 201 = \u00C8 / \u00C9 depending on whether it's currently in A or B mode.
+	
+dim, pad and pal are publicly read only
+valueArray and encoded are also publicly read only
+
+most of this is using es2022 private fields. This could be transpiled to a closure to keep the encapsulation semantics with backwards compatibility.
+*/
 type msgBlock_t = { data: string, enc: string; };
-type input_t = { msg: string, dim: [number, number], pad: [number, number], pal: [string, string]; };
-enum direction { h, v };
+type input_t = { msg: string, dim: [number, number], pad: [number, number] | number, pal: string | [string, string | null]; };
 
-export class Code128Barcode {
-	#testField:string = 'privateText';
-	msg: string = '';
-	encoded: number[] = [];
+export 
+class Code128Barcode {
+	// message string
+	#msg: string = '';
+	get msg() { return this.#msg; }
+	set msg(msg: string) {
+		this.#msg = msg;
+		this.#encode(this.#msg);
+		this.#calculateDimensions();
+		this.#fillSvg(this.#svgElement);
+	}
 
-	dim: [number, number] = [320, 80];
-	#w: number;
-	#h: number;
+	#dim: [number, number] = [0, 0]; // 0 = auto
+	get dim() { return this.#dim; }
+	#w: number = 0;
+	#h: number = 0;
 
-	pad: [number, number] = [20, 16];
-	#px: number;
-	#py: number;
+	#pad: number[] = [0, 0];
+	get pad() { return this.#pad; }
+	#px: number = 0;
+	#py: number = 0;
 
-	pal: [string, string] = ['#000', '#FFF'];
-	#fg: string;
-	#bg: string;
+	#pal: [string, string | null] = ['#000', null];
+	get pal() { return this.#pal; }
 
-	#dir: direction = direction.h;
+	#dir: string = 'h';
 
-	#l: number;
 	#sx: number = 1;
 	#sy: number = 1;
-	#er: number = 0;
 
-	valueArray: number[] = [];
+	// array of decimal values of encoded bytes.
+	#valueArray: number[] = [];
+	get valueArray() { return this.#valueArray; }
 
-	constructor(B: string | input_t) {
+	// barcoded encoded in binary
+	#encoded: number[] = [];
+	get encoded() { return this.#encoded; }
+
+	// to avoid nulling references to the element outside of this library, do not assign to this outside of constructor. 
+	// instead, change the elements within or the attributes.
+	#svgElement: SVGElement;
+	get svg() { return this.#svgElement; }
+
+	#svgNamespace = 'http://www.w3.org/2000/svg';
+
+	// input message string or input_t settings object. Optionally input SVG element to replace contents of.
+	constructor(B: string | input_t, svgElement: SVGElement) {
+		// set up from inputs
 		if (typeof B === 'string')
-			this.msg = B;
+			this.#msg = B;
 		else {
-			if (B.msg) this.msg = B.msg;
-			if (B.dim) this.dim = B.dim;
-			if (B.pad) this.pad = B.pad;
-			if (B.pal) this.pal = B.pal;
+			if (B.msg != null)
+				this.#msg = B.msg;
+
+			if (B.dim != null)
+				this.#dim = B.dim;
+
+			if (B.pad != null) {
+				if (typeof B.pad === 'number') {
+					this.#pad = [B.pad, B.pad];
+				} else if (B.pad[1] == null) {
+					this.#pad = [B.pad[0], B.pad[0]];
+				} else if (typeof B.pad[0] === 'number' && typeof B.pad[1] === 'number') {
+					this.#pad = B.pad;
+				}
+			}
+
+			if (B.pal != null) {
+				if (typeof B.pal === 'string' && isColor(B.pal)) {
+					this.#pal[0] = B.pal;
+				} else {
+					if (typeof B.pal[0] === 'string' && isColor(B.pal[0])) { this.#pal[0] = B.pal[0]; }
+					if (typeof B.pal[1] === 'string' && isColor(B.pal[1])) { this.#pal[1] = B.pal[1]; }
+				}
+			}
 		}
-		this.#l = 0;
-		this.#w = Math.abs(this.dim[0]);
-		this.#h = Math.abs(this.dim[1]);
-		this.#px = Math.abs(this.pad[0]);
-		this.#py = Math.abs(this.pad[1]);
-		this.#fg = this.pal[0];
-		this.#bg = this.pal[1];
 
-		// convert string message to bar/space pattern
-		this.encoded = this.encode(this.msg);
-		this.#l = this.encoded.length;
+		this.#encode(this.#msg);
 
-		/* ecc: reset to default values and relative width */
+		// either use the element provided to constructor or make one.
+		if (svgElement == null) {
+			this.#svgElement = this.#createElement('svg', this.#svgNamespace, {
+				'viewBox': [0, 0, this.#w, this.#h].join(' '),
+				'width': this.#w,
+				'height': this.#h,
+				'shape-rendering': 'crispEdges',
+				'xmlns': this.#svgNamespace,
+				'version': '1.1'
+			}) as SVGElement;
+		}
+		else {
+			this.#svgElement = svgElement;
+			const style = window.getComputedStyle(svgElement);
+			this.#dim = [parseFloat(style.getPropertyValue('width')), parseFloat(style.getPropertyValue('height'))];
+		}
+
+		this.#calculateDimensions();
+
+		this.#fillSvg(this.#svgElement);
+
+		function isColor(strColor: string) {
+			const s = new Option().style;
+			s.color = strColor;
+			return s.color !== '';
+		}
+	}
+
+	#calculateDimensions() {
+		this.#sx = 1;
+		this.#sy = 1;
+		this.#w = Math.abs(this.#dim[0]);
+		this.#h = Math.abs(this.#dim[1]);
+		this.#px = Math.abs(this.#pad[0]);
+		this.#py = Math.abs(this.#pad[1]);
+
+		/* deal with auto width and height */
 		if (0 == this.#w && 0 == this.#h) {
-			this.#px = 20;
-			this.#py = 16;
-			this.#w = 2 * (this.#l + this.#px);
-			this.#h = 80;
+			this.#w = 2 * (this.#encoded.length + this.#px);
+			this.#h = this.#w / 3;
 		}
 
-		this.#dir = this.#h > this.#w ? direction.v : direction.h;
+		this.#dir = this.#h > this.#w ? 'v' : 'h';
 
 		/* deal with auto width or height */
 		if (0 == this.#w) {
-			this.#w = 2 * (this.#l + this.#px);
-			this.#dir = direction.h;
+			// assumes if h is set but w is auto, intention is horizontal
+			this.#w = 2 * (this.#encoded.length + this.#px);
+			this.#dir = 'h';
 		}
 		if (0 == this.#h) {
-			this.#h = 2 * (this.#l + this.#py);
-			this.#dir = direction.v;
+			// assumes if w is set but h is auto, intention is vetical
+			this.#h = 2 * (this.#encoded.length + this.#py);
+			this.#dir = 'v';
 		}
 
-		if (this.#w < this.#px) {
-			this.#px = this.#w;
-			console.warn('Code128: Expected {pad} value could not be bigger than {dim} value', this.pad, this.dim);
-		}
+		this.#px = Math.min(this.#w, this.#px);
+		this.#py = Math.min(this.#h, this.#py);
 
-		if (this.#h < this.#py) {
-			this.#py = this.#h;
-			console.warn('Code128: Expected {pad} value could not be bigger than {dim} value', this.pad, this.dim);
-		}
-
-		if (this.#dir)
-			this.#sy = this.#l;
+		if (this.#dir == 'v')
+			this.#sy = this.#encoded.length;
 		else
-			this.#sx = this.#l;
+			this.#sx = this.#encoded.length;
 
 		this.#sx = parseFloat(((this.#w - (2 * this.#px)) / this.#sx).toFixed(4));
 		this.#sy = parseFloat(((this.#h - (2 * this.#py)) / this.#sy).toFixed(4));
 
-		if (this.#er || !ishex(this.#fg) || this.#bg && !ishex(this.#bg)) {
-			this.#fg = '#b11';
-			this.#bg = '#fee';
-			console.warn('Code128: Please double check barcode params');
-		}
-
-		// helper just for handling config object
-		function ishex(c: string) {
-			return /^#[0-9a-f]{3}(?:[0-9a-f]{3})?$/i.test(c);
-		}
+		this.#svgElement.setAttribute('viewBox', [0, 0, this.#w.toFixed(4), this.#h.toFixed(4)].join(' '));
+		this.#svgElement.setAttribute('width', this.#w.toFixed(4));
+		this.#svgElement.setAttribute('height', this.#h.toFixed(4));
 	}
-
-	get svg() { return this.#generateSvg(); }
 
 	#createElement(tag: string, namespace: string, attributes: any): Element {
-		const n = document.createElementNS(namespace, tag);
+		const element = document.createElementNS(namespace, tag);
 		//let key: keyof typeof attributes;
 		for (let key in attributes) {
-			n.setAttribute(key, attributes[key]);
+			element.setAttribute(key, attributes[key]);
+			//element.setAttributeNS(namespace, key, attributes[key]);
 		}
-		return n;
+		return element;
 	}
 
-	#generateSvg(): SVGElement {
-		// write outout as SVG
-		const namespace = 'http://www.w3.org/2000/svg';
-		let path = '';
-
-		// here's the real magic, making a very efficient single path barcode.
-		// c is the horizontal position, literally just comes from the remaining length of the message
-		// d is the bar thickness.
-		let d = 0;
-		let c = this.#l;
-		while (c) {
-			this.encoded[--c] && ++d && !this.encoded[c - 1] && (path += (this.#dir == direction.v) ?
-				'M1,' + c + 'H0v' + d + 'h1v-' + d + 'z' :
-				'M' + c + ',1h' + d + 'V0h-' + d + 'v1z', d = 0);
-		}
-		// set up svg tag
-		const r = this.#createElement('svg', namespace, {
-			'viewBox': [0, 0, this.#w, this.#h].join(' '),
-			'width': this.#w,
-			'height': this.#h,
-			'fill': this.#fg,
-			'shape-rendering': 'crispEdges',
-			'xmlns': namespace,
-			'version': '1.1'
-		});
-		// add background path to svg
-		if (this.#bg) r.appendChild(this.#createElement('path', namespace, {
-			'fill': this.#bg,
-			'd': 'M0,0V' + this.#h + 'H' + this.#w + 'V0H0Z'
-		}));
-		// apply transform and add path tag to svg
-		r.appendChild(this.#createElement('path', namespace, {
+	#generatePath(encoded: number[], dir: string): Element {
+		return this.#createElement('path', this.#svgNamespace, {
 			'transform': 'matrix(' + [this.#sx, 0, 0, this.#sy, this.#px, this.#py] + ')',
-			'd': path
+			'fill': this.#pal[0],
+			'd': this.#generatePathD(encoded, dir)
+		})
+	}
+
+	#generatePathD(encoded: number[], dir: string): string {
+		// here's the real magic, making a very efficient single path barcode.
+		let path = '', barThickness = 0, penPosition = encoded.length;
+		while (penPosition) {
+			encoded[--penPosition] && ++barThickness && !encoded[penPosition - 1] && (path += (dir == 'v') ?
+				`M1,${penPosition}H0v${barThickness}h1v-${barThickness}z` :
+				`M${penPosition},1h${barThickness}V0h-${barThickness}v1z`, barThickness = 0);
+		}
+		return path;
+	}
+
+	#fillSvg(element: SVGElement) {
+		// empty svgElement
+		while (element.lastChild)
+			element.removeChild(element.lastChild);
+
+		// add background path to svg
+		if (this.#pal[1] != null) element.appendChild(this.#createElement('path', this.#svgNamespace, {
+			'fill': this.#pal[1],
+			'd': `M0,0V${this.#h}H${this.#w}V0H0Z`
 		}));
 
-		return r as SVGElement;
+		// apply transform and add path tag to svg
+		element.appendChild(this.#generatePath(this.#encoded, this.#dir));
+		return element;
 	}
 
 	#tryC(array: msgBlock_t[], arrayIndex: number): boolean {
@@ -416,7 +496,7 @@ export class Code128Barcode {
 		return valueArray;
 	}
 
-	encode(o: string): number[] {
+	#encode(o: string): number[] {
 		// encodes message as an array of 1 and 0 for a bar/space pattern.
 		// 1. split into numbers, exclusive A, exclusive B, and A&B!C (AB overlap, not C).
 		const splitMsg: RegExpMatchArray | null = o.match(/[0-9]+|[\x00-\x1F\xC9]+|[\x60-\x7F\xC3\xC8]+|[\x20-\x2F\x3A-\x5F\xC4\xC5\xCA]+/g);
@@ -440,16 +520,17 @@ export class Code128Barcode {
 		// 4. insert Start and Change code values, convert data to values, add checksum and End code.
 		// 5. convert to bar/space pattern.
 		let r: string[] = [];
-		this.valueArray = this.#getValueArray(msgBlocks);
-		for (let val of this.valueArray) {
-			r.push(this.#def(val));
+		this.#valueArray = this.#getValueArray(msgBlocks);
+		for (let val of this.#valueArray) {
+			if (val <= 106) r.push(this.#def(val));
 		}
-		return this.#bin(r.join(''));
+		this.#encoded = this.#bin(r.join(''));
+		return this.#encoded;
 	}
 
 	#def(n: number): string {
 		// return bar/space pattern as a binary string from an index into array. e.g. def(0) = "11011001100"
-		if (106 < n) console.warn(`Code128: {bad char} (${n}) was used and it was replaced by X`), n = 56, this.#er = 1;
+		if (106 < n) return '';
 		return [1740, 1644, 1638, 1176, 1164, 1100, 1224, 1220, 1124, 1608, 1604, 1572, 1436, 1244, 1230, 1484, 1260, 1254, 1650, 1628, 1614,
 			1764, 1652, 1902, 1868, 1836, 1830, 1892, 1844, 1842, 1752, 1734, 1590, 1304, 1112, 1094, 1416, 1128, 1122, 1672, 1576, 1570, 1464,
 			1422, 1134, 1496, 1478, 1142, 1910, 1678, 1582, 1768, 1762, 1774, 1880, 1862, 1814, 1896, 1890, 1818, 1914, 1602, 1930, 1328, 1292,

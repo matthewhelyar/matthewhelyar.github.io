@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="#">
+	<title>Document</title>
+</head>
+
+<body>
+	<span>0</span>
+	<svg viewBox="0 0 320 80" width="320" height="80" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg"
+		version="1.1">
+		<path fill="#FFF" d="M0,0V80H320V0H0Z"></path>
+		<path transform="matrix(6.087,0,0,48,20,16)"
+			d="M44,1h2V0h-2v1zM42,1h1V0h-1v1zM38,1h3V0h-3v1zM33,1h2V0h-2v1zM30,1h2V0h-2v1zM25,1h3V0h-3v1zM22,1h1V0h-1v1zM18,1h2V0h-2v1zM14,1h3V0h-3v1zM11,1h1V0h-1v1zM6,1h1V0h-1v1zM3,1h1V0h-1v1zM0,1h2V0h-2v1z">
+		</path>
+	</svg>
+<br/>
+
+	<script src="./Code128Barcode.js"></script>
+	<script>
+		let existingSvg = document.querySelector('svg');
+		existingSvg.addEventListener('click', (event) => { console.log(event.target); });
+		let a = new Code128Barcode({ msg: '0', dim: [0, 60], pad: [20,6], pal: ['red', 'white'] });
+
+		document.querySelector('body').appendChild(a.svg);
+		a.svg.addEventListener('click', (event) => { console.log("click a.svg"); });
+		a.msg = "\u00c3ABC\u00c4DEF\u00c5GHI\u00c8JKL\u00c9MNO\u00cA";
+	</script>
+</body>
+
+</html>
