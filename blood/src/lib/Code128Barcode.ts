@@ -39,7 +39,7 @@ Input dim will not affect existing svg, only new svg. Every other input will app
 
 The SVG element itself won't be assigned over, so eventListeners etc on that element won't be broken by changing the contents.
 
-message can be changed by setting .msg = 'new message'. svg element will automatically update.
+message, pad and pal can be changed by setting .msg, .pad and .pal. svg element will automatically update.
 
 The full character set of Code128 A,B and C is covered and the shortest barcode string will be generated using all 3 as needed. 
 
@@ -55,8 +55,7 @@ For DEL and FNC1-4 characters, use the following unicode decimal characters:
 	FNC3 = decimal 196 = \u00C4
 	FNC4 = decimal 200 / 201 = \u00C8 / \u00C9 depending on whether it's currently in A or B mode.
 	
-dim, pad and pal are publicly read only
-valueArray and encoded are also publicly read only
+dim, valueArray and encoded are also publicly read only
 
 most of this is using es2022 private fields. This could be transpiled to a closure to keep the encapsulation semantics with backwards compatibility.
 */
