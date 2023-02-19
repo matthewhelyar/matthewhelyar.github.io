@@ -61,37 +61,66 @@ valueArray and encoded are also publicly read only
 most of this is using es2022 private fields. This could be transpiled to a closure to keep the encapsulation semantics with backwards compatibility.
 */
 type msgBlock_t = { data: string, enc: string; };
-type input_t = { msg: string, dim: [number, number], pad: [number, number] | number, pal: string | [string, string | null]; };
+type input_t = { msg: string, dim: number[], pad: number[] | number, pal: (string | null)[] };
 
-export 
-class Code128Barcode {
+export
+	class Code128Barcode {
 	// message string
 	#msg: string = '';
 	get msg() { return this.#msg; }
 	set msg(msg: string) {
 		this.#msg = msg;
 		this.#encode(this.#msg);
+		if (this.#svgElement == null) return;
 		this.#calculateDimensions();
 		this.#fillSvg(this.#svgElement);
 	}
 
-	#dim: [number, number] = [0, 0]; // 0 = auto
+	// dimensions
+	#dim: number[] = [0, 0]; // 0 = auto
 	get dim() { return this.#dim; }
 	#w: number = 0;
 	#h: number = 0;
 
+	// padding
 	#pad: number[] = [0, 0];
 	get pad() { return this.#pad; }
+	set pad(p: number[] | number) {
+		if (p == null) return;
+		if (typeof p === 'number') {
+			this.#pad = [p, p];
+		} else if (p[1] == null) {
+			this.#pad = [p[0], p[0]];
+		} else if (typeof p[0] === 'number' && typeof p[1] === 'number') {
+			this.#pad = p;
+		}
+		if (this.#svgElement == null) return;
+		this.#calculateDimensions();
+		this.#fillSvg(this.#svgElement);
+	}
 	#px: number = 0;
 	#py: number = 0;
-
-	#pal: [string, string | null] = ['#000', null];
-	get pal() { return this.#pal; }
-
-	#dir: string = 'h';
-
 	#sx: number = 1;
 	#sy: number = 1;
+
+	// foreground/background colors
+	#pal: (string|null)[] = ['#000', null];
+	get pal(): (string | null)[] { return this.#pal; }
+	set pal(p: (string | null)[] ){
+		if (p == null) return;
+		if (typeof p === 'string' && this.#isColor(p)) {
+			this.#pal[0] = p;
+		} else {
+			if (typeof p[0] === 'string' && this.#isColor(p[0])) { this.#pal[0] = p[0]; }
+			if (typeof p[1] === 'string' && this.#isColor(p[1])) { this.#pal[1] = p[1]; }
+		}
+		if (this.#svgElement == null) return;
+		this.#calculateDimensions();
+		this.#fillSvg(this.#svgElement);
+	}
+
+	// direction, horizontal or vertical
+	#dir: string = 'h';
 
 	// array of decimal values of encoded bytes.
 	#valueArray: number[] = [];
@@ -114,30 +143,10 @@ class Code128Barcode {
 		if (typeof B === 'string')
 			this.#msg = B;
 		else {
-			if (B.msg != null)
-				this.#msg = B.msg;
-
-			if (B.dim != null)
-				this.#dim = B.dim;
-
-			if (B.pad != null) {
-				if (typeof B.pad === 'number') {
-					this.#pad = [B.pad, B.pad];
-				} else if (B.pad[1] == null) {
-					this.#pad = [B.pad[0], B.pad[0]];
-				} else if (typeof B.pad[0] === 'number' && typeof B.pad[1] === 'number') {
-					this.#pad = B.pad;
-				}
-			}
-
-			if (B.pal != null) {
-				if (typeof B.pal === 'string' && isColor(B.pal)) {
-					this.#pal[0] = B.pal;
-				} else {
-					if (typeof B.pal[0] === 'string' && isColor(B.pal[0])) { this.#pal[0] = B.pal[0]; }
-					if (typeof B.pal[1] === 'string' && isColor(B.pal[1])) { this.#pal[1] = B.pal[1]; }
-				}
-			}
+			if (B.msg != null)this.#msg = B.msg;
+			if (B.dim != null)this.#dim = B.dim;
+			this.pad = B.pad;
+			this.pal = B.pal;
 		}
 
 		this.#encode(this.#msg);
@@ -163,11 +172,13 @@ class Code128Barcode {
 
 		this.#fillSvg(this.#svgElement);
 
-		function isColor(strColor: string) {
-			const s = new Option().style;
-			s.color = strColor;
-			return s.color !== '';
-		}
+
+	}
+
+	#isColor(strColor: string) {
+		const s = new Option().style;
+		s.color = strColor;
+		return s.color !== '';
 	}
 
 	#calculateDimensions() {
@@ -209,6 +220,7 @@ class Code128Barcode {
 		this.#sx = parseFloat(((this.#w - (2 * this.#px)) / this.#sx).toFixed(4));
 		this.#sy = parseFloat(((this.#h - (2 * this.#py)) / this.#sy).toFixed(4));
 
+		if (this.#svgElement == null) return;
 		this.#svgElement.setAttribute('viewBox', [0, 0, this.#w.toFixed(4), this.#h.toFixed(4)].join(' '));
 		this.#svgElement.setAttribute('width', this.#w.toFixed(4));
 		this.#svgElement.setAttribute('height', this.#h.toFixed(4));
@@ -229,7 +241,7 @@ class Code128Barcode {
 			'transform': 'matrix(' + [this.#sx, 0, 0, this.#sy, this.#px, this.#py] + ')',
 			'fill': this.#pal[0],
 			'd': this.#generatePathD(encoded, dir)
-		})
+		});
 	}
 
 	#generatePathD(encoded: number[], dir: string): string {
@@ -244,6 +256,7 @@ class Code128Barcode {
 	}
 
 	#fillSvg(element: SVGElement) {
+		if (element == null) return;
 		// empty svgElement
 		while (element.lastChild)
 			element.removeChild(element.lastChild);

@@ -35,5 +35,5 @@ const components: Component[] = [redCells, platelets, ffp, cryo, granulocytes];
 const productLabel = new ProductsLabel(barcodeGenerator, dataMatrixBarcode);
 const productForm = new ProductsForm(productLabel, components, groupLabel, datesForm);
 
-const testBarcode = new Code128Barcode('test');
+const testBarcode = new Code128Barcode({msg:'test', pad:[5,5],pal:['black', 'white']});
 document.querySelector('body')!.appendChild(testBarcode.svg);
