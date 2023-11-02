@@ -10,7 +10,7 @@ let triggerBarcode = '';
 
 function handleBarcodeScan(event) {
 	//console.log(event.type);
-	// barcode inputs probably won't input shift, but teseting 
+	// barcode inputs probably won't input shift, but testing 
 	//with a keyboard messes up this function, so ignore shift.
 	if (event.key == 'Shift') return;
 

@@ -82,6 +82,8 @@ class ProductsForm {
 			this.productSelect.value = currentlySelectedProduct;
 		else
 			this.productSelectChanged();
+
+		this.productSelect.disabled = filteredProducts.length <= 1;
 	}
 
 	componentSelectChanged() {

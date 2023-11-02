@@ -1,6 +1,8 @@
 class PhenotypePopupForm {
 	constructor(phenotypeForm, phenotypeDisplay) {
 
+		// OBOS currently allows the following Ag- selection: k s Fya Fyb Jka Jkb Kpa Lua M N RhCw S
+
 		this.phenotypes = {
 			unk: ['M', 'N', 'S', 's', 'K', 'k', 'Lea', 'Leb', 'Fya', 'Fyb', 'Jka', 'Jkb', 'Cw', 'Mia', 'U', 'P1', 'Lua', 'Kpa', 'Doa', 'Dob', 'Ina', 'Cob', 'Dia', 'VS/V', 'Jsa'],
 			pos: [],

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE HTML>
 <html>
+
 <head>
 	<title>Blood component simulator</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -8,15 +9,18 @@
 	<link rel="stylesheet" href="./tristateBox/tristateBox.css" type="text/css" />
 	<link rel="stylesheet" href="sidebar.css" type="text/css" />
 </head>
+
 <body>
 	<div class="noPrint">
 		<div id="sidebar" class="sidebar" style="left: 0px; width: 375px;">
 
 			<div id="navOpenDiv" class="navOpen" style="width: 40px;">
-				<span id="navOpen" style="font-size: 20pt; font-weight: 700; position: absolute; top: 50%; transform-origin:center; transform: translate(-50%, -50%);">&#9776;</span><!-- ☰˂˃˄˅‹› -->
+				<span id="navOpen"
+					style="font-size: 20pt; font-weight: 700; position: absolute; top: 50%; transform-origin:center; transform: translate(-50%, -50%);">&#9776;</span><!-- ☰˂˃˄˅‹› -->
 			</div>
 
-			<div id="sidebarHeadingDiv" style="padding: 5px 10px 0 15px; margin-right:40px; cursor:default; user-select:none;">
+			<div id="sidebarHeadingDiv"
+				style="padding: 5px 10px 0 15px; margin-right:40px; cursor:default; user-select:none;">
 				<span id="sidebarHeading" style="font-weight: 400; font-size:14pt;">EDIT</span>
 				<hr style="margin:5px 0;" />
 			</div>
@@ -24,7 +28,7 @@
 			<div class="sidebarContents">
 
 				<div class="dropdownDiv" id="dinForm">
-					<a class="sidebarButton dropdownButton">DIN <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">DIN <span class="caretDown"></span></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem" style="padding-right:20px;">
 							<label style="display: block; width: 100%; user-select: none;">
@@ -48,7 +52,7 @@
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton dropdownButton">Product <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Product <span class="caretDown"></span></a>
 					<div class="dropdownContents" style="display:none;">
 
 						<div class="dropdownItem">
@@ -103,13 +107,14 @@
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton dropdownButton">Group <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Group <span class="caretDown"></span></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;">
 								ABO:
 							</label>
-							<div style="margin: 0 auto; width: 100%; max-width: 300px; text-align: center; border-collapse: collapse; display: flex; justify-content: space-between">
+							<div
+								style="margin: 0 auto; width: 100%; max-width: 300px; text-align: center; border-collapse: collapse; display: flex; justify-content: space-between">
 								<label>O<br /><input name="ABOradio" type="radio" value="O" checked /></label>
 								<label>A<br /><input name="ABOradio" type="radio" value="A" checked /></label>
 								<label>B<br /><input name="ABOradio" type="radio" value="B" checked /></label>
@@ -118,19 +123,22 @@
 						</div>
 						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;">Rh: </label>
-							<div style="margin: 0 auto; width: 100%; max-width: 300px; text-align: center; border-collapse: collapse; display: flex; justify-content: space-between">
+							<div
+								style="margin: 0 auto; width: 100%; max-width: 300px; text-align: center; border-collapse: collapse; display: flex; justify-content: space-between">
 								<label>D<br /><span id="RhD" class="tristateBox unchecked"></span></label>
 								<label>C<br /><span id="RhC" class="tristateBox unchecked"></span></label>
 								<label>E<br /><span id="RhE" class="tristateBox unchecked"></span></label>
-								<label style="text-decoration: overline;">c<br /><span id="Rhc" class="tristateBox checked"></span></label>
-								<label style="text-decoration: overline;">e<br /><span id="Rhe" class="tristateBox checked"></span></label>
+								<label style="text-decoration: overline;">c<br /><span id="Rhc"
+										class="tristateBox checked"></span></label>
+								<label style="text-decoration: overline;">e<br /><span id="Rhe"
+										class="tristateBox checked"></span></label>
 							</div>
 						</div>
 						<div class="dropdownDiv" style="padding:0;">
-							<a class="sidebarButton dropdownButton">Possible genotypes: <span class="caretDown" /></a>
+							<a class="sidebarButton dropdownButton">Possible genotypes: <span class="caretDown"></span></a>
 							<div class="dropdownContents" style="display:none; box-shadow:none;">
 								<div class="dropdownItem" onclick="this.children[0].focus()">
-									<span class="sidebarInput" id="genotypeList" style="text-align:right; white-space:pre;" />
+									<span class="sidebarInput" id="genotypeList" style="text-align:right; white-space:pre;"></span>
 								</div>
 							</div>
 						</div>
@@ -138,24 +146,24 @@
 				</div>
 
 				<div class="dropdownDiv" id="phenotypeDisplay">
-					<a class="sidebarButton dropdownButton">Red Cell Antigens <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Red Cell Antigens <span class="caretDown"></span></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem">
 							<label class="checkboxLabel">
 								Negative for:
-								<span class="sidebarInput" id="phNeg" style="text-align:left;" />
+								<span class="sidebarInput" id="phNeg" style="text-align:left;"></span>
 							</label>
 						</div>
 						<div class="dropdownItem">
 							<label class="checkboxLabel">
 								Positive for:
-								<span class="sidebarInput" id="phPos" style="text-align:left;" />
+								<span class="sidebarInput" id="phPos" style="text-align:left;"></span>
 							</label>
 						</div>
 						<div class="dropdownItem">
 							<label class="checkboxLabel">
 								Untested:
-								<span class="sidebarInput" id="phUnk" style="text-align:left;" />
+								<span class="sidebarInput" id="phUnk" style="text-align:left;"></span>
 							</label>
 						</div>
 						<div style="padding-bottom:3px;">
@@ -165,21 +173,24 @@
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton dropdownButton">General Testing <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">General Testing <span class="caretDown"></span></a>
 					<div class="dropdownContents" style="display:none;">
-						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+						<div class="dropdownItem"
+							onclick="let ta = this.children[0].children[0]; if (event.target != ta) ta.click();">
 							<span class="checkboxLabel">
 								HbS:
 								<span id="HbS" class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
 						</div>
-						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+						<div class="dropdownItem"
+							onclick="let tb = this.children[0].children[0]; if (event.target != tb) tb.click();">
 							<span class="checkboxLabel">
 								IgA:
 								<span id="IgA" class="tristateBox indeterminate floatingCheckbox"></span>
 							</span>
 						</div>
-						<div class="dropdownItem" onclick="let t = this.children[0].children[0]; if (event.target != t) t.click();">
+						<div class="dropdownItem"
+							onclick="let tc = this.children[0].children[0]; if (event.target !=tc) tc.click();">
 							<span class="checkboxLabel">
 								HT:
 								<span id="HT" class="tristateBox indeterminate floatingCheckbox"></span>
@@ -189,25 +200,26 @@
 				</div>
 
 				<div id="infectiousMarkersDiv" class="dropdownDiv">
-					<a class="sidebarButton dropdownButton">Infectious markers <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Infectious markers <span class="caretDown"></span></a>
 					<div class="dropdownContents" style="display:none;">
 					</div>
 				</div>
 
 				<div class="dropdownDiv" id="hlaDiv">
-					<a class="sidebarButton dropdownButton">HLA / HPA <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">HLA / HPA <span class="caretDown"></span></a>
 					<div class="dropdownContents" style="display:none;">
 					</div>
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton dropdownButton">Dates <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Dates <span class="caretDown"></span></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;" for="collectionDate">Collection: </label>
 							<div style="text-align:right; ">
 								<input type="date" id="collectionDate" class="sidebarInput sidebarDate" required=required />
-								<input type="time" id="collectionTime" class="sidebarInput sidebarDate" required=required value="00:00" />
+								<input type="time" id="collectionTime" class="sidebarInput sidebarDate" required=required
+									value="00:00" />
 							</div>
 						</div>
 						<div class="dropdownItem">
@@ -221,7 +233,7 @@
 				</div>
 
 				<div class="dropdownDiv">
-					<a class="sidebarButton dropdownButton">Label style <span class="caretDown" /></a>
+					<a class="sidebarButton dropdownButton">Label style <span class="caretDown"></span></a>
 					<div class="dropdownContents" style="display:none;">
 						<div class="dropdownItem">
 							<label style="display: block; width: 100%; user-select: none;">
@@ -253,9 +265,12 @@
 				<span>Unknown:</span>
 				<span>Negative for:</span>
 				<span>Positive for:</span>
-				<select class="dragSelect" size="2" id="phenUnk" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fff; border-color: #fff;"></select>
-				<select class="dragSelect" size="2" id="phenNeg" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #cfc; border-color: #cfc; scrollbar-color: #9aff9a #bdffbd; "></select>
-				<select class="dragSelect" size="2" id="phenPos" onfocusout="phenotypePopupForm.clearSelect(this);" style="background-color: #fcc; border-color: #fcc; scrollbar-color: #ff9a9a #ffbdbd; "></select>
+				<select class="dragSelect" size="2" id="phenUnk" onfocusout="phenotypePopupForm.clearSelect(this);"
+					style="background-color: #fff; border-color: #fff;"></select>
+				<select class="dragSelect" size="2" id="phenNeg" onfocusout="phenotypePopupForm.clearSelect(this);"
+					style="background-color: #cfc; border-color: #cfc; scrollbar-color: #9aff9a #bdffbd; "></select>
+				<select class="dragSelect" size="2" id="phenPos" onfocusout="phenotypePopupForm.clearSelect(this);"
+					style="background-color: #fcc; border-color: #fcc; scrollbar-color: #ff9a9a #ffbdbd; "></select>
 			</div>
 			<div style="height:100%; text-align:right; padding-top: 6px;">
 				<button type="reset" id="phenotypesCancelButton" style="width:100px; margin-right:6px;">Cancel</button>
@@ -283,4 +298,5 @@
 	<script src="./Sidebar.js"></script>
 	<script src="./main.js"></script>
 </body>
+
 </html>
